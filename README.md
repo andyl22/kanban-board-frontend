@@ -1,1 +1,3 @@
-# kanban-board
+# Kanban Board Frontend
+
+React frontend kanban board
