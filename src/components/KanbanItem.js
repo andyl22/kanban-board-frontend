@@ -8,6 +8,7 @@ import "../"
 export default function KanbanItem(props) {
   const [originalLocation, setOriginalLocation] = useState(null);
   const { taskName, description, date } = props;
+  const [dragging, setDragging] = useState(false);
 
   const kanbanItem = css`
     display: flex;
@@ -16,24 +17,26 @@ export default function KanbanItem(props) {
     height: fit-content;
     width: 100%;
     padding: 1em;
-    border: 2px solid #727272;
+    border: ${(dragging) ? "2px dashed red" : "2px solid #727272"};
     border-radius: 1em;
     margin: auto 0;
     background: white;
     &:hover {
       cursor: grab;
+      border: 2px dashed red;
     }
   `;
 
   const handleDragStart = (e) => {
-    const canvas = document.createElement("canvas");
-    e.dataTransfer.setDragImage(canvas, 0, 0);
+    e.dataTransfer.setDragImage(new Image(), 0, 0);
     e.dataTransfer.setData("text/plain", [taskName, description, date]);
-    setOriginalLocation({X: e.clientX, Y: e.clientY});
+    const targetDimensions = e.target.getBoundingClientRect();
+    setOriginalLocation({X: targetDimensions.left-20, Y: targetDimensions.top-20});
   }
 
   const handleDragging = e => {
     e.target.style.transform = `translate(${e.clientX-originalLocation.X}px, ${e.clientY-originalLocation.Y}px)`
+    if(!dragging) setDragging(true);
   }
 
   const handleDragOver = (e) => {
@@ -47,7 +50,8 @@ export default function KanbanItem(props) {
   }
 
   const handleDragEnd = (e) => {
-    e.target.style.transform = null;
+    e.target.style.transform = "none";
+    setDragging(false);
   }
 
   useEffect(() => {
