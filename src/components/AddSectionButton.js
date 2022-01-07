@@ -19,6 +19,9 @@ export default function AddSectionButton() {
       cursor: pointer;
       transform: scale(1.01);
     }
+    p {
+      color: black !important;
+    }
   `
 
   const handleClick = () => {

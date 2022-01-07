@@ -6,7 +6,7 @@ import React, { useContext } from "react";
 import { ThemeContext } from "../context/ThemeProvider";
 
 export default function Sidebar() {
-  const { theme, toggleTheme, colors } = useContext(ThemeContext);
+  const { colors } = useContext(ThemeContext);
 
   const sidebar = css`
     flex: 0;

@@ -9,7 +9,7 @@ import Sidebar from "./Sidebar";
 import { ThemeContext } from "../context/ThemeProvider";
 
 export default function KanbanBoard(props) {
-  const { theme, toggleTheme, colors } = useContext(ThemeContext);
+  const { colors } = useContext(ThemeContext);
   
   const boardContainer = css`
   display: flex;

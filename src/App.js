@@ -7,7 +7,7 @@ import { useContext } from 'react';
 import { ThemeContext } from "./context/ThemeProvider";
 
 function App() {
-  const {theme, toggleTheme, colors} = useContext(ThemeContext);
+  const {colors} = useContext(ThemeContext);
 
   const app = css`
     display: flex;
