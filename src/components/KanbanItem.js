@@ -25,6 +25,9 @@ export default function KanbanItem(props) {
       cursor: grab;
       border: 2px dashed red;
     }
+    h2, p {
+      color: black !important;
+    }
   `;
 
   const handleDragStart = (e) => {

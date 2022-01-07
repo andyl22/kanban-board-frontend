@@ -27,6 +27,7 @@ export default function Section(props) {
       border-bottom: 2px solid black;
       border-top-right-radius: inherit;
       border-top-left-radius: inherit;
+      color: black !important;
     }
   `;
 

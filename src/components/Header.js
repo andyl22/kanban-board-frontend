@@ -2,21 +2,24 @@
 /** @jsx jsx */
 
 import { css, jsx } from "@emotion/react";
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
+import { ThemeContext } from "../context/ThemeProvider";
 
 export default function Header(props) {
+  const {theme, toggleTheme, colors} = useContext(ThemeContext);
   const { activeTab } = props;
+  console.log(theme);
 
   useEffect(() => {
     document
       .getElementById(activeTab)
-      .setAttribute("style", "border-bottom: 2px solid #555; color: #555;");
-  }, [activeTab]);
+      .setAttribute("style", `border-bottom: 2px solid ${colors.linkFontColor}`);
+  });
 
   const header = css`
     border-bottom: 2px solid #f2f2f2;
-    background: white;
+    background: ${colors.headerBackground};
   `;
 
   const headerContent = css`
@@ -25,6 +28,9 @@ export default function Header(props) {
     justify-content: space-between;
     align-items: center;
     padding: 0.8em 3em;
+    h1 {
+      color: ${colors.headingColor}
+    }
   `;
 
   const rightHeader = css`
@@ -35,9 +41,9 @@ export default function Header(props) {
     font-size: 0.8em;
     a {
       padding: 0 0 0.2em 0;
-      color: #737373;
+      color: ${colors.linkFontColor};
       &:hover {
-        color: #999;
+        color: ${colors.linkHoverColor};
       }
     }
   `;
@@ -48,14 +54,16 @@ export default function Header(props) {
     justify-content: flex-start;
     background: #5c81ff;
     color: white;
-    font-weight: 500;
     padding: 0.4em 1em;
     line-height: 1em;
-    border-radius: 0.2em 1em;
+    border-radius: .3em 1em;
     border: none;
+    font-weight: 600;
     &:hover {
       cursor: pointer;
       background: #0F46FF;
+      transform: scale(1.05);
+      transition: .1s ease-in;
     }
   `;
 
@@ -87,6 +95,9 @@ export default function Header(props) {
           <Link to="/project-list" id="project-list">
             Projects List
           </Link>
+          <button onClick={toggleTheme} css={button}>
+            {theme} Theme
+          </button>
           <button onClick={handleSignIn} css={button}>
             Log In
           </button>

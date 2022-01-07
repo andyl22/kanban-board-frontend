@@ -43,5 +43,5 @@
     "jest": "^27.4.6",
     "sass": "^1.45.2"
   },
-  "proxy": "http://localhost:5000"
+  "proxy": "http://localhost:3001"
 }
