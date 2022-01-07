@@ -47,5 +47,5 @@
     "sass": "^1.45.2"
   },
   "proxy": "http://localhost:3001",
-  "homepage": "https://andyl22.github.io/kanban-board-frontend"
+  "homepage": "https://andyl22.github.io/kanban-board"
 }

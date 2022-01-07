@@ -89,10 +89,10 @@ export default function Header(props) {
       <div css={headerContent}>
         <h1>Kanban</h1>
         <div css={rightHeader}>
-          <Link to="/kanban-board-frontend" id="home">
+          <Link to="/kanban-board" id="home">
             Kanban Board
           </Link>
-          <Link to="/kanban-board-frontend/project-list" id="project-list">
+          <Link to="/kanban-boardproject-list" id="project-list">
             Projects List
           </Link>
           <button onClick={toggleTheme} css={button}>
