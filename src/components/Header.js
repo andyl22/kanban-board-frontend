@@ -24,8 +24,8 @@ export default function Header(props) {
 
   const headerContent = css`
     display: flex;
-    margin: 0 auto;
     justify-content: space-between;
+    gap: 2em;
     align-items: center;
     padding: 0.8em 3em;
     h1 {
@@ -35,6 +35,7 @@ export default function Header(props) {
 
   const rightHeader = css`
     display: flex;
+    text-align: center;
     align-items: center;
     gap: 2em;
     font-weight: 600;
@@ -92,7 +93,7 @@ export default function Header(props) {
           <Link to="/kanban-board" id="home">
             Kanban Board
           </Link>
-          <Link to="/kanban-boardproject-list" id="project-list">
+          <Link to="/kanban-board/project-list" id="project-list">
             Projects List
           </Link>
           <button onClick={toggleTheme} css={button}>
