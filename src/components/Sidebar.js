@@ -12,20 +12,22 @@ export default function Sidebar() {
 
   const rollout = keyframes`
     0% {
-      min-width: 0;
+      opacity: 0;
+      transform: translateX(-255px);
+      transform-origin: left;
     }
     100% {
-      min-width: 250px;
+      transform: translateX(0px);
     }
   `;
 
   const sideout = keyframes`
   0% {
     opacity: 0;
-    transform: translateX(-10px);
+    padding: 0;
+    transform: translateX(-250px);
  }
  100% {
-   opacity: 100;
     transform: translateX(0);
  }
   `;
@@ -36,12 +38,13 @@ export default function Sidebar() {
     min-width: 250px;
     flex-direction: column;
     align-items: center;
+    padding: 1em .5em;
     background: ${colors.sideBarBackground};
     box-shadow: 0px 5px 5px gray;
     z-index: 1;
-    animation: ${rollout} .5s ease-in;
+    animation: ${rollout} 1s;
     h1 {
-      animation: ${sideout} .7s ease-in;
+      animation: ${sideout} 1s ease-in 1 right;
     }
   `;
 
