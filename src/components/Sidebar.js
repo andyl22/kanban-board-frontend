@@ -10,7 +10,7 @@ export default function Sidebar() {
   const { colors } = useContext(ThemeContext);
   const { showSidebar } = useContext(SidebarContext);
 
-  const rollout = keyframes`
+  const rolloutX = keyframes`
     0% {
       opacity: 0;
       transform: translateX(-255px);
@@ -21,30 +21,67 @@ export default function Sidebar() {
     }
   `;
 
-  const sideout = keyframes`
-  0% {
-    opacity: 0;
-    padding: 0;
+  const textoutX = keyframes`
+  0% {opacity: 0;
     transform: translateX(-25px);
  }
  100% {
+    opacity: 100;
     transform: translateX(0);
  }
   `;
+  const rolloutY = keyframes`
+  0% {
+    opacity: 0;
+    transform: translateY(50px);
+    transform-origin: left;
+  }
+  100% {
+    transform: translateY(0px);
+  }
+`;
+
+  const textoutY = keyframes`
+0% {
+  opacity: 0;
+  transform: translateY(25px);
+}
+100% {
+  opacity: 100;
+  transform: translateY(0);
+}
+`;
 
   const sidebar = css`
     flex: 0;
     display: flex;
-    min-width: 250px;
+    padding: 1em;
     flex-direction: column;
     align-items: center;
-    padding: 1em .5em;
+    min-width: 250px;
     background: ${colors.sideBarBackground};
     box-shadow: 0px 5px 5px gray;
     z-index: 1;
-    animation: ${rollout} .2s;
-    h1 {
-      animation: ${sideout} .3s ease-in;
+    @media (min-width: 410px) {
+      animation: ${rolloutX} 0.5s ease-in;
+      h1 {
+        animation: ${textoutX} 0.5s ease-in;
+      }
+      button {
+        animation: ${textoutX} 0.5s ease-in;
+      }
+    }
+    @media (max-width: 410px) {
+      position: absolute;
+      height: 100%;
+      width: 100%;
+      animation: ${rolloutY} 0.2s;
+      h1 {
+        animation: ${textoutY} 0.2s ease-in;
+      }
+      button {
+        animation: ${textoutY} 0.2s ease-in;
+      }
     }
   `;
 
@@ -52,6 +89,7 @@ export default function Sidebar() {
     return (
       <section css={sidebar}>
         <h1>Sidebar</h1>
+        <button>Close</button>
       </section>
     );
   }

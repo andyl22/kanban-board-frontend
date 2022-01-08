@@ -7,11 +7,13 @@ import { Link } from "react-router-dom";
 import { ThemeContext } from "../context/ThemeProvider";
 import ExpandCircleDownIcon from "@mui/icons-material/ExpandCircleDown";
 import { SidebarContext } from "../context/SidebarProvider";
+import LoginModal from "./LoginModal";
 
 export default function Header(props) {
   const { theme, toggleTheme, colors } = useContext(ThemeContext);
   const { toggleSidebar } = useContext(SidebarContext);
   const { activeTab } = props;
+  const [showLogin, setShowLogin] = useState(false);
 
   useEffect(() => {
     document
@@ -21,6 +23,11 @@ export default function Header(props) {
         `border-bottom: 2px solid ${colors.linkFontColor}`
       );
   });
+
+  const breakpoints = [425, 570]
+  const mq = breakpoints.map(
+    bp=> `@media (max-width: ${bp}px)`
+  )
 
   const header = css`
     border-bottom: 2px solid #f2f2f2;
@@ -34,6 +41,11 @@ export default function Header(props) {
     align-items: center;
     h1 {
       color: ${colors.headingColor};
+    }
+    ${mq[1]} {
+      flex-direction: column;
+      gap: 0;
+      justify-content: center;
     }
   `;
 
@@ -68,6 +80,10 @@ export default function Header(props) {
         color: ${colors.linkHoverColor};
       }
     }
+    ${mq[0]} {
+      flex-wrap: wrap;
+      justify-content: center;
+    }
   `;
 
   const button = css`
@@ -90,44 +106,48 @@ export default function Header(props) {
   `;
 
   const handleSignIn = () => {
-    const data = {
-      username: "AndyLau2",
-      password: "password12345",
-    };
-    const options = {
-      method: "POST",
-      body: JSON.stringify(data),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
-    fetch("/auth/login", options)
-      .then((res) => res.json())
-      .then((res) => console.log(res));
+    setShowLogin(true);
+    // const data = {
+    //   username: "AndyLau2",
+    //   password: "password12345",
+    // };
+    // const options = {
+    //   method: "POST",
+    //   body: JSON.stringify(data),
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    // };
+    // fetch("/auth/login", options)
+    //   .then((res) => res.json())
+    //   .then((res) => console.log(res));
   };
 
   return (
-    <header css={header}>
-      <div css={headerContent}>
-        <div css={leftHeader}>
-          <ExpandCircleDownIcon css={expandSidebar} onClick={toggleSidebar}/>
-          <h1>Kanban</h1>
+    <>
+      <header css={header}>
+        <div css={headerContent}>
+          <div css={leftHeader}>
+            <ExpandCircleDownIcon css={expandSidebar} onClick={toggleSidebar} />
+            <h1>Kanban</h1>
+          </div>
+          <div css={rightHeader}>
+            <Link to="/kanban-board" id="home">
+              Kanban Board
+            </Link>
+            <Link to="/kanban-board/project-list" id="project-list">
+              Projects List
+            </Link>
+            <button onClick={toggleTheme} css={button}>
+              {theme} Theme
+            </button>
+            <button onClick={handleSignIn} css={button}>
+              Log In
+            </button>
+          </div>
         </div>
-        <div css={rightHeader}>
-          <Link to="/kanban-board" id="home">
-            Kanban Board
-          </Link>
-          <Link to="/kanban-board/project-list" id="project-list">
-            Projects List
-          </Link>
-          <button onClick={toggleTheme} css={button}>
-            {theme} Theme
-          </button>
-          <button onClick={handleSignIn} css={button}>
-            Log In
-          </button>
-        </div>
-      </div>
-    </header>
+      </header>
+      {(showLogin) ? <LoginModal toggleModal={setShowLogin}/> : null}
+    </>
   );
 }

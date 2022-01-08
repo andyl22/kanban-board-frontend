@@ -13,14 +13,15 @@ export default function KanbanBoard(props) {
   
   const boardContainer = css`
   display: flex;
-  flex: 1 1 auto;
+  flex: 1;
+  height: 100%;
 `;
 
 const sectionsContainer = css`
-flex: 1;
+  flex: 1;
   display: flex;
   gap: 3em;
-  padding: 1em 5em;
+  padding: 2em 2em;
   overflow: auto;
   &::-webkit-scrollbar {
     background: ${colors.contentBackground};

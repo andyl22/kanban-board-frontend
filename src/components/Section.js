@@ -2,7 +2,7 @@
 /** @jsx jsx */
 
 import { css, jsx } from "@emotion/react";
-import React, { useEffect } from "react";
+import React from "react";
 import KanbanItem from "./KanbanItem";
 
 export default function Section(props) {

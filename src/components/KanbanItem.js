@@ -3,7 +3,6 @@
 
 import { css, jsx } from "@emotion/react";
 import React, { useEffect, useState } from "react";
-import "../"
 
 export default function KanbanItem(props) {
   const [originalLocation, setOriginalLocation] = useState(null);
