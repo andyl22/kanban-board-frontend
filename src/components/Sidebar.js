@@ -25,7 +25,7 @@ export default function Sidebar() {
   0% {
     opacity: 0;
     padding: 0;
-    transform: translateX(-250px);
+    transform: translateX(-25px);
  }
  100% {
     transform: translateX(0);
@@ -42,9 +42,9 @@ export default function Sidebar() {
     background: ${colors.sideBarBackground};
     box-shadow: 0px 5px 5px gray;
     z-index: 1;
-    animation: ${rollout} 1s;
+    animation: ${rollout} .2s;
     h1 {
-      animation: ${sideout} 1s ease-in 1 right;
+      animation: ${sideout} .3s ease-in;
     }
   `;
 
