@@ -4,6 +4,7 @@ import ProjectList from "./Pages/ProjectList";
 import KanbanBoardPage from "./Pages/KanbanBoardPage";
 
 export default function Router() {
+  
   return (
     <BrowserRouter>
       <Routes>
