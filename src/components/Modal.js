@@ -14,7 +14,7 @@ export default function Modal({ children }) {
 
   const modal = css`
     display: flex;
-    justify-content: cener;
+    justify-content: center;
     align-items: center;
     position: absolute;
     z-index: ${maxZ};
@@ -22,7 +22,7 @@ export default function Modal({ children }) {
     left: 0;
     height: 100%;
     width: 100%;
-    background: rgba(98, 98, 98, 0.3);
+    background: rgba(0, 0, 0, .6)
   `;
 
   return <div css={modal}>{children}</div>;

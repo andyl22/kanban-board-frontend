@@ -105,22 +105,8 @@ export default function Header(props) {
     }
   `;
 
-  const handleSignIn = () => {
+  const toggleLoginModal = () => {
     setShowLogin(true);
-    // const data = {
-    //   username: "AndyLau2",
-    //   password: "password12345",
-    // };
-    // const options = {
-    //   method: "POST",
-    //   body: JSON.stringify(data),
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    // };
-    // fetch("/auth/login", options)
-    //   .then((res) => res.json())
-    //   .then((res) => console.log(res));
   };
 
   return (
@@ -141,7 +127,7 @@ export default function Header(props) {
             <button onClick={toggleTheme} css={button}>
               {theme} Theme
             </button>
-            <button onClick={handleSignIn} css={button}>
+            <button onClick={toggleLoginModal} css={button}>
               Log In
             </button>
           </div>
