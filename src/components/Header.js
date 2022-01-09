@@ -7,10 +7,13 @@ import { Link } from "react-router-dom";
 import { ThemeContext } from "../context/ThemeProvider";
 import ExpandCircleDownIcon from "@mui/icons-material/ExpandCircleDown";
 import { SidebarContext } from "../context/SidebarProvider";
+import { UserContext } from "../context/UserProvider";
 import LoginModal from "./LoginModal";
+import UserDropdown from "./UserDropdown";
 
 export default function Header(props) {
   const { theme, toggleTheme, colors } = useContext(ThemeContext);
+  const { currentUser, setCurrentUser } = useContext(UserContext);
   const { toggleSidebar } = useContext(SidebarContext);
   const { activeTab } = props;
   const [showLogin, setShowLogin] = useState(false);
@@ -109,6 +112,10 @@ export default function Header(props) {
     setShowLogin(true);
   };
 
+  const handleLogout = () => {
+    setCurrentUser(null);
+  }
+
   return (
     <>
       <header css={header}>
@@ -127,9 +134,10 @@ export default function Header(props) {
             <button onClick={toggleTheme} css={button}>
               {theme} Theme
             </button>
-            <button onClick={toggleLoginModal} css={button}>
-              Log In
-            </button>
+            {(currentUser) ? 
+              <UserDropdown currentUser={currentUser}/> : 
+              <button onClick={toggleLoginModal} css={button}>Log In</button>
+            }
           </div>
         </div>
       </header>

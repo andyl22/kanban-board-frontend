@@ -1,13 +1,16 @@
-import  React, {useState} from 'react';
+import React, { useState } from "react";
+import Cookie from "js-cookie";
 
 const UserContext = React.createContext([{}, () => {}]);
 
-const UserProvider = ({children}) => {
-  return (
-    <UserProvider value={{}}>
-      {children}
-    </UserProvider>
-  )
-}
+const UserProvider = ({ children }) => {
+  const [currentUser, setCurrentUser] = useState(Cookie.get('user'));
 
-export {UserProvider, UserContext};
+  return (
+    <UserContext.Provider value={{ currentUser, setCurrentUser }}>
+      {children}
+    </UserContext.Provider>
+  );
+};
+
+export { UserProvider, UserContext };

@@ -4,11 +4,13 @@
 import { css, jsx, keyframes } from "@emotion/react";
 import Modal from "./Modal";
 import { ThemeContext } from "../context/ThemeProvider";
+import { UserContext } from "../context/UserProvider";
 import { useContext, useState } from "react";
 import CancelIcon from "@mui/icons-material/Cancel";
 
 export default function LoginModal(props) {
   const { colors } = useContext(ThemeContext);
+  const { setCurrentUser } = useContext(UserContext);
   const { toggleModal } = props;
   const [ formState, setFormState ] = useState({username: "", password: ""});
 
@@ -102,10 +104,10 @@ export default function LoginModal(props) {
     };
 
     fetch("/auth/login", options)
-      .then((res) => res.json())
-      .then((res) => console.log(res));
+      .then(setCurrentUser(formState.username))
+      .catch(err => console.log(err));
 
-    // toggleModal();
+    toggleModal();
   };
 
   const handleChange = (e) => {
