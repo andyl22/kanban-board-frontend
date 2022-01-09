@@ -31,7 +31,7 @@ const ThemeProvider = ({ children }) => {
           basicFontColor: "white",
           linkFontColor: "white",
           linkHoverColor: "white",
-          borderColor: "white",
+          borderColor: "#92949a",
           iconColor: "white",
           iconHoverColor: "#E3E3E3",
           modalHeader: "#5C81FF",

@@ -7,6 +7,7 @@ import { ThemeContext } from "../context/ThemeProvider";
 import { UserContext } from "../context/UserProvider";
 import { useContext, useState } from "react";
 import CancelIcon from "@mui/icons-material/Cancel";
+import Cookie from "js-cookie";
 
 export default function LoginModal(props) {
   const { colors } = useContext(ThemeContext);
@@ -104,9 +105,9 @@ export default function LoginModal(props) {
     };
 
     fetch("/auth/login", options)
-      .then(setCurrentUser(formState.username))
+      .then(setCurrentUser({username: formState.username}))
+      .then(Cookie.set('user', JSON.stringify({username: formState.username})))
       .catch(err => console.log(err));
-
     toggleModal();
   };
 

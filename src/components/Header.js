@@ -10,6 +10,7 @@ import { SidebarContext } from "../context/SidebarProvider";
 import { UserContext } from "../context/UserProvider";
 import LoginModal from "./LoginModal";
 import UserDropdown from "./UserDropdown";
+import Cookies from "js-cookie";
 
 export default function Header(props) {
   const { theme, toggleTheme, colors } = useContext(ThemeContext);
@@ -113,6 +114,8 @@ export default function Header(props) {
   };
 
   const handleLogout = () => {
+    console.log("test");
+    Cookies.remove("user");
     setCurrentUser(null);
   }
 
@@ -135,7 +138,7 @@ export default function Header(props) {
               {theme} Theme
             </button>
             {(currentUser) ? 
-              <UserDropdown currentUser={currentUser}/> : 
+              <UserDropdown currentUser={currentUser.username} handleLogout={handleLogout}/> : 
               <button onClick={toggleLoginModal} css={button}>Log In</button>
             }
           </div>

@@ -1,31 +1,28 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 
-import { css, jsx, keyframes } from "@emotion/react";
+import { css, jsx } from "@emotion/react";
 import React, { useContext } from "react";
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import Dropdown from "./Dropdown";
 import { ThemeContext } from "../context/ThemeProvider";
 
 export default function UserDropdown(props) {
-  const { colors } = useContext(ThemeContext);
-  const userProfile = css`
-    display: flex;
-    align-items: center;
-    p {
-      font-weight: 600;
-    }
-  `;
+  const { colors } = ThemeContext;
+  const { currentUser, handleLogout } = props
 
-  const arrow = css`
-    color: ${colors.iconColor}
+  const dropdownOption=css`
+    background: #F2F2F2;
+    color: black !important;
+    border-radius: 1em;
+    padding: .2em 0;
+    &:hover {
+      cursor: pointer;
+    }
   `
 
   return (
-    <div css={userProfile}>
-      <p>
-        {props.currentUser}
-      </p>
-      <ArrowDropDownIcon css={arrow}/>
-    </div>
+    <Dropdown dropDownName={currentUser}>
+      <span css={dropdownOption} onClick={handleLogout}>Logout</span>
+    </Dropdown>
   );
 }
