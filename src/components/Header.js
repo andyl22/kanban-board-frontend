@@ -28,7 +28,7 @@ export default function Header(props) {
       );
   });
 
-  const breakpoints = [425, 570];
+  const breakpoints = [425, 720];
   const mq = breakpoints.map((bp) => `@media (max-width: ${bp}px)`);
 
   const header = css`
@@ -129,7 +129,7 @@ export default function Header(props) {
       <header css={header}>
         <div css={headerContent}>
           <div css={leftHeader}>
-            <ExpandCircleDownIcon css={expandSidebar} onClick={toggleSidebar} />
+            {(activeTab === "home") ? <ExpandCircleDownIcon css={expandSidebar} onClick={toggleSidebar} /> : null}
             <h1>Kanban</h1>
           </div>
           <div css={rightHeader}>
