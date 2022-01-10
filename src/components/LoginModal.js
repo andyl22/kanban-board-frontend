@@ -112,11 +112,14 @@ export default function LoginModal(props) {
     };
 
     const authUserResponse = await fetch("/auth/login", options);
-    if(authUserResponse.status === 200) {
+    if (authUserResponse.status === 500) {
+      setError("Could not authenticate.")
+    } else if(authUserResponse.status === 200) {
       setCurrentUser({username: formState.username});
       Cookie.set('user', JSON.stringify({username: formState.username}));
       toggleModal();
-    } else {
+    } else if (authUserResponse) {
+      console.log(authUserResponse)
       const authResponseMessage = await authUserResponse.json();
       setError(authResponseMessage);
     }
@@ -134,7 +137,7 @@ export default function LoginModal(props) {
           <CancelIcon css={button} onClick={handleClose} />
         </div>
         <div css={formContainer}>
-          {(error) ? <p>{error.message}</p> : null}
+          {(error) ? <p>{error.message || "Could not authenticate"}</p> : null}
           <form css={form} onSubmit={handleSubmit}>
             <input type="text" id="username" placeholder="Username" onChange={handleChange} value={formState.username}/>
             <input type="password" id="password" placeholder="Password" onChange={handleChange} value={formState.password}/>
