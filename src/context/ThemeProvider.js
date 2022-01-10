@@ -21,7 +21,8 @@ const ThemeProvider = ({ children }) => {
           basicFontColor: "black",
           linkFontColor: "#737373",
           linkHoverColor: "#999",
-          modalHeader: "white"
+          iconColor: "black",
+          iconHoverColor: "#7D7D7D"
         }
       : {
           headerBackground: "#242424",
@@ -33,9 +34,7 @@ const ThemeProvider = ({ children }) => {
           linkHoverColor: "white",
           borderColor: "#92949a",
           iconColor: "white",
-          iconHoverColor: "#E3E3E3",
-          modalHeader: "#5C81FF",
-          modalBackground: "white"
+          iconHoverColor: "#7D7D7D"
         };
 
   return (

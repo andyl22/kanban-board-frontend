@@ -3,17 +3,16 @@
 
 import { css, jsx, keyframes } from "@emotion/react";
 import Modal from "./Modal";
-import { ThemeContext } from "../context/ThemeProvider";
 import { UserContext } from "../context/UserProvider";
 import { useContext, useState } from "react";
 import CancelIcon from "@mui/icons-material/Cancel";
 import Cookie from "js-cookie";
 
 export default function LoginModal(props) {
-  const { colors } = useContext(ThemeContext);
   const { setCurrentUser } = useContext(UserContext);
   const { toggleModal } = props;
   const [ formState, setFormState ] = useState({username: "", password: ""});
+  const [ error, setError ] = useState(false);
 
   const rolloutAnimation = keyframes`
   0% {
@@ -28,40 +27,48 @@ export default function LoginModal(props) {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    border: 2px solid ${colors.borderColor};
     border-radius: 1em;
     margin: 0 auto;
     max-width: 90%;
     min-width: 250px;
     text-align: center;
-    background: ${colors.modalBackground};
+    background: white;
     overflow: hidden;
     animation: ${rolloutAnimation} 1s ease;
-  `;
+  `
 
   const header = css`
     flex: 0;
     display: flex;
     justify-content: space-between;
-    background: ${colors.modalHeader};
+    background: #5C81FF;
     width: 100%;
     padding: 0.5em 0.5em;
     h1 {
       margin: 0 auto;
+      color: white;
     }
   `;
 
   const button = css`
-    color: ${colors.iconColor};
+    color: white;
     &:hover {
-      color: ${colors.iconHoverColor};
+      color: white;
       cursor: pointer;
     }
   `;
 
+  const formContainer = css`
+    padding: 1em;
+    p {
+      color: red !important;
+      font-size: .7em;
+      margin-bottom: 1em;
+    }
+  `
+
   const form = css`
     display: flex;
-    padding: 1em;
     flex-direction: column;
     gap: 0.5em;
     font-size: 0.8em;
@@ -84,7 +91,7 @@ export default function LoginModal(props) {
       width: 75%;
       &:hover {
         cursor: pointer;
-        background: ${colors.iconHoverColor};
+        background: #E2E2E2;
       }
     }
   `;
@@ -93,7 +100,7 @@ export default function LoginModal(props) {
     toggleModal();
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const options = {
@@ -104,11 +111,15 @@ export default function LoginModal(props) {
       },
     };
 
-    fetch("/auth/login", options)
-      .then(setCurrentUser({username: formState.username}))
-      .then(Cookie.set('user', JSON.stringify({username: formState.username})))
-      .catch(err => console.log(err));
-    toggleModal();
+    const authUserResponse = await fetch("/auth/login", options);
+    if(authUserResponse.status === 200) {
+      setCurrentUser({username: formState.username});
+      Cookie.set('user', JSON.stringify({username: formState.username}));
+      toggleModal();
+    } else {
+      const authResponseMessage = await authUserResponse.json();
+      setError(authResponseMessage);
+    }
   };
 
   const handleChange = (e) => {
@@ -119,10 +130,11 @@ export default function LoginModal(props) {
     <Modal>
       <div id="modal-content" css={modalContent}>
         <div css={header}>
-          <h1>Why Hello There</h1>
+          <h1>Log In</h1>
           <CancelIcon css={button} onClick={handleClose} />
         </div>
-        <div>
+        <div css={formContainer}>
+          {(error) ? <p>{error.message}</p> : null}
           <form css={form} onSubmit={handleSubmit}>
             <input type="text" id="username" placeholder="Username" onChange={handleChange} value={formState.username}/>
             <input type="password" id="password" placeholder="Password" onChange={handleChange} value={formState.password}/>

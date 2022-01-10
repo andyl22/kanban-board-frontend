@@ -5,10 +5,11 @@ import { css, jsx, keyframes } from "@emotion/react";
 import React, { useContext } from "react";
 import { ThemeContext } from "../context/ThemeProvider";
 import { SidebarContext } from "../context/SidebarProvider";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 export default function Sidebar() {
   const { colors } = useContext(ThemeContext);
-  const { showSidebar } = useContext(SidebarContext);
+  const { showSidebar, toggleSidebar } = useContext(SidebarContext);
 
   const rolloutX = keyframes`
     0% {
@@ -55,6 +56,7 @@ export default function Sidebar() {
   const sidebar = css`
     flex: 0;
     display: flex;
+    position: relative;
     padding: 1em;
     flex-direction: column;
     align-items: center;
@@ -85,11 +87,21 @@ export default function Sidebar() {
     }
   `;
 
+  const arrow = css`
+    color: ${colors.iconColor};
+    position: absolute;
+    right: .5em;
+    &:hover {
+      cursor: pointer;
+      color: ${colors.iconHoverColor};
+    }
+  `
+
   if (showSidebar) {
     return (
       <section css={sidebar}>
         <h1>Sidebar</h1>
-        <button>Close</button>
+        <ArrowBackIcon onClick={toggleSidebar} css={arrow}/>
       </section>
     );
   }

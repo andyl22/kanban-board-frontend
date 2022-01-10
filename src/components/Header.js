@@ -113,10 +113,10 @@ export default function Header(props) {
     setShowLogin(true);
   };
 
-  const handleLogout = () => {
-    console.log("test");
-    Cookies.remove("user");
+  const handleLogout = async () => {
     setCurrentUser(null);
+    Cookies.remove('user');
+    fetch('/auth/logout', {method: "POST"});
   }
 
   return (

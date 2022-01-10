@@ -23,6 +23,9 @@ export default function Dropdown(props) {
   const userProfile = css`
     display: flex;
     align-items: center;
+    &:hover {
+      cursor: pointer;
+    }
     p {
       font-weight: 600;
     }
@@ -37,7 +40,7 @@ export default function Dropdown(props) {
     flex-direction: column;
     gap: 0.5em;
     position: absolute;
-    top: 30px;
+    top: 2em;
     border-radius: 0.4em;
     padding: 0.5em;
     min-width: 100px;
