@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import React from "react";
-import ProjectList from "./Pages/ProjectList";
-import KanbanBoardPage from "./Pages/KanbanBoardPage";
+import KanbanBoardPage from "./pages/KanbanBoardPage";
+import About from "./pages/About";
 
 export default function Router() {
   
@@ -9,7 +9,8 @@ export default function Router() {
     <BrowserRouter>
       <Routes>
         <Route exact path="/kanban-board" element={<KanbanBoardPage />} />
-        <Route exact path="/kanban-board/project-list" element={<ProjectList />} />
+        <Route exact path="/kanban-board/about" element={<About />} />
+        <Route path="/kanban-board/project/:id" element={<KanbanBoardPage />} />
       </Routes>
     </BrowserRouter>
   );

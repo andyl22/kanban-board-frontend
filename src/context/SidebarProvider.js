@@ -6,6 +6,7 @@ const SidebarProvider = ({ children }) => {
   const [showSidebar, setShowSidebar] = useState(false);
 
   const toggleSidebar = () => {
+    console.log("test")
     setShowSidebar(!showSidebar);
   };
 

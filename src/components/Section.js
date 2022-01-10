@@ -7,6 +7,8 @@ import KanbanItem from "./KanbanItem";
 
 export default function Section(props) {
   const { name, color } = props;
+  const breakpoints = [425, 720];
+  const mq = breakpoints.map((bp) => `@media (max-width: ${bp}px)`);
 
   const section = css`
     display: flex;
@@ -22,7 +24,7 @@ export default function Section(props) {
     }
     h1 {
       width: 100%;
-      padding: 0.2em 0.5em;
+      padding: 0.5em;
       background: ${color || "white"};
       border-bottom: 2px solid black;
       border-top-right-radius: inherit;
@@ -36,6 +38,12 @@ export default function Section(props) {
     justify-content: center;
     align-items: flex-start;
     width: 280px;
+    min-width: 200px;
+    ${mq[1]} {
+      width: 100%;
+      padding: .8em .4em;
+      gap: .4em;
+    }
     height: fit-content;
     padding: 1em 1em;
     flex-wrap: wrap;

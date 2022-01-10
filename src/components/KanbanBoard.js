@@ -5,11 +5,13 @@ import { css, jsx } from "@emotion/react";
 import React, {useContext} from "react";
 import Section from "./Section";
 import AddSectionButton from "./AddSectionButton";
-import Sidebar from "./Sidebar";
+import SidebarProject from "./SidebarProject";
 import { ThemeContext } from "../context/ThemeProvider";
 
-export default function KanbanBoard(props) {
+export default function KanbanBoard() {
   const { colors } = useContext(ThemeContext);
+  const breakpoints = [425, 720];
+  const mq = breakpoints.map((bp) => `@media (max-width: ${bp}px)`);
   
   const boardContainer = css`
   display: flex;
@@ -23,6 +25,10 @@ const sectionsContainer = css`
   gap: 3em;
   padding: 2em 2em;
   overflow: auto;
+  ${mq[1]} {
+    gap: 1em;
+    padding: 1em;
+  }
   &::-webkit-scrollbar {
     background: ${colors.contentBackground};
   }
@@ -49,7 +55,7 @@ const sectionsContainer = css`
 
   return (
     <div css={boardContainer}>
-      <Sidebar />
+      <SidebarProject />
       <section css={sectionsContainer}>
         {mappedSections}
         <AddSectionButton />

@@ -1,8 +1,7 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 
-import { css, jsx } from "@emotion/react";
-import React from "react";
+import { css, jsx, keyframes } from "@emotion/react";
 
 export default function Modal({ children }) {
   const maxZ =
@@ -22,8 +21,37 @@ export default function Modal({ children }) {
     left: 0;
     height: 100%;
     width: 100%;
-    background: rgba(0, 0, 0, .6)
+    background: rgba(0, 0, 0, 0.6);
   `;
 
-  return <div css={modal}>{children}</div>;
+  const rolloutAnimation = keyframes`
+  0% {
+    transform: translateY(-100px)
+  }
+  100% {
+    transform: translateY(0px)
+`;
+
+  const modalContent = css`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 1em;
+    margin: 0 auto;
+    max-width: 90%;
+    min-width: 250px;
+    text-align: center;
+    background: white;
+    overflow: hidden;
+    animation: ${rolloutAnimation} 1s ease;
+  `;
+
+  return (
+    <div css={modal}>
+      <div id="modal-content" css={modalContent}>
+        {children}
+      </div>
+    </div>
+  );
 }

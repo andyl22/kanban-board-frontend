@@ -7,7 +7,8 @@ import { ThemeContext } from "../context/ThemeProvider";
 import { SidebarContext } from "../context/SidebarProvider";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
-export default function Sidebar() {
+export default function Sidebar(props) {
+  const { title, children } = props;
   const { colors } = useContext(ThemeContext);
   const { showSidebar, toggleSidebar } = useContext(SidebarContext);
 
@@ -23,35 +24,35 @@ export default function Sidebar() {
   `;
 
   const textoutX = keyframes`
-  0% {opacity: 0;
-    transform: translateX(-25px);
- }
- 100% {
-    opacity: 100;
-    transform: translateX(0);
- }
+    0% {opacity: 0;
+      transform: translateX(-25px);
+    }
+    100% {
+        opacity: 100;
+        transform: translateX(0);
+    }
   `;
   const rolloutY = keyframes`
-  0% {
-    opacity: 0;
-    transform: translateY(50px);
-    transform-origin: left;
-  }
-  100% {
-    transform: translateY(0px);
-  }
-`;
+    0% {
+      opacity: 0;
+      transform: translateY(50px);
+      transform-origin: left;
+    }
+    100% {
+      transform: translateY(0px);
+    }
+  `;
 
   const textoutY = keyframes`
-0% {
-  opacity: 0;
-  transform: translateY(25px);
-}
-100% {
-  opacity: 100;
-  transform: translateY(0);
-}
-`;
+    0% {
+      opacity: 0;
+      transform: translateY(25px);
+    }
+    100% {
+      opacity: 100;
+      transform: translateY(0);
+    }
+  `;
 
   const sidebar = css`
     flex: 0;
@@ -59,30 +60,32 @@ export default function Sidebar() {
     position: relative;
     padding: 1em;
     flex-direction: column;
-    align-items: center;
-    min-width: 250px;
+    align-items: flex-start;
+    min-width: 200px;
     background: ${colors.sideBarBackground};
     box-shadow: 0px 5px 5px gray;
     z-index: 1;
-    @media (min-width: 410px) {
-      animation: ${rolloutX} 0.5s ease-in;
-      h1 {
-        animation: ${textoutX} 0.5s ease-in;
-      }
-      button {
-        animation: ${textoutX} 0.5s ease-in;
-      }
+    h1 {
+      padding: 0 0 1em 0;
     }
-    @media (max-width: 410px) {
+    animation: ${rolloutX} 0.5s ease-in;
+    h1,
+    a,
+    button {
+      animation: ${textoutX} 0.5s ease-in;
+    }
+    a {
+      font-size: 0.8em;
+    }
+    @media (max-width: 570px) {
       position: absolute;
       height: 100%;
       width: 100%;
-      animation: ${rolloutY} 0.2s;
-      h1 {
-        animation: ${textoutY} 0.2s ease-in;
-      }
+      animation: ${rolloutY} 0.5s;
+      h1,
+      a,
       button {
-        animation: ${textoutY} 0.2s ease-in;
+        animation: ${textoutY} 0.5s ease-in;
       }
     }
   `;
@@ -90,18 +93,19 @@ export default function Sidebar() {
   const arrow = css`
     color: ${colors.iconColor};
     position: absolute;
-    right: .5em;
+    right: 0.5em;
     &:hover {
       cursor: pointer;
       color: ${colors.iconHoverColor};
     }
-  `
+  `;
 
   if (showSidebar) {
     return (
       <section css={sidebar}>
-        <h1>Sidebar</h1>
-        <ArrowBackIcon onClick={toggleSidebar} css={arrow}/>
+        <h1>{title}</h1>
+        {children}
+        <ArrowBackIcon onClick={toggleSidebar} css={arrow} />
       </section>
     );
   }

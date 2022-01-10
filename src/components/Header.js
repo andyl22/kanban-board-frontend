@@ -8,7 +8,7 @@ import { ThemeContext } from "../context/ThemeProvider";
 import ExpandCircleDownIcon from "@mui/icons-material/ExpandCircleDown";
 import { SidebarContext } from "../context/SidebarProvider";
 import { UserContext } from "../context/UserProvider";
-import LoginModal from "./LoginModal";
+import ModalLogin from "./ModalLogin";
 import UserDropdown from "./UserDropdown";
 import Cookies from "js-cookie";
 
@@ -17,7 +17,7 @@ export default function Header(props) {
   const { currentUser, setCurrentUser } = useContext(UserContext);
   const { toggleSidebar } = useContext(SidebarContext);
   const { activeTab } = props;
-  const [showLogin, setShowLogin] = useState(false);
+  const [ showLogin, setShowLogin ] = useState(false);
 
   useEffect(() => {
     document
@@ -28,10 +28,8 @@ export default function Header(props) {
       );
   });
 
-  const breakpoints = [425, 570]
-  const mq = breakpoints.map(
-    bp=> `@media (max-width: ${bp}px)`
-  )
+  const breakpoints = [425, 570];
+  const mq = breakpoints.map((bp) => `@media (max-width: ${bp}px)`);
 
   const header = css`
     border-bottom: 2px solid #f2f2f2;
@@ -61,6 +59,12 @@ export default function Header(props) {
       transition: 0.1s ease-in;
       color: ${colors.iconHoverColor};
     }
+    ${mq[1]} {
+      position: absolute;
+      top: .5em;
+      left: .5em;
+      transform: scale(0.85);
+    }
   `;
 
   const leftHeader = css`
@@ -76,7 +80,7 @@ export default function Header(props) {
     gap: 2em;
     font-weight: 600;
     font-size: 0.8em;
-    padding: 0.8em 5em;
+    padding: 0.8em 1em;
     a {
       padding: 0 0 0.2em 0;
       color: ${colors.linkFontColor};
@@ -87,6 +91,7 @@ export default function Header(props) {
     ${mq[0]} {
       flex-wrap: wrap;
       justify-content: center;
+      transform: scale(0.85);
     }
   `;
 
@@ -110,14 +115,14 @@ export default function Header(props) {
   `;
 
   const toggleLoginModal = () => {
-    setShowLogin(true);
+    setShowLogin(!showLogin);
   };
 
   const handleLogout = async () => {
     setCurrentUser(null);
-    Cookies.remove('user');
-    fetch('/auth/logout', {method: "POST"});
-  }
+    Cookies.remove("user");
+    fetch("/auth/logout", { method: "POST" });
+  };
 
   return (
     <>
@@ -131,20 +136,26 @@ export default function Header(props) {
             <Link to="/kanban-board" id="home">
               Kanban Board
             </Link>
-            <Link to="/kanban-board/project-list" id="project-list">
-              Projects List
+            <Link to="/kanban-board/about" id="about">
+              About
             </Link>
             <button onClick={toggleTheme} css={button}>
               {theme} Theme
             </button>
-            {(currentUser) ? 
-              <UserDropdown currentUser={currentUser.username} handleLogout={handleLogout}/> : 
-              <button onClick={toggleLoginModal} css={button}>Log In</button>
-            }
+            {currentUser ? (
+              <UserDropdown
+                currentUser={currentUser.username}
+                handleLogout={handleLogout}
+              />
+            ) : (
+              <button onClick={toggleLoginModal} css={button}>
+                Log In
+              </button>
+            )}
           </div>
         </div>
       </header>
-      {(showLogin) ? <LoginModal toggleModal={setShowLogin}/> : null}
+      {showLogin ? <ModalLogin toggleModal={toggleLoginModal} /> : null}
     </>
   );
 }
