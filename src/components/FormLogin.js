@@ -27,7 +27,7 @@ export default function FormLogin(props) {
     const createUserResponse = await postAPI('/auth/login', 'POST', formState);
     if (createUserResponse.status>=500) {
       setError({ message: "Could not contact the server."});
-    } else if (createUserResponse.status>=300) {
+    } else if (createUserResponse.status===400) {
       const errorMessage = await createUserResponse.json();
       setError(errorMessage);
     } else if (createUserResponse.status>=200) {

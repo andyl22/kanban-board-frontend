@@ -31,13 +31,12 @@ export default function FormLogin(props) {
     }
 
     const createUserResponse = await postAPI('/users/registerUser', 'POST', formState);
-    console.log(createUserResponse.status)
     if (createUserResponse.status>=500) {
       setError({ message: "Could not contact the server."});
-    } else if (createUserResponse.status>=300) {
+    } else if (createUserResponse.status===400) {
       const errorMessage = await createUserResponse.json();
       setError(errorMessage);
-    } else if (createUserResponse.status>=200) {
+    } else if (createUserResponse.status===200) {
       postAPI('/auth/login', 'POST', formState)
         .then(res => res.json())
         .then(res => console.log(res))
@@ -47,7 +46,7 @@ export default function FormLogin(props) {
         .catch(setError("Could not log in"));
       ;
     } else {
-      setError({ message: "Something went wrong!" });
+      setError({ message: "Something went wrong! Could not authenticate." });
     }
   };
 
