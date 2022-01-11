@@ -11,7 +11,7 @@ import { postAPI } from "../utilities/fetchAPIs";
 export default function FormLogin(props) {
   const { toggleModal } = props;
   const { setCurrentUser } = useContext(UserContext);
-  const [formState, setFormState] = useState({ username: "", password: "" });
+  const [formState, setFormState] = useState({});
   const [error, setError] = useState(false);
 
   const formError = css`
@@ -24,16 +24,27 @@ export default function FormLogin(props) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const createUserResponse = await postAPI('/auth/login', 'POST', formState);
+
+    if (formState.password !== formState.verifyPassword) {
+      setError({ message: "Passwords do not match!" });
+      return;
+    }
+
+    const createUserResponse = await postAPI('/users/registerUser', 'POST', formState);
+    console.log(createUserResponse.status)
     if (createUserResponse.status>=500) {
       setError({ message: "Could not contact the server."});
     } else if (createUserResponse.status>=300) {
       const errorMessage = await createUserResponse.json();
       setError(errorMessage);
     } else if (createUserResponse.status>=200) {
-        setCurrentUser({ username: formState.username});
-        Cookie.set("user", JSON.stringify({ username: formState.username }))
-        toggleModal()
+      postAPI('/auth/login', 'POST', formState)
+        .then(res => res.json())
+        .then(res => console.log(res))
+        .then(setCurrentUser({ username: formState.username} ))
+        .then(Cookie.set("user", JSON.stringify({ username: formState.username })))
+        .then(toggleModal())
+        .catch(setError("Could not log in"));
       ;
     } else {
       setError({ message: "Something went wrong!" });
@@ -46,22 +57,27 @@ export default function FormLogin(props) {
 
   return (
     <Form handleSubmit={handleSubmit}>
-      {error ? (
-        <p css={formError}>{error.message || "Could not authenticate"}</p>
-      ) : null}
+      {error ? <p css={formError}>{error.message}</p> : null}
       <input
         type="text"
         id="username"
         placeholder="Username"
         onChange={handleChange}
-        value={formState.username}
+        value={formState.username || null}
       />
       <input
         type="password"
         id="password"
         placeholder="Password"
         onChange={handleChange}
-        value={formState.password}
+        value={formState.password || null}
+      />
+      <input
+        type="password"
+        id="verifyPassword"
+        placeholder="Verify Password"
+        onChange={handleChange}
+        value={formState.verifyPassword || null}
       />
       <input type="submit" value="Login" />
     </Form>

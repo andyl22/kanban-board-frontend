@@ -9,6 +9,7 @@ import ExpandCircleDownIcon from "@mui/icons-material/ExpandCircleDown";
 import { SidebarContext } from "../context/SidebarProvider";
 import { UserContext } from "../context/UserProvider";
 import ModalLogin from "./ModalLogin";
+import ModalRegister from "./ModalRegister";
 import UserDropdown from "./UserDropdown";
 import Cookies from "js-cookie";
 
@@ -17,7 +18,8 @@ export default function Header(props) {
   const { currentUser, setCurrentUser } = useContext(UserContext);
   const { toggleSidebar } = useContext(SidebarContext);
   const { activeTab } = props;
-  const [ showLogin, setShowLogin ] = useState(false);
+  const [showLogin, setShowLogin] = useState(false);
+  const [showRegister, setShowRegister] = useState(false);
 
   useEffect(() => {
     document
@@ -26,7 +28,7 @@ export default function Header(props) {
         "style",
         `border-bottom: 2px solid ${colors.linkFontColor}`
       );
-  });
+  }, [currentUser, activeTab, colors.linkFontColor]);
 
   const breakpoints = [425, 720];
   const mq = breakpoints.map((bp) => `@media (max-width: ${bp}px)`);
@@ -61,8 +63,8 @@ export default function Header(props) {
     }
     ${mq[1]} {
       position: absolute;
-      top: .5em;
-      left: .5em;
+      top: 0.5em;
+      left: 0.5em;
       transform: scale(0.85);
     }
   `;
@@ -118,6 +120,10 @@ export default function Header(props) {
     setShowLogin(!showLogin);
   };
 
+  const toggleRegisterModal = () => {
+    setShowRegister(!showRegister);
+  }
+
   const handleLogout = async () => {
     setCurrentUser(null);
     Cookies.remove("user");
@@ -129,7 +135,12 @@ export default function Header(props) {
       <header css={header}>
         <div css={headerContent}>
           <div css={leftHeader}>
-            {(activeTab === "home" && currentUser) ? <ExpandCircleDownIcon css={expandSidebar} onClick={toggleSidebar} /> : null}
+            {activeTab === "home" && currentUser ? (
+              <ExpandCircleDownIcon
+                css={expandSidebar}
+                onClick={toggleSidebar}
+              />
+            ) : null}
             <h1>Kanban</h1>
           </div>
           <div css={rightHeader}>
@@ -148,14 +159,20 @@ export default function Header(props) {
                 handleLogout={handleLogout}
               />
             ) : (
-              <button onClick={toggleLoginModal} css={button}>
-                Log In
-              </button>
+              <>
+                <button onClick={toggleLoginModal} css={button}>
+                  Log In
+                </button>
+                <button onClick={toggleRegisterModal} css={button}>
+                  Register
+                </button>
+              </>
             )}
           </div>
         </div>
       </header>
       {showLogin ? <ModalLogin toggleModal={toggleLoginModal} /> : null}
+      {showRegister ? <ModalRegister toggleModal={toggleRegisterModal} />: null}
     </>
   );
 }
