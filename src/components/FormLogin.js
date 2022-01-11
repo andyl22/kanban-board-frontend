@@ -30,7 +30,7 @@ export default function FormLogin(props) {
     } else if (createUserResponse.status===400) {
       const errorMessage = await createUserResponse.json();
       setError(errorMessage);
-    } else if (createUserResponse.status>=200) {
+    } else if (createUserResponse.status===200) {
         setCurrentUser({ username: formState.username});
         Cookie.set("user", JSON.stringify({ username: formState.username }))
         toggleModal()
