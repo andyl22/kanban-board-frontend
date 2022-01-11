@@ -47,7 +47,8 @@ export default function KanbanBoard() {
 
   const notLoggedInError = css`
     margin: 0 auto;
-    padding: 3em;
+    padding: 1em 0;
+    text-align: center;
     font-weight: 600;
     font-size: 2em;
   `
