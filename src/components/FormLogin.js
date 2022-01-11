@@ -32,7 +32,8 @@ export default function FormLogin(props) {
     };
 
     const authUserResponse = await fetch("/auth/login", options);
-    if (authUserResponse.status === 500) {
+    if (authUserResponse.status !== 400 && authUserResponse.status !== 200) {
+      console.log(authUserResponse.status)
       setError("Could not authenticate.");
     } else if (authUserResponse.status === 200) {
       setCurrentUser({ username: formState.username });

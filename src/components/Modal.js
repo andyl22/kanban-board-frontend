@@ -2,6 +2,7 @@
 /** @jsx jsx */
 
 import { css, jsx, keyframes } from "@emotion/react";
+import { useEffect } from "react";
 
 export default function Modal({ children }) {
   const maxZ =
@@ -9,7 +10,7 @@ export default function Modal({ children }) {
       .map((a) => window.getComputedStyle(a).zIndex)
       .filter((a) => a !== "auto")
       .sort()
-      .pop() + 1;
+      .pop() + 1 || 1;
 
   const modal = css`
     display: flex;
@@ -46,6 +47,10 @@ export default function Modal({ children }) {
     overflow: hidden;
     animation: ${rolloutAnimation} 1s ease;
   `;
+
+  useEffect(() => {
+    console.log(maxZ);
+  })
 
   return (
     <div css={modal}>
