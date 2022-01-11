@@ -53,9 +53,9 @@ export default function Header(props) {
 
   const expandSidebar = css`
     color: ${colors.iconColor};
+    transform: scale(0.9);
     &:hover {
       cursor: pointer;
-      transform: scale(1.05);
       transition: 0.1s ease-in;
       color: ${colors.iconHoverColor};
     }
@@ -70,7 +70,7 @@ export default function Header(props) {
   const leftHeader = css`
     display: flex;
     gap: 1em;
-    padding: 0.8em 1em;
+    padding: 0em 1em;
   `;
 
   const rightHeader = css`
@@ -129,7 +129,7 @@ export default function Header(props) {
       <header css={header}>
         <div css={headerContent}>
           <div css={leftHeader}>
-            {(activeTab === "home") ? <ExpandCircleDownIcon css={expandSidebar} onClick={toggleSidebar} /> : null}
+            {(activeTab === "home" && currentUser) ? <ExpandCircleDownIcon css={expandSidebar} onClick={toggleSidebar} /> : null}
             <h1>Kanban</h1>
           </div>
           <div css={rightHeader}>

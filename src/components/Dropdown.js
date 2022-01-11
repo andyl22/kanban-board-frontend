@@ -23,16 +23,18 @@ export default function Dropdown(props) {
   const userProfile = css`
     display: flex;
     align-items: center;
+    color: ${colors.linkFontColor};
     &:hover {
       cursor: pointer;
+      color: ${colors.linkHoverColor};
     }
     p {
       font-weight: 600;
+      color: inherit;
     }
   `;
 
   const arrow = css`
-    color: ${colors.iconColor};
   `;
 
   const dropDown = css`
@@ -41,6 +43,7 @@ export default function Dropdown(props) {
     gap: 0.5em;
     position: absolute;
     top: 2em;
+    right: 0;
     border-radius: 0.4em;
     padding: 0.5em;
     min-width: 100px;

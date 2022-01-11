@@ -52,10 +52,6 @@ export default function Section(props) {
 
   // Implement API to fetch kanban items by section id
   const kanbanItems = [
-    { taskName: "test1", description: "test1", date: "test1", id: "1" },
-    { taskName: "test2", description: "test2", date: "test2", id: "2" },
-    { taskName: "test3", description: "test3", date: "test3", id: "3" },
-    { taskName: "test4", description: "test4", date: "test4", id: "4" },
   ];
 
   const mappedKanbanItems = kanbanItems.map((item) => (

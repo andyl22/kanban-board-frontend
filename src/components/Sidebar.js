@@ -35,7 +35,7 @@ export default function Sidebar(props) {
   const rolloutY = keyframes`
     0% {
       opacity: 0;
-      transform: translateY(50px);
+      transform: translateY(-200px);
       transform-origin: left;
     }
     100% {
@@ -64,28 +64,28 @@ export default function Sidebar(props) {
     min-width: 200px;
     background: ${colors.sideBarBackground};
     box-shadow: 0px 5px 5px gray;
-    z-index: 1;
     h1 {
       padding: 0 0 1em 0;
     }
-    animation: ${rolloutX} 0.5s ease-in;
+    animation: ${rolloutX} 0.1s ease-in;
     h1,
     a,
     button {
-      animation: ${textoutX} 0.5s ease-in;
+      animation: ${textoutX} 0.1s ease-in;
     }
     a {
       font-size: 0.8em;
     }
-    @media (max-width: 570px) {
+    @media (max-width: 720px) {
+      border-bottom-right-radius: 1em;
+      opacity: 98%;
       position: absolute;
-      height: 100%;
-      width: 100%;
-      animation: ${rolloutY} 0.5s;
+      animation: ${rolloutY} .1s;
+      box-shadow: 0px 2px 5px gray;
       h1,
       a,
       button {
-        animation: ${textoutY} 0.5s ease-in;
+        animation: ${textoutY} .1s ease-in;
       }
     }
   `;

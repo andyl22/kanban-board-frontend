@@ -22,6 +22,7 @@ export default function SidebarProject() {
     align-items: center;
     gap: 0.3em;
     font-size: 0.7em;
+    font-weight: 500;
     color: ${colors.iconColor};
     &:hover {
       cursor: pointer;

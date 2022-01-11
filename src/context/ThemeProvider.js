@@ -15,12 +15,11 @@ const ThemeProvider = ({ children }) => {
           headerBackground: "#FFF",
           sideBarBackground: "#FCFBF9",
           contentBackground: "#DEDEDE",
-          headerFontColor: "black",
-          headingOneColor: "black",
-          headingTwoColor: "black",
+          headingColor: "black",
           basicFontColor: "black",
           linkFontColor: "#737373",
-          linkHoverColor: "#999",
+          linkHoverColor: "#414141",
+          borderColor: "#3679ed",
           iconColor: "black",
           iconHoverColor: "#7D7D7D"
         }
@@ -31,10 +30,10 @@ const ThemeProvider = ({ children }) => {
           headingColor: "white",
           basicFontColor: "white",
           linkFontColor: "white",
-          linkHoverColor: "white",
-          borderColor: "#92949a",
+          linkHoverColor: "#B2B2B2",
+          borderColor: "#ffa746",
           iconColor: "white",
-          iconHoverColor: "#7D7D7D"
+          iconHoverColor: "#A3A3A3"
         };
 
   return (

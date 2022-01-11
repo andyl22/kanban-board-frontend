@@ -12,7 +12,6 @@ export default function UserDropdown(props) {
 
   const dropdownOption=css`
     background: #F2F2F2;
-    color: black !important;
     border-radius: 1em;
     padding: .2em 0;
     &:hover {
