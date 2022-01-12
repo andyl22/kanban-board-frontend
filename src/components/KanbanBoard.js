@@ -2,7 +2,7 @@
 /** @jsx jsx */
 
 import { css, jsx } from "@emotion/react";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import Section from "./Section";
 import AddSectionButton from "./AddSectionButton";
 import SidebarProject from "./SidebarProject";
@@ -12,6 +12,7 @@ import { UserContext } from "../context/UserProvider";
 export default function KanbanBoard() {
   const { colors } = useContext(ThemeContext);
   const { currentUser } = useContext(UserContext);
+  const [ activeProject, setActiveProject ] = useState(null);
 
   const breakpoints = [475, 720];
   const mq = breakpoints.map((bp) => `@media (max-width: ${bp}px)`);
@@ -72,10 +73,10 @@ export default function KanbanBoard() {
   if (currentUser) {
     return (
       <div css={boardContainer}>
-        <SidebarProject />
+        <SidebarProject activeProject = {activeProject} setActiveProject = {setActiveProject}/>
         <section css={sectionsContainer}>
           {mappedSections}
-          <AddSectionButton/>
+          <AddSectionButton activeProject = {activeProject}/>
         </section>
       </div>
     );

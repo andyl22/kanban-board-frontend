@@ -40,19 +40,18 @@ export default function AddProjectButton(props) {
     top: 1px;
   `;
 
-  const toggleModal = () => {
+  const toggleForm = () => {
     setShowCreateProject(!showCreateProject);
   };
 
   return showCreateProject ? (
     <FormCreateProject
-      toggleForm={setShowCreateProject}
+      toggleForm={toggleForm}
       projectList={projectList}
       setProjectList={setProjectList}
-      toggleModal={toggleModal}
     />
   ) : (
-    <button css={addNewProject} onClick={toggleModal}>
+    <button css={addNewProject} onClick={toggleForm}>
       <p>Add New Project</p>
       <AddCircleIcon css={icon} />
     </button>

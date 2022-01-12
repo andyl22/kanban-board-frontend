@@ -6,9 +6,10 @@ import React, { useState, useRef, useEffect, useContext } from "react";
 import Form from "./Form";
 import CancelIcon from '@mui/icons-material/Cancel';
 import { ThemeContext } from "../context/ThemeProvider";
+import { postAPI } from "../utilities/fetchAPIs";
 
 export default function FormCreateProject(props) {
-  const { toggleForm, projectList, setProjectList, toggleModal } = props;
+  const { toggleForm, projectList, setProjectList } = props;
   const [formState, setFormState] = useState({projectName: ""});
   const inputRef = useRef();
   const { colors } = useContext(ThemeContext);
@@ -30,21 +31,13 @@ export default function FormCreateProject(props) {
     }
   `;
 
-  const options = {
-    method: "POST",
-    body: JSON.stringify(formState),
-    headers: {
-      "Content-Type": "application/json",
-    },
-  };
-
   const handleChange = (e) => {
     setFormState({ ...formState, [e.target.id]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const data = await fetch('/projects/createProject', options)
+    const data = await postAPI('/projects/createProject', 'POST', formState)
       .then((res) => res.json())
       .catch((err) => console.log(err));
     setProjectList([...projectList, data.project]);
@@ -53,7 +46,7 @@ export default function FormCreateProject(props) {
 
   const handleKeyDown = (e) => {
     if (e.code === "Escape") {
-      toggleModal();
+      toggleForm();
     }
   };
 
@@ -75,7 +68,7 @@ export default function FormCreateProject(props) {
           ref={inputRef}
         />
       </Form>
-      <CancelIcon css={closeButton}/>
+      <CancelIcon css={closeButton} onClick={toggleForm}/>
     </div>
   );
 }

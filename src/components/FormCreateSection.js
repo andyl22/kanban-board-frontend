@@ -6,9 +6,10 @@ import React, { useState, useRef, useEffect, useContext } from "react";
 import Form from "./Form";
 import CancelIcon from '@mui/icons-material/Cancel';
 import { ThemeContext } from "../context/ThemeProvider";
+import { postAPI } from "../utilities/fetchAPIs";
 
 export default function FormCreateProject(props) {
-  const { toggleForm } = props;
+  const { toggleForm, activeProject} = props;
   const [formState, setFormState] = useState({sectionName: ""});
   const inputRef = useRef();
   const { colors } = useContext(ThemeContext);
@@ -31,21 +32,14 @@ export default function FormCreateProject(props) {
     }
   `;
 
-  const options = {
-    method: "POST",
-    body: JSON.stringify(formState),
-    headers: {
-      "Content-Type": "application/json",
-    },
-  };
-
   const handleChange = (e) => {
     setFormState({ ...formState, [e.target.id]: e.target.value });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    fetch("/projects/createSection", options)
+    setFormState(formState.projectID = activeProject._id)
+    postAPI("/projectSection/createSection", 'POST', formState)
       .then((res) => res.json())
       .then(toggleForm())
       .catch((err) => console.log(err));
@@ -74,7 +68,7 @@ export default function FormCreateProject(props) {
           ref={inputRef}
         />
       </Form>
-      <CancelIcon css={closeButton}/>
+      <CancelIcon css={closeButton} onClick={toggleForm}/>
     </div>
   );
 }

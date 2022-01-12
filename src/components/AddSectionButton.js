@@ -6,8 +6,9 @@ import AddIcon from "@mui/icons-material/Add";
 import { useState } from "react";
 import FormCreateSection from "../components/FormCreateSection";
 
-export default function AddSectionButton() {
+export default function AddSectionButton(props) {
   const [showCreateSection, setShowCreateSection] = useState(false);
+  const {activeProject} = props;
 
   const addButton = css`
     display: flex;
@@ -38,7 +39,7 @@ export default function AddSectionButton() {
   };
 
   return showCreateSection ? (
-    <FormCreateSection toggleForm={toggleForm} />
+    <FormCreateSection toggleForm={toggleForm} activeProject = {activeProject}/>
   ) : (
     <button onClick={toggleForm} css={addButton}>
       <p>Add New Section</p>

@@ -8,8 +8,8 @@ import AddProjectButton from "./AddProjectButton";
 import Sidebar from "./Sidebar";
 import { useNavigate } from "react-router-dom";
 
-export default function SidebarProject() {
-  const [ activeProject, setActiveProject ] = useState(null);
+export default function SidebarProject(props) {
+  const { activeProject, setActiveProject } = props;
   const [projectList, setProjectList] = useState(null);
   const [mappedProjectList, setMappedProjectList] = useState(null);
   const navigate = useNavigate();
