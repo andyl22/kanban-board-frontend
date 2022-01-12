@@ -11,7 +11,11 @@ import { postAPI } from "../utilities/fetchAPIs";
 export default function FormLogin(props) {
   const { toggleModal } = props;
   const { setCurrentUser } = useContext(UserContext);
-  const [formState, setFormState] = useState({});
+  const [formState, setFormState] = useState({
+    username: "",
+    password: "",
+    passwordVerify: "",
+  });
   const [error, setError] = useState(false);
 
   const formError = css`
@@ -30,23 +34,28 @@ export default function FormLogin(props) {
       return;
     }
 
-    const createUserResponse = await postAPI('/users/registerUser', 'POST', formState);
-    if (createUserResponse.status>=500) {
-      setError({ message: "Could not contact the server."});
-    } else if (createUserResponse.status===400) {
+    const createUserResponse = await postAPI(
+      "/users/registerUser",
+      "POST",
+      formState
+    );
+    if (createUserResponse.status >= 500) {
+      setError({ message: "Could not contact the server." });
+    } else if (createUserResponse.status === 400) {
       const errorMessage = await createUserResponse.json();
       setError(errorMessage);
-    } else if (createUserResponse.status===200) {
-      postAPI('/auth/login', 'POST', formState)
-        .then(res => res.json())
-        .then(res => console.log(res))
-        .then(setCurrentUser({ username: formState.username} ))
-        .then(Cookie.set("user", JSON.stringify({ username: formState.username })))
+    } else if (createUserResponse.status === 200) {
+      postAPI("/auth/login", "POST", formState)
+        .then((res) => res.json())
+        .then((res) => console.log(res))
+        .then(setCurrentUser({ username: formState.username }))
+        .then(
+          Cookie.set("user", JSON.stringify({ username: formState.username }))
+        )
         .then(toggleModal())
         .catch(setError("Could not log in"));
-      ;
     } else {
-      setError({ message: "Something went wrong! Could not authenticate." });
+      setError({ message: "Something went wrong! Could not register." });
     }
   };
 
@@ -62,21 +71,21 @@ export default function FormLogin(props) {
         id="username"
         placeholder="Username"
         onChange={handleChange}
-        value={formState.username || null}
+        value={formState.username}
       />
       <input
         type="password"
         id="password"
         placeholder="Password"
         onChange={handleChange}
-        value={formState.password || null}
+        value={formState.password}
       />
       <input
         type="password"
         id="verifyPassword"
         placeholder="Verify Password"
         onChange={handleChange}
-        value={formState.verifyPassword || null}
+        value={formState.verifyPassword}
       />
       <input type="submit" value="Login" />
     </Form>

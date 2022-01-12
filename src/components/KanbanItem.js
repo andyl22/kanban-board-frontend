@@ -8,7 +8,7 @@ export default function KanbanItem(props) {
   const [originalLocation, setOriginalLocation] = useState(null);
   const { taskName, description, date } = props;
   const [dragging, setDragging] = useState(false);
-  const breakpoints = [425, 720];
+  const breakpoints = [475, 720];
   const mq = breakpoints.map((bp) => `@media (max-width: ${bp}px)`);
 
   const kanbanItem = css`

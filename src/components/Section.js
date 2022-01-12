@@ -7,7 +7,7 @@ import KanbanItem from "./KanbanItem";
 
 export default function Section(props) {
   const { name, color } = props;
-  const breakpoints = [425, 720];
+  const breakpoints = [475, 720];
   const mq = breakpoints.map((bp) => `@media (max-width: ${bp}px)`);
 
   const section = css`

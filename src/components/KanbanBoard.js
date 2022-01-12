@@ -13,17 +13,17 @@ export default function KanbanBoard() {
   const { colors } = useContext(ThemeContext);
   const { currentUser } = useContext(UserContext);
 
-  const breakpoints = [425, 720];
+  const breakpoints = [475, 720];
   const mq = breakpoints.map((bp) => `@media (max-width: ${bp}px)`);
 
   const boardContainer = css`
     display: flex;
     flex: 1;
-    height: 100%;
+    height: 0;
   `;
 
   const sectionsContainer = css`
-    flex: 1;
+    flex: 1 1 1px;
     display: flex;
     gap: 3em;
     padding: 2em 2em;
@@ -51,6 +51,12 @@ export default function KanbanBoard() {
     text-align: center;
     font-weight: 600;
     font-size: 2em;
+    ${mq[1]} {
+      font-size: 1.5em;
+    }
+    ${mq[0]} {
+      font-size: 1em;
+    }
   `
 
   const addNewSection = (e) => {

@@ -36,7 +36,7 @@ export default function FormLogin(props) {
         toggleModal()
       ;
     } else {
-      setError({ message: "Something went wrong!" });
+      setError({ message: "Something went wrong! Could not authenticate." });
     }
   };
 
@@ -47,7 +47,7 @@ export default function FormLogin(props) {
   return (
     <Form handleSubmit={handleSubmit}>
       {error ? (
-        <p css={formError}>{error.message || "Could not authenticate"}</p>
+        <p css={formError}>{error.message}</p>
       ) : null}
       <input
         type="text"

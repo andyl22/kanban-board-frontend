@@ -7,13 +7,13 @@ export default function Form(props) {
   const { handleSubmit, children } = props;
 
   const formContainer = css`
-    padding: 1em;
+    display: flex;
+    padding: .5em 0;
   `;
 
   const form = css`
     display: flex;
     flex-direction: column;
-    align-items: center;
     gap: 0.5em;
     font-size: 0.8em;
     input {

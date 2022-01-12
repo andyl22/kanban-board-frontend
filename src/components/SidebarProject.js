@@ -6,10 +6,13 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import AddProjectButton from "./AddProjectButton";
 import Sidebar from "./Sidebar";
+import { useNavigate } from "react-router-dom";
 
 export default function SidebarProject() {
+  const [ activeProject, setActiveProject ] = useState(null);
   const [projectList, setProjectList] = useState(null);
   const [mappedProjectList, setMappedProjectList] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetch("/projects/getProjectList")
@@ -37,8 +40,16 @@ export default function SidebarProject() {
           </Link>
         ))
       );
+
+      setActiveProject(projectList[0]);
     }
   }, [projectList]);
+
+  useEffect(() => {
+    if(activeProject) {
+      navigate(`/kanban-board/project/${activeProject._id}`)
+    }
+  }, [activeProject])
 
   return (
     <>

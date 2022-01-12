@@ -3,68 +3,44 @@
 
 import { css, jsx } from "@emotion/react";
 import AddIcon from "@mui/icons-material/Add";
-import { useState, useRef, useEffect, useContext } from "react";
-import { ThemeContext } from "../context/ThemeProvider";
+import { useState } from "react";
+import FormCreateSection from "../components/FormCreateSection";
 
 export default function AddSectionButton() {
-  const { colors } = useContext(ThemeContext);
-  const [showNameInput, setShowNameInput] = useState(false);
-  const inputRef = useRef(null);
+  const [showCreateSection, setShowCreateSection] = useState(false);
 
   const addButton = css`
+    display: flex;
+    justify-content: center;
+    align-items: center;
     height: fit-content;
-    min-width: 160px;
-    border-radius: 1em;
     background: white;
-    padding: .5em 1em;
-    font-size: .9em;
-    text-align: center;
+    border-radius: 1em;
+    gap: .2em;
+    padding: .3em .5em .4em .8em;
     border: 2px solid gray;
+    background: white;
+    color: black;
     &:hover {
       border: 2px solid #a6a6a6;
       cursor: pointer;
-      background: #F5F5F5;
+      background: #f5f5f5;
       transform: scale(1.01);
     }
     p {
-      color: black !important;
+      color: inherit;
+      font-weight: 600;
     }
   `;
 
-  const input = css`
-    display: flex;
-    padding: .3em .7em;
-    font-size: .8em;
-    height: fit-content;
-    border-radius: 1em;
-    border: 1px solid gray;
-    &:focus {
-      outline: none;
-      border: 3px solid ${colors.borderColor};
-    }
-  `
-
-  const showModal = () => {
-    setShowNameInput(true);
+  const toggleForm = () => {
+    setShowCreateSection(!showCreateSection);
   };
 
-  const handleSubmit = (e) => {
-    console.log(e);
-  }
-
-  useEffect(() => {
-    if(showNameInput) inputRef.current.focus();
-  }, [showNameInput]);
-
-  if(showNameInput) {
-    return (
-      <form onSubmit={handleSubmit}>
-        <input type="text" placeholder="Project Name" css={input} ref={inputRef}/>
-      </form>
-    )
-  }
-  return (
-    <button css={addButton} onClick={showModal}>
+  return showCreateSection ? (
+    <FormCreateSection toggleForm={toggleForm} />
+  ) : (
+    <button onClick={toggleForm} css={addButton}>
       <p>Add New Section</p>
       <AddIcon />
     </button>

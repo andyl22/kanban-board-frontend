@@ -5,7 +5,7 @@ import { css, jsx } from "@emotion/react";
 import React, { useState, useContext } from "react";
 import { ThemeContext } from "../context/ThemeProvider";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
-import FormCreateComponent from "./FormCreateComponent";
+import FormCreateProject from "./FormCreateProject";
 
 export default function AddProjectButton(props) {
   const { projectList, setProjectList } = props;
@@ -45,10 +45,11 @@ export default function AddProjectButton(props) {
   };
 
   return showCreateProject ? (
-    <FormCreateComponent
+    <FormCreateProject
       toggleForm={setShowCreateProject}
       projectList={projectList}
       setProjectList={setProjectList}
+      toggleModal={toggleModal}
     />
   ) : (
     <button css={addNewProject} onClick={toggleModal}>

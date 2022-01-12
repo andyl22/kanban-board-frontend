@@ -30,12 +30,13 @@ export default function Header(props) {
       );
   }, [currentUser, activeTab, colors.linkFontColor]);
 
-  const breakpoints = [425, 720];
+  const breakpoints = [475, 720];
   const mq = breakpoints.map((bp) => `@media (max-width: ${bp}px)`);
 
   const header = css`
     border-bottom: 2px solid #f2f2f2;
     background: ${colors.headerBackground};
+    padding: .5em 0;
   `;
 
   const headerContent = css`
@@ -48,7 +49,7 @@ export default function Header(props) {
     }
     ${mq[1]} {
       flex-direction: column;
-      gap: 0;
+      gap: .5em;
       justify-content: center;
     }
   `;
@@ -81,10 +82,9 @@ export default function Header(props) {
     align-items: center;
     gap: 2em;
     font-weight: 600;
+    padding: 0 1em;
     font-size: 0.8em;
-    padding: 0.8em 1em;
     a {
-      padding: 0 0 0.2em 0;
       color: ${colors.linkFontColor};
       &:hover {
         color: ${colors.linkHoverColor};

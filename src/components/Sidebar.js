@@ -64,20 +64,28 @@ export default function Sidebar(props) {
     min-width: 200px;
     background: ${colors.sideBarBackground};
     box-shadow: 0px 5px 5px gray;
+    overflow: auto;
+    animation: ${rolloutX} 0.1s ease-in;
+    h1, a, button {
+      animation: ${textoutX} 0.1s ease-in;
+    }
     h1 {
       padding: 0 0 1em 0;
-    }
-    animation: ${rolloutX} 0.1s ease-in;
-    h1,
-    a,
-    button {
-      animation: ${textoutX} 0.1s ease-in;
     }
     a {
       font-size: 0.8em;
     }
+    &::-webkit-scrollbar { 
+      border-bottom-right-radius: 2em;
+    }
+    &::-webkit-scrollbar-thumb {
+      background: #ffb62f;
+      border: 4px solid ${colors.sideBarBackground};
+      border-radius: 2em;
+    }
     @media (max-width: 720px) {
-      border-bottom-right-radius: 1em;
+      border-bottom-right-radius: .5em;
+      max-height: 46%;
       opacity: 98%;
       position: absolute;
       animation: ${rolloutY} .1s;

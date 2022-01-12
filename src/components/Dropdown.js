@@ -11,7 +11,6 @@ export default function Dropdown(props) {
   const [showDropDown, setShowDropdown] = useState(false);
   const toggleDropdown = () => {
     setShowDropdown(!showDropDown);
-    console.log(props);
   };
 
   const { colors } = useContext(ThemeContext);
