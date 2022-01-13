@@ -2,11 +2,10 @@
 /** @jsx jsx */
 
 import { css, jsx } from "@emotion/react";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 import Section from "./Section";
-import Header from "./Header";
-import AddSectionButton from "./AddSectionButton";
+import AddSectionController from "./AddSectionController";
 import SidebarProject from "./SidebarProject";
 import { ThemeContext } from "../context/ThemeProvider";
 import { UserContext } from "../context/UserProvider";
@@ -19,6 +18,7 @@ export default function KanbanBoard() {
   const [mappedSections, setMappedSections] = useState(null);
   const { id } = useParams();
   const [error, setError] = useState();
+  const sectionRef = useRef();
 
   const breakpoints = [475, 720];
   const mq = breakpoints.map((bp) => `@media (max-width: ${bp}px)`);
@@ -26,7 +26,7 @@ export default function KanbanBoard() {
   const boardContainer = css`
     display: flex;
     flex: 1;
-    height: 0;
+    min-height: 0;
   `;
 
   const sectionsContainer = css`
@@ -66,20 +66,6 @@ export default function KanbanBoard() {
     }
   `;
 
-  const errorMessage = css`
-    margin: 0 auto;
-    padding: 1em 0;
-    text-align: center;
-    font-weight: 600;
-    font-size: 2em;
-    ${mq[1]} {
-      font-size: 1.5em;
-    }
-    ${mq[0]} {
-      font-size: 1em;
-    }
-  `;
-
   const addSection = (section) => {
     setSections([...sections, section]);
   };
@@ -100,32 +86,36 @@ export default function KanbanBoard() {
         ))
       );
     }
-  }, [sections]);
+    sectionRef.current.scrollTo(0, 0);
+  }, [sections, sectionRef]);
 
-  //  CONDITIONAL RENDERING OF THE PAGE
-  //  If there is a user, render the project details.
-  //  If no project is selected, display text indicating so.
-  //  If details are unable to be loaded, display text indiciating so.
-  if (currentUser && mappedSections) {
+  if (!currentUser) {
+    return (
+      <p css={notLoggedInError}>Please sign in to access your projects.</p>
+    );
+  }
+
+  if (error) {
+    return <p>Not able to load project details. Try again later.</p>;
+  }
+
+  if (currentUser) {
     return (
       <>
         <div css={boardContainer}>
           <SidebarProject />
-          <section css={sectionsContainer}>
+          <section css={sectionsContainer} ref={sectionRef}>
             {mappedSections}
-            <AddSectionButton addSection={addSection} />
+            {//  If no project is selected, display text indicating so.
+            id ? (
+              <AddSectionController addSection={addSection} />
+            ) : (
+              <p>Select a project in the dropdown menu.</p>
+            )}
           </section>
         </div>
       </>
     );
-  }
-
-  if(!currentUser) {
-    return <p css={notLoggedInError}>Please sign in to access your projects.</p>;
-  }
-
-  if(error) {
-    return <p>Not able to load project details. Try again later.</p>
   }
 
   return null;

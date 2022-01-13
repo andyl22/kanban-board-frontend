@@ -48,10 +48,6 @@ export default function Modal({ children }) {
     animation: ${rolloutAnimation} 1s ease;
   `;
 
-  useEffect(() => {
-    console.log(maxZ);
-  })
-
   return (
     <div css={modal}>
       <div id="modal-content" css={modalContent}>

@@ -3,6 +3,7 @@
 
 import { css, jsx } from "@emotion/react";
 import KanbanItem from "./KanbanItem";
+import AddSectionController from "./AddSectionItemController";
 
 export default function Section(props) {
   const { name, color } = props;
@@ -68,6 +69,7 @@ export default function Section(props) {
       <h1>{name}</h1>
       <div css={kanbanItemsContainer}>
         {mappedKanbanItems}
+        <AddSectionController />
       </div>
     </section>
   );

@@ -9,7 +9,7 @@ import { ThemeContext } from "../context/ThemeProvider";
 import { postHTTP } from "../utilities/fetchAPIs";
 
 export default function FormCreateProject(props) {
-  const { toggleForm, projectList, setProjectList } = props;
+  const { toggleForm, addProject } = props;
   const [formState, setFormState] = useState({ projectName: "" });
   const inputRef = useRef();
   const { colors } = useContext(ThemeContext);
@@ -37,9 +37,9 @@ export default function FormCreateProject(props) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const data = await postHTTP("/projects/createProject", formState)
+    postHTTP("/projects/createProject", formState)
+      .then(res => addProject(res.project))
       .catch((err) => console.log(err));
-    setProjectList([...projectList, data.project]);
     toggleForm();
   };
 

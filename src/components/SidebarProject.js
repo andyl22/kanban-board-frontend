@@ -4,7 +4,7 @@
 import { css, jsx } from "@emotion/react";
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import AddProjectButton from "./AddProjectButton";
+import AddController from "./AddController";
 import Sidebar from "./Sidebar";
 import { getHTTP } from "../utilities/fetchAPIs";
 
@@ -12,6 +12,10 @@ export default function SidebarProject() {
   const [projectList, setProjectList] = useState(null);
   const [mappedProjectList, setMappedProjectList] = useState(null);
   const [error, setError] = useState(null);
+
+  const addProject = (project) => {
+    setProjectList([...projectList, project])
+  }
 
   useEffect(() => {
     getHTTP("/projects/getProjectList")
@@ -48,10 +52,7 @@ export default function SidebarProject() {
       ) : (
         <>
           {mappedProjectList}
-          <AddProjectButton
-            projectList={projectList}
-            setProjectList={setProjectList}
-          />
+          <AddController addProject={addProject} />
         </>
       )}
     </Sidebar>
