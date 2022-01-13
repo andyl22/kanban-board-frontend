@@ -1,7 +1,7 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 
-import { css, jsx } from "@emotion/react";
+import { css, jsx, keyframes } from "@emotion/react";
 import KanbanItem from "./KanbanItem";
 import AddSectionController from "./AddSectionItemController";
 
@@ -9,6 +9,17 @@ export default function Section(props) {
   const { name, color } = props;
   const breakpoints = [475, 720];
   const mq = breakpoints.map((bp) => `@media (max-width: ${bp}px)`);
+
+  const rolloutY = keyframes`
+  0% {
+    opacity: 0;
+    transform: translateY(-50px);
+    transform-origin: left;
+  }
+  100% {
+    transform: translateY(0px);
+  }
+`;
 
   const section = css`
     display: flex;
@@ -19,6 +30,7 @@ export default function Section(props) {
     text-align: center;
     border-radius: 1em;
     background: white;
+    animation: ${rolloutY} .4s ease-in;
     &:-moz-drag-over {
       outline: 1px solid black;
     }

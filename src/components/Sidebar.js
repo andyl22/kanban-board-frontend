@@ -32,6 +32,7 @@ export default function Sidebar(props) {
         transform: translateX(0);
     }
   `;
+  
   const rolloutY = keyframes`
     0% {
       opacity: 0;

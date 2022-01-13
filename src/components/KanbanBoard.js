@@ -86,37 +86,31 @@ export default function KanbanBoard() {
         ))
       );
     }
+
     sectionRef.current.scrollTo(0, 0);
-  }, [sections, sectionRef]);
+  }, [sections]);
 
-  if (!currentUser) {
-    return (
-      <p css={notLoggedInError}>Please sign in to access your projects.</p>
-    );
-  }
+  const conditionalRenderingLogic = (function () {
+    if (!currentUser) {
+      return <p css={notLoggedInError}>Please sign in to access your projects.</p>;
+    } else if (error) {
+      return <p>Not able to load project details. Try again later.</p>;
+    } else if (!id) {
+      return <p>Select a project in the dropdown menu.</p>;
+    } else {
+      return <AddSectionController addSection={addSection} />;
+    }
+  })();
 
-  if (error) {
-    return <p>Not able to load project details. Try again later.</p>;
-  }
-
-  if (currentUser) {
-    return (
-      <>
-        <div css={boardContainer}>
-          <SidebarProject />
-          <section css={sectionsContainer} ref={sectionRef}>
-            {mappedSections}
-            {//  If no project is selected, display text indicating so.
-            id ? (
-              <AddSectionController addSection={addSection} />
-            ) : (
-              <p>Select a project in the dropdown menu.</p>
-            )}
-          </section>
-        </div>
-      </>
-    );
-  }
-
-  return null;
+  return (
+    <>
+      <div css={boardContainer}>
+        {(currentUser) ? <SidebarProject currentUser={currentUser}/> : null}
+        <section css={sectionsContainer} ref={sectionRef}>
+          {mappedSections}
+          {conditionalRenderingLogic}
+        </section>
+      </div>
+    </>
+  );
 }

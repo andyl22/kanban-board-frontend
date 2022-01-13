@@ -3,7 +3,7 @@
 
 import { css, jsx } from "@emotion/react";
 import React, { useState, useEffect, useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ThemeContext } from "../context/ThemeProvider";
 import ExpandCircleDownIcon from "@mui/icons-material/ExpandCircleDown";
 import { SidebarContext } from "../context/SidebarProvider";
@@ -20,6 +20,7 @@ export default function Header(props) {
   const { title, activeTab } = props;
   const [showLogin, setShowLogin] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     document
@@ -36,7 +37,7 @@ export default function Header(props) {
   const header = css`
     border-bottom: 2px solid #f2f2f2;
     background: ${colors.headerBackground};
-    padding: .5em 0;
+    padding: 0.5em 0;
   `;
 
   const headerContent = css`
@@ -49,7 +50,7 @@ export default function Header(props) {
     }
     ${mq[1]} {
       flex-direction: column;
-      gap: .5em;
+      gap: 0.5em;
       justify-content: center;
     }
   `;
@@ -122,12 +123,13 @@ export default function Header(props) {
 
   const toggleRegisterModal = () => {
     setShowRegister(!showRegister);
-  }
+  };
 
   const handleLogout = async () => {
     setCurrentUser(null);
     Cookies.remove("user");
     fetch("/auth/logout", { method: "POST" });
+    navigate('/kanban-board');
   };
 
   return (
@@ -172,7 +174,9 @@ export default function Header(props) {
         </div>
       </header>
       {showLogin ? <ModalLogin toggleModal={toggleLoginModal} /> : null}
-      {showRegister ? <ModalRegister toggleModal={toggleRegisterModal} />: null}
+      {showRegister ? (
+        <ModalRegister toggleModal={toggleRegisterModal} />
+      ) : null}
     </>
   );
 }
