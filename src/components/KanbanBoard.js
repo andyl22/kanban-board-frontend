@@ -104,27 +104,29 @@ export default function KanbanBoard() {
 
   //  CONDITIONAL RENDERING OF THE PAGE
   //  If there is a user, render the project details.
-  //  If no project is selected, display text indicating so. 
+  //  If no project is selected, display text indicating so.
   //  If details are unable to be loaded, display text indiciating so.
-  if (currentUser) {
+  if (currentUser && mappedSections) {
     return (
       <>
         <div css={boardContainer}>
           <SidebarProject />
           <section css={sectionsContainer}>
-            {id && mappedSections ? (
-              <>
-                {mappedSections}
-                <AddSectionButton addSection={addSection} />
-              </>
-            ) : (
-              <p css={errorMessage}>{error || "Please select a project"}</p>
-            )}
+            {mappedSections}
+            <AddSectionButton addSection={addSection} />
           </section>
         </div>
       </>
     );
   }
 
-  return <p css={notLoggedInError}>Please sign in to access your projects.</p>;
+  if(!currentUser) {
+    return <p css={notLoggedInError}>Please sign in to access your projects.</p>;
+  }
+
+  if(error) {
+    return <p>Not able to load project details. Try again later.</p>
+  }
+
+  return null;
 }
