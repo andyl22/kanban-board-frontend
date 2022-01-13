@@ -3,14 +3,16 @@
 
 import { css, jsx } from "@emotion/react";
 import React, { useState, useRef, useEffect, useContext } from "react";
+import { useParams } from "react-router-dom";
 import Form from "./Form";
 import CancelIcon from '@mui/icons-material/Cancel';
 import { ThemeContext } from "../context/ThemeProvider";
-import { postAPI } from "../utilities/fetchAPIs";
+import { postHTTP } from "../utilities/fetchAPIs";
 
 export default function FormCreateProject(props) {
-  const { toggleForm, activeProject} = props;
-  const [formState, setFormState] = useState({sectionName: ""});
+  const { toggleForm, addSection } = props;
+  const { id } = useParams();
+  const [formState, setFormState] = useState({projectID: id, sectionName: ""});
   const inputRef = useRef();
   const { colors } = useContext(ThemeContext);
 
@@ -38,9 +40,8 @@ export default function FormCreateProject(props) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setFormState(formState.projectID = activeProject._id)
-    postAPI("/projectSection/createSection", 'POST', formState)
-      .then((res) => res.json())
+    postHTTP("/projectSection/createSection", formState)
+      .then(res => addSection(res.section))
       .then(toggleForm())
       .catch((err) => console.log(err));
   };

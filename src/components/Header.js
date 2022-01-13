@@ -17,7 +17,7 @@ export default function Header(props) {
   const { theme, toggleTheme, colors } = useContext(ThemeContext);
   const { currentUser, setCurrentUser } = useContext(UserContext);
   const { toggleSidebar } = useContext(SidebarContext);
-  const { activeTab } = props;
+  const { title, activeTab } = props;
   const [showLogin, setShowLogin] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
 
@@ -141,7 +141,7 @@ export default function Header(props) {
                 onClick={toggleSidebar}
               />
             ) : null}
-            <h1>Kanban</h1>
+            <h1>{title}</h1>
           </div>
           <div css={rightHeader}>
             <Link to="/kanban-board" id="home">

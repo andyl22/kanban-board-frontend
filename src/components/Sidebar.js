@@ -61,7 +61,7 @@ export default function Sidebar(props) {
     padding: 1em;
     flex-direction: column;
     align-items: flex-start;
-    min-width: 200px;
+    min-width: fit-content;
     background: ${colors.sideBarBackground};
     box-shadow: 0px 5px 5px gray;
     overflow: auto;

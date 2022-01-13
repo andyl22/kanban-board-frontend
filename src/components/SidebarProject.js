@@ -6,20 +6,18 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import AddProjectButton from "./AddProjectButton";
 import Sidebar from "./Sidebar";
-import { useNavigate } from "react-router-dom";
+import { getHTTP } from "../utilities/fetchAPIs";
 
-export default function SidebarProject(props) {
-  const { activeProject, setActiveProject } = props;
+export default function SidebarProject() {
   const [projectList, setProjectList] = useState(null);
   const [mappedProjectList, setMappedProjectList] = useState(null);
-  const navigate = useNavigate();
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch("/projects/getProjectList")
-      .then((res) => res.json())
+    getHTTP("/projects/getProjectList")
       .then((res) => res.projects)
       .then((res) => setProjectList(res))
-      .catch((err) => console.log(err));
+      .catch((err) => setError("Could not retrieve projects."));
   }, []);
 
   useEffect(() => {
@@ -40,23 +38,22 @@ export default function SidebarProject(props) {
           </Link>
         ))
       );
-
-      setActiveProject(projectList[0]);
     }
   }, [projectList]);
 
-  useEffect(() => {
-    if(activeProject) {
-      navigate(`/kanban-board/project/${activeProject._id}`)
-    }
-  }, [activeProject])
-
   return (
-    <>
-      <Sidebar title={"Project List"}>
-        {mappedProjectList}
-        <AddProjectButton projectList={projectList} setProjectList={setProjectList}/>
-      </Sidebar>
-    </>
+    <Sidebar title={"Project List"}>
+      {error ? (
+        <p>{error}</p>
+      ) : (
+        <>
+          {mappedProjectList}
+          <AddProjectButton
+            projectList={projectList}
+            setProjectList={setProjectList}
+          />
+        </>
+      )}
+    </Sidebar>
   );
 }

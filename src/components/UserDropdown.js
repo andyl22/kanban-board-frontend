@@ -2,12 +2,9 @@
 /** @jsx jsx */
 
 import { css, jsx } from "@emotion/react";
-import React, { useContext } from "react";
 import Dropdown from "./Dropdown";
-import { ThemeContext } from "../context/ThemeProvider";
 
 export default function UserDropdown(props) {
-  const { colors } = ThemeContext;
   const { currentUser, handleLogout } = props
 
   const dropdownOption=css`

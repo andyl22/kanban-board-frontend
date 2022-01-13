@@ -2,17 +2,23 @@
 /** @jsx jsx */
 
 import { css, jsx } from "@emotion/react";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import Section from "./Section";
+import Header from "./Header";
 import AddSectionButton from "./AddSectionButton";
 import SidebarProject from "./SidebarProject";
 import { ThemeContext } from "../context/ThemeProvider";
 import { UserContext } from "../context/UserProvider";
+import { postHTTP } from "../utilities/fetchAPIs";
 
 export default function KanbanBoard() {
   const { colors } = useContext(ThemeContext);
   const { currentUser } = useContext(UserContext);
-  const [ activeProject, setActiveProject ] = useState(null);
+  const [sections, setSections] = useState(null);
+  const [mappedSections, setMappedSections] = useState(null);
+  const { id } = useParams();
+  const [error, setError] = useState();
 
   const breakpoints = [475, 720];
   const mq = breakpoints.map((bp) => `@media (max-width: ${bp}px)`);
@@ -58,31 +64,67 @@ export default function KanbanBoard() {
     ${mq[0]} {
       font-size: 1em;
     }
-  `
+  `;
 
-  const addNewSection = (e) => {
-    console.log(e);
-  }
+  const errorMessage = css`
+    margin: 0 auto;
+    padding: 1em 0;
+    text-align: center;
+    font-weight: 600;
+    font-size: 2em;
+    ${mq[1]} {
+      font-size: 1.5em;
+    }
+    ${mq[0]} {
+      font-size: 1em;
+    }
+  `;
 
-  //API call to fetch sections for the board
-  const sections = [];
-  const mappedSections = sections.map((item) => (
-    <Section key={item.name} name={item.name} color={item.color} />
-  ));
+  const addSection = (section) => {
+    setSections([...sections, section]);
+  };
 
+  useEffect(() => {
+    if (id) {
+      postHTTP("/projectSection/sectionByProjectId", { id: id })
+        .then((res) => setSections(res.sections))
+        .catch((err) => setError("Could not retrieve project details."));
+    }
+  }, [id]);
+
+  useEffect(() => {
+    if (sections) {
+      setMappedSections(
+        sections.map((section) => (
+          <Section key={section._id} id={section._id} name={section.name} />
+        ))
+      );
+    }
+  }, [sections]);
+
+  //  CONDITIONAL RENDERING OF THE PAGE
+  //  If there is a user, render the project details.
+  //  If no project is selected, display text indicating so. 
+  //  If details are unable to be loaded, display text indiciating so.
   if (currentUser) {
     return (
-      <div css={boardContainer}>
-        <SidebarProject activeProject = {activeProject} setActiveProject = {setActiveProject}/>
-        <section css={sectionsContainer}>
-          {mappedSections}
-          <AddSectionButton activeProject = {activeProject}/>
-        </section>
-      </div>
+      <>
+        <div css={boardContainer}>
+          <SidebarProject />
+          <section css={sectionsContainer}>
+            {id && mappedSections ? (
+              <>
+                {mappedSections}
+                <AddSectionButton addSection={addSection} />
+              </>
+            ) : (
+              <p css={errorMessage}>{error || "Please select a project"}</p>
+            )}
+          </section>
+        </div>
+      </>
     );
   }
 
-  return (
-    <p css={notLoggedInError}>Please sign in to access your projects.</p>
-  );
+  return <p css={notLoggedInError}>Please sign in to access your projects.</p>;
 }

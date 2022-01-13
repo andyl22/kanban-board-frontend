@@ -8,7 +8,7 @@ import FormCreateSection from "../components/FormCreateSection";
 
 export default function AddSectionButton(props) {
   const [showCreateSection, setShowCreateSection] = useState(false);
-  const {activeProject} = props;
+  const { addSection } = props;
 
   const addButton = css`
     display: flex;
@@ -18,10 +18,11 @@ export default function AddSectionButton(props) {
     background: white;
     border-radius: 1em;
     gap: .2em;
-    padding: .3em .5em .4em .8em;
+    padding: .3em .5em .3em 1em;
     border: 2px solid gray;
     background: white;
     color: black;
+    min-width: fit-content;
     &:hover {
       border: 2px solid #a6a6a6;
       cursor: pointer;
@@ -39,10 +40,10 @@ export default function AddSectionButton(props) {
   };
 
   return showCreateSection ? (
-    <FormCreateSection toggleForm={toggleForm} activeProject = {activeProject}/>
+    <FormCreateSection toggleForm={toggleForm} addSection={addSection}/>
   ) : (
     <button onClick={toggleForm} css={addButton}>
-      <p>Add New Section</p>
+      <p>Add Section</p>
       <AddIcon />
     </button>
   );

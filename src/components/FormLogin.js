@@ -6,7 +6,7 @@ import Cookie from "js-cookie";
 import { UserContext } from "../context/UserProvider";
 import { useContext, useState } from "react";
 import Form from "./Form";
-import { postAPI } from "../utilities/fetchAPIs";
+import { postHTTP } from "../utilities/fetchAPIs";
 
 export default function FormLogin(props) {
   const { toggleModal } = props;
@@ -24,20 +24,16 @@ export default function FormLogin(props) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const createUserResponse = await postAPI('/auth/login', 'POST', formState);
-    if (createUserResponse.status>=500) {
-      setError({ message: "Could not contact the server."});
-    } else if (createUserResponse.status===400) {
-      const errorMessage = await createUserResponse.json();
-      setError(errorMessage);
-    } else if (createUserResponse.status===200) {
-        setCurrentUser({ username: formState.username});
-        Cookie.set("user", JSON.stringify({ username: formState.username }))
-        toggleModal()
-      ;
-    } else {
-      setError({ message: "Something went wrong! Could not authenticate." });
-    }
+    postHTTP("/auth/login", formState)
+      .then((res) => {
+        if (res.error) {
+          setError(res.error);
+        } else {
+          setCurrentUser({ username: formState.username });
+          Cookie.set("user", JSON.stringify({ username: formState.username }));
+          toggleModal();
+      }})
+      .catch(err => setError("Authentication Server is not available"));
   };
 
   const handleChange = (e) => {
@@ -46,9 +42,7 @@ export default function FormLogin(props) {
 
   return (
     <Form handleSubmit={handleSubmit}>
-      {error ? (
-        <p css={formError}>{error.message}</p>
-      ) : null}
+      {error ? <p css={formError}>{error}</p> : null}
       <input
         type="text"
         id="username"

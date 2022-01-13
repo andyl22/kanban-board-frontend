@@ -4,13 +4,13 @@
 import { css, jsx } from "@emotion/react";
 import React, { useState, useRef, useEffect, useContext } from "react";
 import Form from "./Form";
-import CancelIcon from '@mui/icons-material/Cancel';
+import CancelIcon from "@mui/icons-material/Cancel";
 import { ThemeContext } from "../context/ThemeProvider";
-import { postAPI } from "../utilities/fetchAPIs";
+import { postHTTP } from "../utilities/fetchAPIs";
 
 export default function FormCreateProject(props) {
   const { toggleForm, projectList, setProjectList } = props;
-  const [formState, setFormState] = useState({projectName: ""});
+  const [formState, setFormState] = useState({ projectName: "" });
   const inputRef = useRef();
   const { colors } = useContext(ThemeContext);
 
@@ -37,8 +37,7 @@ export default function FormCreateProject(props) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const data = await postAPI('/projects/createProject', 'POST', formState)
-      .then((res) => res.json())
+    const data = await postHTTP("/projects/createProject", formState)
       .catch((err) => console.log(err));
     setProjectList([...projectList, data.project]);
     toggleForm();
@@ -68,7 +67,7 @@ export default function FormCreateProject(props) {
           ref={inputRef}
         />
       </Form>
-      <CancelIcon css={closeButton} onClick={toggleForm}/>
+      <CancelIcon css={closeButton} onClick={toggleForm} />
     </div>
   );
 }

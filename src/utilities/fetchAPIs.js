@@ -1,11 +1,32 @@
-export function postAPI (url, method, body) {
+export function postHTTP(url, body) {
   const options = {
-    method: method,
+    method: "POST",
     body: JSON.stringify(body),
     headers: {
       "Content-Type": "application/json",
     },
   };
 
-  return fetch(url, options);
-};
+  return fetch(url, options).then(res => {
+    if(res.ok) {
+      return res.json();
+    } else {
+      res.json().then(res => {throw Error(res.error)});
+    }
+  })
+  ;
+}
+
+export function getHTTP(url) {
+  const options = {
+    method: "GET",
+  };
+
+  return fetch(url, options).then(function (res) {
+    if (res.ok) {
+      return res.json();
+    } else {
+      throw Error(res.json().error);
+    }
+  });
+}
