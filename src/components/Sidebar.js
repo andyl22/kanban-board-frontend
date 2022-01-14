@@ -32,28 +32,6 @@ export default function Sidebar(props) {
         transform: translateX(0);
     }
   `;
-  
-  const rolloutY = keyframes`
-    0% {
-      opacity: 0;
-      transform: translateY(-200px);
-      transform-origin: left;
-    }
-    100% {
-      transform: translateY(0px);
-    }
-  `;
-
-  const textoutY = keyframes`
-    0% {
-      opacity: 0;
-      transform: translateY(25px);
-    }
-    100% {
-      opacity: 100;
-      transform: translateY(0);
-    }
-  `;
 
   const sidebar = css`
     flex: 0;
@@ -85,17 +63,8 @@ export default function Sidebar(props) {
       border-radius: 2em;
     }
     @media (max-width: 720px) {
-      border-bottom-right-radius: .5em;
-      max-height: 46%;
-      opacity: 98%;
-      position: absolute;
-      animation: ${rolloutY} .1s;
-      box-shadow: 0px 2px 5px gray;
-      h1,
-      a,
-      button {
-        animation: ${textoutY} .1s ease-in;
-      }
+      min-width: 160px;
+      word-break: break-word;
     }
   `;
 

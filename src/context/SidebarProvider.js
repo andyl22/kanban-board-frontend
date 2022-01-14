@@ -3,7 +3,7 @@ import React, { useState } from "react";
 const SidebarContext = React.createContext([{}, () => {}]);
 
 const SidebarProvider = ({ children }) => {
-  const [showSidebar, setShowSidebar] = useState(false);
+  const [showSidebar, setShowSidebar] = useState(true);
 
   const toggleSidebar = () => {
     setShowSidebar(!showSidebar);

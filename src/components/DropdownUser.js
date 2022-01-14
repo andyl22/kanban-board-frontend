@@ -4,7 +4,7 @@
 import { css, jsx } from "@emotion/react";
 import Dropdown from "./Dropdown";
 
-export default function UserDropdown(props) {
+export default function DropdownUser(props) {
   const { currentUser, handleLogout } = props
 
   const dropdownOption=css`
@@ -17,7 +17,7 @@ export default function UserDropdown(props) {
   `
 
   return (
-    <Dropdown dropDownName={currentUser}>
+    <Dropdown dropDownName={currentUser.username}>
       <span css={dropdownOption} onClick={handleLogout}>Logout</span>
     </Dropdown>
   );

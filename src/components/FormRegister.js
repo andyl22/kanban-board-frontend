@@ -39,10 +39,10 @@ export default function FormLogin(props) {
           setCurrentUser({ username: formState.username });
           Cookie.set("user", JSON.stringify({ username: formState.username }));
           toggleModal();
-        }})
-      .catch(err => setError("Can not register the user! Try again later."));
+        }
+      })
+      .catch((err) => setError("Can not register the user! Try again later."));
   };
-  
 
   const handleChange = (e) => {
     setFormState({ ...formState, [e.target.id]: e.target.value });

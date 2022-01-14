@@ -16,8 +16,8 @@ export default function KanbanBoard() {
   const { currentUser } = useContext(UserContext);
   const [sections, setSections] = useState(null);
   const [mappedSections, setMappedSections] = useState(null);
-  const { id } = useParams();
   const [error, setError] = useState();
+  const { id } = useParams();
   const sectionRef = useRef();
 
   const breakpoints = [475, 720];

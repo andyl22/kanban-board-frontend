@@ -17,11 +17,11 @@ const ThemeProvider = ({ children }) => {
           contentBackground: "#DEDEDE",
           headingColor: "black",
           basicFontColor: "black",
-          linkFontColor: "#737373",
-          linkHoverColor: "#414141",
+          linkFontColor: "black",
+          linkHoverColor: "#808080",
           borderColor: "#3679ed",
           iconColor: "black",
-          iconHoverColor: "#7D7D7D"
+          iconHoverColor: "#7D7D7D",
         }
       : {
           headerBackground: "#242424",
@@ -30,14 +30,17 @@ const ThemeProvider = ({ children }) => {
           headingColor: "white",
           basicFontColor: "white",
           linkFontColor: "white",
-          linkHoverColor: "#B2B2B2",
-          borderColor: "#ffa746",
+          linkHoverColor: "#ffd02f",
+          borderColor: "#b2b2b2",
           iconColor: "white",
-          iconHoverColor: "#A3A3A3"
+          iconHoverColor: "#A3A3A3",
         };
 
+  const breakpoints = [475, 720];
+  const mq = breakpoints.map((bp) => `@media (max-width: ${bp}px)`);
+
   return (
-    <ThemeContext.Provider value={{ theme, toggleTheme, colors }}>
+    <ThemeContext.Provider value={{ theme, toggleTheme, colors, mq }}>
       {children}
     </ThemeContext.Provider>
   );

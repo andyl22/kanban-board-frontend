@@ -6,7 +6,7 @@ import { useState } from "react";
 import ButtonAdd from "./ButtonAdd";
 import FormCreateProject from "./FormCreateProject";
 
-export default function AddController(props) {
+export default function AddProjectController(props) {
   const { addProject } = props;
   const [showCreateProject, setShowCreateProject] = useState(false);
 
