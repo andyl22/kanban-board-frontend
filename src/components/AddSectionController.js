@@ -13,6 +13,7 @@ export default function AddSectionController(props) {
   const addSectionButton = css`
     background: none;
     padding: 1.5em;
+    margin-bottom: 1em;
   `;
 
   const toggleForm = () => {

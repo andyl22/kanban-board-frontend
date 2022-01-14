@@ -33,7 +33,7 @@ const ThemeProvider = ({ children }) => {
           linkHoverColor: "#ffd02f",
           borderColor: "#b2b2b2",
           iconColor: "white",
-          iconHoverColor: "#A3A3A3",
+          iconHoverColor: "#c9c9c9",
         };
 
   const breakpoints = [475, 720];

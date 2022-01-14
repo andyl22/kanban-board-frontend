@@ -31,23 +31,15 @@ export default function SidebarProject() {
     if (projectList) {
       const projectLinks = css`
         font-weight: 700;
-        padding: .8em;
+        padding: .8em .5em;
         width: 100%;
-        border-left: 1px solid gray;
-        border-right: 1px solid gray;
-        border-top: 1px solid gray;
         &:first-of-type {
-          border-top-right-radius: 1em;
-          border-top-left-radius: 1em;
         }
         &:last-of-type {
-          border-bottom: 1px solid gray;
-          border-bottom-right-radius: 1em;
-          border-bottom-left-radius: 1em;
           margin-bottom: 1em;
         }
         &:hover {
-          transform: translateX(10px);
+          transform: translateX(2px);
         }
       `;
 

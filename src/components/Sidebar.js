@@ -78,9 +78,11 @@ export default function Sidebar(props) {
   `
 
   const arrowBack = css`
+  color: ${colors.iconColor};
   &:hover {
     cursor: pointer;
-    color: gray;
+    color: ${colors.iconHoverColor};
+    transform: scale(1.2);
   }
 `
 
@@ -89,7 +91,7 @@ export default function Sidebar(props) {
       <section css={sidebar}>
         <div css={sidebarHeader} >
           <h1>{title}</h1>
-          <ArrowBackIcon onClick={toggleSidebar}  css={arrowBack}/>
+          <ArrowBackIcon onClick={toggleSidebar} css={arrowBack}/>
         </div>
         {children}
       </section>

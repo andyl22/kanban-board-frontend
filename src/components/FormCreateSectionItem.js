@@ -50,10 +50,6 @@ export default function FormCreateSectionItem(props) {
       .catch((err) => console.log(err));
   };
 
-  const handleKeyDown = (e) => {
-    console.log(e);
-  }
-
   useEffect(() => {
     inputRef.current.focus();
   }, []);
