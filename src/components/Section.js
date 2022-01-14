@@ -2,16 +2,16 @@
 /** @jsx jsx */
 
 import { css, jsx, keyframes } from "@emotion/react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import SectionItem from "./SectionItem";
 import AddSectionItemController from "./AddSectionItemController";
+import { ThemeContext } from "../context/ThemeProvider";
 import { postHTTP } from "../utilities/fetchAPIs";
 
 export default function Section(props) {
   const { name, sectionID, color } = props;
   const [sectionItems, setSectionItems] = useState([]);
-  const breakpoints = [475, 720];
-  const mq = breakpoints.map((bp) => `@media (max-width: ${bp}px)`);
+  const { colors, mq } = useContext(ThemeContext);
 
   const rolloutY = keyframes`
   0% {
@@ -33,7 +33,8 @@ export default function Section(props) {
     text-align: center;
     border-radius: 1em;
     background: white;
-    animation: ${rolloutY} 0.4s ease-in;
+    box-shadow: -1px 3px 5px ${colors.shadowColor};
+    animation: ${rolloutY} 0.2s ease-in;
     &:-moz-drag-over {
       outline: 1px solid black;
     }
@@ -50,19 +51,19 @@ export default function Section(props) {
 
   const sectionItemsContainer = css`
     display: flex;
-    justify-content: center;
-    align-items: flex-start;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
     width: 280px;
     min-width: 200px;
+    height: fit-content;
+    padding: 1em 1.5em;
+    gap: 1em;
     ${mq[1]} {
       width: 100%;
-      padding: 0.8em 0.4em;
-      gap: 0.4em;
+      padding: .8em .4em;
+      gap: .5em;
     }
-    height: fit-content;
-    padding: 1em 1em;
-    flex-wrap: wrap;
-    gap: 15px;
   `;
 
   const addSectionItem = (sectionItem) => {

@@ -12,16 +12,13 @@ import { UserContext } from "../context/UserProvider";
 import { postHTTP } from "../utilities/fetchAPIs";
 
 export default function KanbanBoard() {
-  const { colors } = useContext(ThemeContext);
+  const { colors, mq } = useContext(ThemeContext);
   const { currentUser } = useContext(UserContext);
   const [sections, setSections] = useState(null);
   const [mappedSections, setMappedSections] = useState(null);
   const [error, setError] = useState();
   const { id } = useParams();
   const sectionRef = useRef();
-
-  const breakpoints = [475, 720];
-  const mq = breakpoints.map((bp) => `@media (max-width: ${bp}px)`);
 
   const boardContainer = css`
     display: flex;
@@ -45,7 +42,7 @@ export default function KanbanBoard() {
     &::-webkit-scrollbar-track {
     }
     &::-webkit-scrollbar-thumb {
-      background: #ffb62f;
+      background: ${colors.scrollbar};
       border: 4px solid ${colors.contentBackground};
       padding: 0 2em;
       background-clip: padding-box;

@@ -3,14 +3,18 @@
 
 import { css, jsx } from "@emotion/react";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
+import { useContext } from "react";
+import { ThemeContext } from "../context/ThemeProvider";
 
 export default function IconAdd() {
+  const { colors } = useContext(ThemeContext);
   const button = css`
-    color: #5c81ff;
+    color: ${colors.button};
+    background: white;
+    border-radius: 2em;
     &:hover {
-      color: #0f46ff;
+      color: ${colors.buttonHover}};
       cursor: pointer;
-      outline: none;
     }
   `;
 

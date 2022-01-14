@@ -60,7 +60,7 @@ export default function Sidebar(props) {
       border-bottom-right-radius: 2em;
     }
     &::-webkit-scrollbar-thumb {
-      background: #ffb62f;
+      background: ${colors.scrollbar};
       border: 6px solid ${colors.sideBarBackground};
       border-radius: 2em;
     }

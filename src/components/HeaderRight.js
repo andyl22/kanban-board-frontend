@@ -43,7 +43,7 @@ export default function HeaderRight() {
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    background: #5c81ff;
+    background: ${colors.button};
     color: white;
     padding: 0.4em 1em;
     line-height: 1em;
@@ -52,7 +52,7 @@ export default function HeaderRight() {
     font-weight: 600;
     &:hover {
       cursor: pointer;
-      background: #0f46ff;
+      background: ${colors.buttonHover};
       transform: scale(1.05);
       transition: 0.1s ease-in;
     }

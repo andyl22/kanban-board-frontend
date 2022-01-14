@@ -40,6 +40,7 @@ export default function SidebarProject() {
         }
         &:hover {
           transform: translateX(2px);
+          transition: .15s ease;
         }
       `;
 

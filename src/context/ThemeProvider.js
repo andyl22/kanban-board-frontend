@@ -17,11 +17,15 @@ const ThemeProvider = ({ children }) => {
           contentBackground: "#DEDEDE",
           headingColor: "black",
           basicFontColor: "black",
-          linkFontColor: "black",
-          linkHoverColor: "#808080",
+          linkFontColor: "#575654",
+          linkHoverColor: "#5c81ff",
           borderColor: "#3679ed",
           iconColor: "black",
           iconHoverColor: "#7D7D7D",
+          button: "#5c81ff",
+          buttonHover: "#0f46ff",
+          shadowColor: "#919191",
+          scrollbar: "#5668ff"
         }
       : {
           headerBackground: "#242424",
@@ -34,6 +38,10 @@ const ThemeProvider = ({ children }) => {
           borderColor: "#b2b2b2",
           iconColor: "white",
           iconHoverColor: "#c9c9c9",
+          button: "#9654ff",
+          buttonHover: "#6100cc",
+          shadowColor: "#363636",
+          scrollbar: "#ffb62f"
         };
 
   const breakpoints = [475, 720];
