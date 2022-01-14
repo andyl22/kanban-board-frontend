@@ -20,8 +20,6 @@ export default function LeftHeader(props) {
     transform: scale(0.9);
     &:hover {
       cursor: pointer;
-      transition: 0.1s ease-in;
-      color: ${colors.iconHoverColor};
     }
     ${mq[1]} {
       position: absolute;

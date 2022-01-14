@@ -79,6 +79,7 @@ export default function Sidebar(props) {
   const arrowBack = css`
   &:hover {
     cursor: pointer;
+    color: gray;
   }
 `
 
