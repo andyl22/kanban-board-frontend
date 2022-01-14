@@ -27,8 +27,6 @@ export default function Section(props) {
   const section = css`
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
     height: fit-content;
     text-align: center;
     border-radius: 1em;
@@ -39,9 +37,8 @@ export default function Section(props) {
       outline: 1px solid black;
     }
     h1 {
-      width: 100%;
-      padding: 0.5em;
-      background: ${color || "white"};
+      padding: 1em;
+      background: ${color || "#ffce1c"};
       border-bottom: 2px solid black;
       border-top-right-radius: inherit;
       border-top-left-radius: inherit;
@@ -52,22 +49,27 @@ export default function Section(props) {
   const sectionItemsContainer = css`
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
     width: 280px;
     min-width: 200px;
-    height: fit-content;
-    padding: 1em 1.5em;
-    gap: 1em;
     ${mq[1]} {
       width: 100%;
-      padding: .8em .4em;
-      gap: .5em;
+      padding: 0.8em 0.4em;
+      gap: 0.5em;
     }
   `;
 
   const addSectionItem = (sectionItem) => {
     setSectionItems([...sectionItems, sectionItem]);
+  };
+
+  const handleDragOver = (e) => {
+    e.dataTransfer.effectAllowed = "move";
+    console.log(e.target);
+    e.preventDefault();
+  };
+
+  const handleDrop = (e) => {
+    console.log(e.target);
   };
 
   useEffect(() => {
@@ -89,9 +91,16 @@ export default function Section(props) {
   return (
     <section id={sectionID} css={section}>
       <h1>{name}</h1>
-      <div css={sectionItemsContainer}>
+      <div
+        css={sectionItemsContainer}
+        onDragOver={handleDragOver}
+        onDrop={handleDrop}
+      >
         {mappedSectionItems}
-        <AddSectionItemController addSectionItem={addSectionItem} sectionID={sectionID}/>
+        <AddSectionItemController
+          addSectionItem={addSectionItem}
+          sectionID={sectionID}
+        />
       </div>
     </section>
   );

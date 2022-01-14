@@ -29,6 +29,7 @@ export default function FormCreateSectionItem(props) {
     height: fit-content;
     width: fit-content;
     background: #f2f2f2;
+    margin: 1em 0 2em 0;
   `;
 
   const closeButton = css`
