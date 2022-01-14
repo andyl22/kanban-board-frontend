@@ -6,10 +6,11 @@ import { useContext } from "react";
 import { SidebarContext } from "../context/SidebarProvider";
 import { ThemeContext } from "../context/ThemeProvider";
 import { UserContext } from "../context/UserProvider";
-import ExpandCircleDownIcon from "@mui/icons-material/ExpandCircleDown";
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 
 export default function LeftHeader(props) {
-  const { toggleSidebar } = useContext(SidebarContext);
+  const { showSidebar, toggleSidebar } = useContext(SidebarContext);
   const { currentUser } = useContext(UserContext);
   const { colors, mq } = useContext(ThemeContext);
   const { activeTab, title } = props;
@@ -39,7 +40,9 @@ export default function LeftHeader(props) {
   return (
     <div css={leftHeader}>
       {activeTab === "home" && currentUser ? (
-        <ExpandCircleDownIcon css={expandSidebar} onClick={toggleSidebar} />
+        (showSidebar) ? 
+          <ExpandMoreIcon css={expandSidebar} onClick={toggleSidebar} /> : 
+          <ExpandLessIcon css={expandSidebar} onClick={toggleSidebar} />
       ) : null}
       <h1>{title}</h1>
     </div>
