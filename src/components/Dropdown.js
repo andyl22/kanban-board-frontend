@@ -33,9 +33,6 @@ export default function Dropdown(props) {
     }
   `;
 
-  const arrow = css`
-  `;
-
   const dropDown = css`
     display: flex;
     flex-direction: column;
@@ -55,7 +52,7 @@ export default function Dropdown(props) {
     <div css={dropDownContainer}>
       <div css={userProfile} onClick={toggleDropdown}>
         <p>{dropDownName}</p>
-        <ArrowDropDownIcon css={arrow} />
+        <ArrowDropDownIcon/>
       </div>
       {showDropDown ? <div css={dropDown}> {children} </div> : null}
     </div>

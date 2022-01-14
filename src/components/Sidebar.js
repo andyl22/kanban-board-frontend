@@ -36,7 +36,6 @@ export default function Sidebar(props) {
   const sidebar = css`
     flex: 0;
     display: flex;
-    position: relative;
     padding: 1em;
     flex-direction: column;
     align-items: flex-start;
@@ -45,7 +44,9 @@ export default function Sidebar(props) {
     box-shadow: 0px 5px 5px gray;
     overflow: auto;
     animation: ${rolloutX} 0.1s ease-in;
-    h1, a, button {
+    h1,
+    a,
+    button {
       animation: ${textoutX} 0.1s ease-in;
     }
     h1 {
@@ -54,7 +55,7 @@ export default function Sidebar(props) {
     a {
       font-size: 0.8em;
     }
-    &::-webkit-scrollbar { 
+    &::-webkit-scrollbar {
       border-bottom-right-radius: 2em;
     }
     &::-webkit-scrollbar-thumb {
@@ -68,22 +69,20 @@ export default function Sidebar(props) {
     }
   `;
 
-  const arrow = css`
-    color: ${colors.iconColor};
-    position: absolute;
-    right: 0.5em;
-    &:hover {
-      cursor: pointer;
-      color: ${colors.iconHoverColor};
-    }
-  `;
+  const sidebarHeader = css`
+    display: flex;
+    justify-content: space-between;
+    gap: .8em;
+  `
 
   if (showSidebar) {
     return (
       <section css={sidebar}>
-        <h1>{title}</h1>
+        <div css={sidebarHeader} >
+          <h1>{title}</h1>
+          <ArrowBackIcon onClick={toggleSidebar} />
+        </div>
         {children}
-        <ArrowBackIcon onClick={toggleSidebar} css={arrow} />
       </section>
     );
   }
