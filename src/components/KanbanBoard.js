@@ -40,13 +40,14 @@ export default function KanbanBoard() {
       padding: 1em;
     }
     &::-webkit-scrollbar {
-      background: ${colors.contentBackground};
+      background: none;
     }
     &::-webkit-scrollbar-track {
     }
     &::-webkit-scrollbar-thumb {
       background: #ffb62f;
       border: 4px solid ${colors.contentBackground};
+      padding: 0 2em;
       background-clip: padding-box;
       border-radius: 0.5em;
     }

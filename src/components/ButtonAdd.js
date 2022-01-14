@@ -10,6 +10,7 @@ export default function buttonAdd(props) {
   const button = css`
     background: none;
     border: none;
+    height: fit-content;
   `;
 
   return (

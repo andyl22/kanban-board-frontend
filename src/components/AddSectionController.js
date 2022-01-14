@@ -10,6 +10,11 @@ export default function AddSectionController(props) {
   const [showForm, setShowForm] = useState(false);
   const { addSection } = props;
 
+  const addSectionButton = css`
+    background: none;
+    padding: 1.5em;
+  `;
+
   const toggleForm = () => {
     setShowForm(!showForm);
   };
@@ -17,6 +22,8 @@ export default function AddSectionController(props) {
   return showForm ? (
     <FormCreateSection toggleForm={toggleForm} addSection={addSection} />
   ) : (
-    <ButtonAdd onClickAction={toggleForm} />
+    <div css={addSectionButton}>
+      <ButtonAdd onClickAction={toggleForm} />
+    </div>
   );
 }

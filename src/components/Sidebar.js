@@ -43,6 +43,7 @@ export default function Sidebar(props) {
     background: ${colors.sideBarBackground};
     box-shadow: 0px 5px 5px gray;
     overflow: auto;
+    border-right: 1px solid gray;
     animation: ${rolloutX} 0.1s ease-in;
     h1,
     a,
@@ -60,7 +61,7 @@ export default function Sidebar(props) {
     }
     &::-webkit-scrollbar-thumb {
       background: #ffb62f;
-      border: 4px solid ${colors.sideBarBackground};
+      border: 6px solid ${colors.sideBarBackground};
       border-radius: 2em;
     }
     @media (max-width: 720px) {
