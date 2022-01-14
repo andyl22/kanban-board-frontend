@@ -2,11 +2,14 @@
 /** @jsx jsx */
 
 import { css, jsx, keyframes } from "@emotion/react";
-import KanbanItem from "./KanbanItem";
-import AddSectionController from "./AddSectionItemController";
+import { useState, useEffect } from "react";
+import SectionItem from "./SectionItem";
+import AddSectionItemController from "./AddSectionItemController";
+import { postHTTP } from "../utilities/fetchAPIs";
 
 export default function Section(props) {
-  const { name, color } = props;
+  const { name, id, color } = props;
+  const [sectionItems, setSectionItems] = useState([]);
   const breakpoints = [475, 720];
   const mq = breakpoints.map((bp) => `@media (max-width: ${bp}px)`);
 
@@ -30,7 +33,7 @@ export default function Section(props) {
     text-align: center;
     border-radius: 1em;
     background: white;
-    animation: ${rolloutY} .4s ease-in;
+    animation: ${rolloutY} 0.4s ease-in;
     &:-moz-drag-over {
       outline: 1px solid black;
     }
@@ -45,7 +48,7 @@ export default function Section(props) {
     }
   `;
 
-  const kanbanItemsContainer = css`
+  const sectionItemsContainer = css`
     display: flex;
     justify-content: center;
     align-items: flex-start;
@@ -53,8 +56,8 @@ export default function Section(props) {
     min-width: 200px;
     ${mq[1]} {
       width: 100%;
-      padding: .8em .4em;
-      gap: .4em;
+      padding: 0.8em 0.4em;
+      gap: 0.4em;
     }
     height: fit-content;
     padding: 1em 1em;
@@ -62,26 +65,32 @@ export default function Section(props) {
     gap: 15px;
   `;
 
-  // Implement API to fetch kanban items by section id
-  const kanbanItems = [
-  ];
+  const addSectionItem = (sectionItem) => {
+    setSectionItems([...sectionItems, sectionItem]);
+  };
 
-  const mappedKanbanItems = kanbanItems.map((item) => (
-    <KanbanItem
-      taskName={item.taskName}
+  useEffect(() => {
+    postHTTP("/sectionItem/sectionItemsBySectionID", { sectionID: id })
+      .then((res) => setSectionItems(res.sections))
+      .catch((err) => console.log(err));
+  }, [id]);
+
+  const mappedSectionItems = sectionItems.map((item) => (
+    <SectionItem
+      name={item.name}
       description={item.description}
-      date={item.date}
-      id={item.id}
-      key={item.id}
+      dateOfCreation={item.date_of_creation}
+      id={item._id}
+      key={item._id}
     />
   ));
 
   return (
-    <section id={name} css={section}>
+    <section id={id} css={section}>
       <h1>{name}</h1>
-      <div css={kanbanItemsContainer}>
-        {mappedKanbanItems}
-        <AddSectionController />
+      <div css={sectionItemsContainer}>
+        {mappedSectionItems}
+        <AddSectionItemController addSectionItem={addSectionItem} />
       </div>
     </section>
   );

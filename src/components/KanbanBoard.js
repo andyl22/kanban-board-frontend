@@ -80,6 +80,7 @@ export default function KanbanBoard() {
   }, [id]);
 
   useEffect(() => {
+    console.log(sections);
     if (sections) {
       setMappedSections(
         sections.map((section) => (

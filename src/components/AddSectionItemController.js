@@ -6,7 +6,8 @@ import { useState } from 'react';
 import ButtonAdd from "./ButtonAdd";
 import FormCreateSectionItem from "./FormCreateSectionItem";
 
-export default function AddSectionController() {
+export default function AddSectionController(props) {
+  const { addSectionItem } = props;
   const [ showForm, setShowForm ] = useState(false);
 
   const toggleForm = () => {
