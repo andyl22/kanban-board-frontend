@@ -72,15 +72,22 @@ export default function Sidebar(props) {
   const sidebarHeader = css`
     display: flex;
     justify-content: space-between;
+    width: 100%;
     gap: .8em;
   `
+
+  const arrowBack = css`
+  &:hover {
+    cursor: pointer;
+  }
+`
 
   if (showSidebar) {
     return (
       <section css={sidebar}>
         <div css={sidebarHeader} >
           <h1>{title}</h1>
-          <ArrowBackIcon onClick={toggleSidebar} />
+          <ArrowBackIcon onClick={toggleSidebar}  css={arrowBack}/>
         </div>
         {children}
       </section>
