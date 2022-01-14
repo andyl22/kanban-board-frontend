@@ -38,7 +38,7 @@ export default function FormCreateProject(props) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     postHTTP("/projects/createProject", formState)
-      .then(res => addProject(res.project))
+      .then((res) => addProject(res.project))
       .catch((err) => console.log(err));
     toggleForm();
   };

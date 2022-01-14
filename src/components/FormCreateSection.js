@@ -5,26 +5,29 @@ import { css, jsx } from "@emotion/react";
 import React, { useState, useRef, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 import Form from "./Form";
-import CancelIcon from '@mui/icons-material/Cancel';
+import CancelIcon from "@mui/icons-material/Cancel";
 import { ThemeContext } from "../context/ThemeProvider";
 import { postHTTP } from "../utilities/fetchAPIs";
 
 export default function FormCreateProject(props) {
   const { toggleForm, addSection } = props;
   const { id } = useParams();
-  const [formState, setFormState] = useState({projectID: id, sectionName: ""});
+  const [formState, setFormState] = useState({
+    projectID: id,
+    sectionName: "",
+  });
   const inputRef = useRef();
   const { colors } = useContext(ThemeContext);
 
   const container = css`
     display: flex;
-    padding: .5em 1em;
-    gap: .5em;
-    border-radius: .5em;
+    padding: 0.5em 1em;
+    gap: 0.5em;
+    border-radius: 0.5em;
     align-items: center;
     height: fit-content;
     width: fit-content;
-    background: #F2F2F2;
+    background: #f2f2f2;
   `;
 
   const closeButton = css`
@@ -41,7 +44,7 @@ export default function FormCreateProject(props) {
   const handleSubmit = (e) => {
     e.preventDefault();
     postHTTP("/projectSection/createSection", formState)
-      .then(res => addSection(res.section))
+      .then((res) => addSection(res.section))
       .then(toggleForm())
       .catch((err) => console.log(err));
   };
@@ -69,7 +72,7 @@ export default function FormCreateProject(props) {
           ref={inputRef}
         />
       </Form>
-      <CancelIcon css={closeButton} onClick={toggleForm}/>
+      <CancelIcon css={closeButton} onClick={toggleForm} />
     </div>
   );
 }

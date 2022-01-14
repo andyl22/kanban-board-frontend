@@ -8,7 +8,7 @@ import AddSectionItemController from "./AddSectionItemController";
 import { postHTTP } from "../utilities/fetchAPIs";
 
 export default function Section(props) {
-  const { name, id, color } = props;
+  const { name, sectionID, color } = props;
   const [sectionItems, setSectionItems] = useState([]);
   const breakpoints = [475, 720];
   const mq = breakpoints.map((bp) => `@media (max-width: ${bp}px)`);
@@ -70,10 +70,10 @@ export default function Section(props) {
   };
 
   useEffect(() => {
-    postHTTP("/sectionItem/sectionItemsBySectionID", { sectionID: id })
+    postHTTP("/sectionItem/sectionItemsBySectionID", { sectionID: sectionID })
       .then((res) => setSectionItems(res.sections))
       .catch((err) => console.log(err));
-  }, [id]);
+  }, [sectionID]);
 
   const mappedSectionItems = sectionItems.map((item) => (
     <SectionItem
@@ -86,11 +86,11 @@ export default function Section(props) {
   ));
 
   return (
-    <section id={id} css={section}>
+    <section id={sectionID} css={section}>
       <h1>{name}</h1>
       <div css={sectionItemsContainer}>
         {mappedSectionItems}
-        <AddSectionItemController addSectionItem={addSectionItem} />
+        <AddSectionItemController addSectionItem={addSectionItem} sectionID={sectionID}/>
       </div>
     </section>
   );

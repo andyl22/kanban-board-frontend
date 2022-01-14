@@ -10,11 +10,12 @@ import { ThemeContext } from "../context/ThemeProvider";
 import { postHTTP } from "../utilities/fetchAPIs";
 
 export default function FormCreateSectionItem(props) {
-  const { toggleForm, addSectionItem } = props;
+  const { toggleForm, addSectionItem, sectionID } = props;
   const { id } = useParams();
   const [formState, setFormState] = useState({
     projectID: id,
-    sectionName: "",
+    sectionID: sectionID,
+    dateOfCreation: (new Date()).toISOString(),
   });
   const inputRef = useRef();
   const { colors } = useContext(ThemeContext);
@@ -44,33 +45,38 @@ export default function FormCreateSectionItem(props) {
   const handleSubmit = (e) => {
     e.preventDefault();
     postHTTP("/sectionItem/createSectionItem", formState)
-      .then((res) => addSectionItem(res.section))
+      .then((res) => addSectionItem(res.sectionItem))
       .then(toggleForm())
       .catch((err) => console.log(err));
   };
 
   const handleKeyDown = (e) => {
-    if (e.code === "Escape") {
-      toggleForm();
-    }
-  };
+    console.log(e);
+  }
 
   useEffect(() => {
     inputRef.current.focus();
-  });
+  }, []);
 
   return (
     <div css={container}>
       <Form handleSubmit={handleSubmit}>
         <input
           type="text"
-          placeholder="Section Name"
-          value={formState.sectionName}
-          id="sectionName"
+          placeholder="Item Name"
+          value={formState.itemName || ""}
+          id="itemName"
           onChange={handleChange}
-          onKeyDown={handleKeyDown}
           ref={inputRef}
         />
+        <input
+          type="text"
+          placeholder="Item Description"
+          value={formState.itemDescription || ""}
+          id="itemDescription"
+          onChange={handleChange}
+        />
+        <input type="submit" />
       </Form>
       <CancelIcon css={closeButton} onClick={toggleForm} />
     </div>
