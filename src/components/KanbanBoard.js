@@ -108,7 +108,7 @@ export default function KanbanBoard() {
       <div css={boardContainer}>
         {(currentUser) ? <SidebarProject currentUser={currentUser}/> : null}
         <section css={sectionsContainer} ref={sectionRef}>
-          {mappedSections}
+          { (currentUser) ? mappedSections : null }
           {conditionalRenderingLogic}
         </section>
       </div>
