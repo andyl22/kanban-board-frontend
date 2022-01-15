@@ -26,7 +26,6 @@ export default function SectionItem(props) {
       font-size: 0.8em;
     }
     &:active {
-      cursor: grab;
       border: 2px dashed red;
     }
   `;

@@ -12,6 +12,7 @@ import { DragDropContext, Droppable } from "react-beautiful-dnd";
 export default function Section(props) {
   const { name, sectionID, color } = props;
   const [sectionItems, setSectionItems] = useState([]);
+  const [ mappedSectionItems, setMappedSectionItems ] = useState([]);
   const { colors, mq } = useContext(ThemeContext);
 
   const rolloutY = keyframes`
@@ -71,16 +72,39 @@ export default function Section(props) {
       .catch((err) => console.log(err));
   }, [sectionID]);
 
-  const mappedSectionItems = sectionItems.map((item, index) => (
-    <SectionItem item={item} key={item._id} index={index} id={item._id} />
-  ));
-
   const handleDragStart = () => {};
 
   const handleDragUpdate = () => {};
 
-  const handleDragEnd = () => {};
-  
+  const handleDragEnd = (result) => {
+    const { destination, source, draggableId } = result;
+    if (!destination) {
+      return;
+    }
+
+    if (
+      destination.droppableId === source.droppableId &&
+      destination.index === source.index
+    ) {
+      return;
+    }
+
+    const newSectionItems = [...sectionItems];
+    newSectionItems.splice(source.index, 1);
+    newSectionItems.splice(
+      destination.index,
+      0,
+      sectionItems.filter((item) => item._id === draggableId)[0]
+    );
+    setSectionItems(newSectionItems);
+  };
+
+  useEffect(() => {
+    setMappedSectionItems(sectionItems.map((item, index) => (
+      <SectionItem item={item} key={item._id} index={index} id={item._id} />
+    )));
+  }, [sectionItems]);
+
   return (
     <DragDropContext
       onDragStart={handleDragStart}
@@ -97,14 +121,14 @@ export default function Section(props) {
               css={sectionItemsContainer}
             >
               {mappedSectionItems}
-              <AddSectionItemController
-                addSectionItem={addSectionItem}
-                sectionID={sectionID}
-              />
               {provided.placeholder}
             </div>
           )}
         </Droppable>
+        <AddSectionItemController
+          addSectionItem={addSectionItem}
+          sectionID={sectionID}
+        />
       </section>
     </DragDropContext>
   );
