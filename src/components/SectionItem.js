@@ -6,7 +6,7 @@ import { useState } from "react";
 
 export default function SectionItem(props) {
   const [originalLocation, setOriginalLocation] = useState(null);
-  const { name, description, dateOfCreation, id } = props;
+  const { item } = props;
   const [dragging, setDragging] = useState(false);
   const breakpoints = [475, 720];
   const mq = breakpoints.map((bp) => `@media (max-width: ${bp}px)`);
@@ -16,14 +16,14 @@ export default function SectionItem(props) {
     flex-direction: column;
     align-items: center;
     height: fit-content;
-    margin-bottom: 1em;
+    padding-bottom: 1em;
     width: 100%;
     ${mq[1]} {
       width: 70%;
       font-size: 0.8em;
     }
     &:first-of-type {
-      margin-top: 2em;
+      padding-top: 2em;
     }
   `;
 
@@ -42,15 +42,16 @@ export default function SectionItem(props) {
 
   const pointerEventsNone = css`
     pointer-events: none;
-  `
+  `;
 
   const openEdit = (e) => {
-    console.log(e);
-  }
+    console.log(item);
+  };
 
   const handleDragStart = (e) => {
+    setDragging(true);
     e.dataTransfer.setDragImage(new Image(), 0, 0);
-    e.dataTransfer.setData("text/plain", [name, description, dateOfCreation]);
+    e.dataTransfer.setData("text/plain", JSON.stringify(item));
     const targetDimensions = e.target.getBoundingClientRect();
     setOriginalLocation({
       X: targetDimensions.left - 20,
@@ -62,7 +63,6 @@ export default function SectionItem(props) {
     e.target.style.transform = `translate(${
       e.clientX - originalLocation.X
     }px, ${e.clientY - originalLocation.Y}px)`;
-    if (!dragging) setDragging(true);
   };
 
   const handleDragEnd = (e) => {
@@ -70,8 +70,13 @@ export default function SectionItem(props) {
     setDragging(false);
   };
 
+
+  if(item==={}) {
+    console.log("test")
+  }
+
   return (
-    <div css={SectionItemContainer} id={id}>
+    <div css={SectionItemContainer} id={item._id}>
       <div
         css={SectionItem}
         draggable="true"
@@ -80,9 +85,9 @@ export default function SectionItem(props) {
         onDrag={handleDragging}
         onDragEnd={handleDragEnd}
       >
-        <h2 css={dragging ? pointerEventsNone : null}>{name}</h2>
-        <p css={dragging ? pointerEventsNone : null}>{description}</p>
-        <p css={dragging ? pointerEventsNone : null}>{dateOfCreation}</p>
+        <h2 css={pointerEventsNone}>{item.name}</h2>
+        <p css={pointerEventsNone}>{item.description}</p>
+        <p css={pointerEventsNone}>{item.date_of_creation}</p>
       </div>
     </div>
   );

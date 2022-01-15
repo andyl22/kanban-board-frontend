@@ -64,12 +64,24 @@ export default function Section(props) {
 
   const handleDragOver = (e) => {
     e.dataTransfer.effectAllowed = "move";
-    console.log(e.target);
     e.preventDefault();
   };
 
+  const handleDragEnter = (e) => {
+
+  };
+
   const handleDrop = (e) => {
-    console.log(e.target);
+    const item = JSON.parse(e.dataTransfer.getData("text/plain"));
+    console.log([item])
+    if(e.target.draggable) {
+      const sectionContainer = e.target.parentNode;
+      const insertIndex = sectionItems.map(item => item._id).indexOf(sectionContainer.id);
+      const splitOne = sectionItems.slice(0, insertIndex);
+      const splitTwo = sectionItems.slice(insertIndex);
+      console.log([...splitOne, [item], ...splitTwo]);
+      setSectionItems([...splitOne, ...[item], ...splitTwo])
+    }
   };
 
   useEffect(() => {
@@ -79,13 +91,7 @@ export default function Section(props) {
   }, [sectionID]);
 
   const mappedSectionItems = sectionItems.map((item) => (
-    <SectionItem
-      name={item.name}
-      description={item.description}
-      dateOfCreation={item.date_of_creation}
-      id={item._id}
-      key={item._id}
-    />
+    <SectionItem item={item} key={item._id || "dummy"}/>
   ));
 
   return (
@@ -94,6 +100,7 @@ export default function Section(props) {
       <div
         css={sectionItemsContainer}
         onDragOver={handleDragOver}
+        onDragEnter={handleDragEnter}
         onDrop={handleDrop}
       >
         {mappedSectionItems}
