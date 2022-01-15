@@ -7,6 +7,7 @@ import SectionItem from "./SectionItem";
 import AddSectionItemController from "./AddSectionItemController";
 import { ThemeContext } from "../context/ThemeProvider";
 import { postHTTP } from "../utilities/fetchAPIs";
+import { DragDropContext, Droppable } from "react-beautiful-dnd";
 
 export default function Section(props) {
   const { name, sectionID, color } = props;
@@ -31,6 +32,7 @@ export default function Section(props) {
     text-align: center;
     border-radius: 1em;
     background: white;
+    gap: 2em;
     box-shadow: -1px 3px 5px ${colors.shadowColor};
     animation: ${rolloutY} 0.2s ease-in;
     &:-moz-drag-over {
@@ -49,6 +51,7 @@ export default function Section(props) {
   const sectionItemsContainer = css`
     display: flex;
     flex-direction: column;
+    align-items: center;
     width: 280px;
     min-width: 200px;
     ${mq[1]} {
@@ -62,53 +65,47 @@ export default function Section(props) {
     setSectionItems([...sectionItems, sectionItem]);
   };
 
-  const handleDragOver = (e) => {
-    e.dataTransfer.effectAllowed = "move";
-    e.preventDefault();
-  };
-
-  const handleDragEnter = (e) => {
-
-  };
-
-  const handleDrop = (e) => {
-    const item = JSON.parse(e.dataTransfer.getData("text/plain"));
-    console.log([item])
-    if(e.target.draggable) {
-      const sectionContainer = e.target.parentNode;
-      const insertIndex = sectionItems.map(item => item._id).indexOf(sectionContainer.id);
-      const splitOne = sectionItems.slice(0, insertIndex);
-      const splitTwo = sectionItems.slice(insertIndex);
-      console.log([...splitOne, [item], ...splitTwo]);
-      setSectionItems([...splitOne, ...[item], ...splitTwo])
-    }
-  };
-
   useEffect(() => {
     postHTTP("/sectionItem/sectionItemsBySectionID", { sectionID: sectionID })
       .then((res) => setSectionItems(res.sections))
       .catch((err) => console.log(err));
   }, [sectionID]);
 
-  const mappedSectionItems = sectionItems.map((item) => (
-    <SectionItem item={item} key={item._id || "dummy"}/>
+  const mappedSectionItems = sectionItems.map((item, index) => (
+    <SectionItem item={item} key={item._id} index={index} id={item._id} />
   ));
 
+  const handleDragStart = () => {};
+
+  const handleDragUpdate = () => {};
+
+  const handleDragEnd = () => {};
+  
   return (
-    <section id={sectionID} css={section}>
-      <h1>{name}</h1>
-      <div
-        css={sectionItemsContainer}
-        onDragOver={handleDragOver}
-        onDragEnter={handleDragEnter}
-        onDrop={handleDrop}
-      >
-        {mappedSectionItems}
-        <AddSectionItemController
-          addSectionItem={addSectionItem}
-          sectionID={sectionID}
-        />
-      </div>
-    </section>
+    <DragDropContext
+      onDragStart={handleDragStart}
+      onDragUpdate={handleDragUpdate}
+      onDragEnd={handleDragEnd}
+    >
+      <section id={sectionID} css={section}>
+        <h1>{name}</h1>
+        <Droppable droppableId={props.sectionID}>
+          {(provided) => (
+            <div
+              ref={provided.innerRef}
+              {...provided.droppableProps}
+              css={sectionItemsContainer}
+            >
+              {mappedSectionItems}
+              <AddSectionItemController
+                addSectionItem={addSectionItem}
+                sectionID={sectionID}
+              />
+              {provided.placeholder}
+            </div>
+          )}
+        </Droppable>
+      </section>
+    </DragDropContext>
   );
 }
