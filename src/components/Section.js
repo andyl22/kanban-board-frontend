@@ -29,6 +29,7 @@ export default function Section(props) {
   const section = css`
     display: flex;
     flex-direction: column;
+    align-items: center;
     height: fit-content;
     text-align: center;
     border-radius: 1em;
@@ -39,6 +40,7 @@ export default function Section(props) {
       outline: 1px solid black;
     }
     h1 {
+      width: 100%;
       padding: 1em;
       background: ${color || "#ffce1c"};
       border-bottom: 2px solid black;

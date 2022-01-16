@@ -27,6 +27,9 @@ export default function SectionItem(props) {
       ${mq[1]} {
         font-size: 0.8em;
       }
+      h2, p {
+        color: black;
+      }
     `;
   };
 
