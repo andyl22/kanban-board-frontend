@@ -10,9 +10,9 @@ import { postHTTP } from "../utilities/fetchAPIs";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 
 export default function Section(props) {
-  const { name, sectionID, color } = props;
+  const { name, sectionDetails, color } = props;
   const [sectionItems, setSectionItems] = useState([]);
-  const [ mappedSectionItems, setMappedSectionItems ] = useState([]);
+  const [mappedSectionItems, setMappedSectionItems] = useState([]);
   const { colors, mq } = useContext(ThemeContext);
 
   const rolloutY = keyframes`
@@ -33,8 +33,7 @@ export default function Section(props) {
     text-align: center;
     border-radius: 1em;
     background: white;
-    gap: 2em;
-    box-shadow: -1px 3px 5px ${colors.shadowColor};
+    box-shadow: -3px 10px 30px ${colors.shadowColor};
     animation: ${rolloutY} 0.2s ease-in;
     &:-moz-drag-over {
       outline: 1px solid black;
@@ -49,12 +48,14 @@ export default function Section(props) {
     }
   `;
 
-  const sectionItemsContainer = css`
+  const sectionItemsContainer = snapshot => css`
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding: 2em 0;
     width: 280px;
     min-width: 200px;
+    background: ${snapshot.isDraggingOver ? "#f2f2f2" : "white"};
     ${mq[1]} {
       width: 100%;
       padding: 0.8em 0.4em;
@@ -67,10 +68,12 @@ export default function Section(props) {
   };
 
   useEffect(() => {
-    postHTTP("/sectionItem/sectionItemsBySectionID", { sectionID: sectionID })
+    postHTTP("/sectionItem/sectionItemsBySectionID", {
+      sectionID: sectionDetails._id,
+    })
       .then((res) => setSectionItems(res.sections))
       .catch((err) => console.log(err));
-  }, [sectionID]);
+  }, [sectionDetails._id]);
 
   const handleDragStart = () => {};
 
@@ -100,9 +103,11 @@ export default function Section(props) {
   };
 
   useEffect(() => {
-    setMappedSectionItems(sectionItems.map((item, index) => (
-      <SectionItem item={item} key={item._id} index={index} id={item._id} />
-    )));
+    setMappedSectionItems(
+      sectionItems.map((item, index) => (
+        <SectionItem item={item} key={item._id} index={index} id={item._id} />
+      ))
+    );
   }, [sectionItems]);
 
   return (
@@ -111,14 +116,14 @@ export default function Section(props) {
       onDragUpdate={handleDragUpdate}
       onDragEnd={handleDragEnd}
     >
-      <section id={sectionID} css={section}>
+      <section id={sectionDetails._id} css={section}>
         <h1>{name}</h1>
-        <Droppable droppableId={props.sectionID}>
-          {(provided) => (
+        <Droppable droppableId={sectionDetails._id}>
+          {(provided, snapshot) => (
             <div
               ref={provided.innerRef}
               {...provided.droppableProps}
-              css={sectionItemsContainer}
+              css={sectionItemsContainer(snapshot)}
             >
               {mappedSectionItems}
               {provided.placeholder}
@@ -127,7 +132,7 @@ export default function Section(props) {
         </Droppable>
         <AddSectionItemController
           addSectionItem={addSectionItem}
-          sectionID={sectionID}
+          sectionID={sectionDetails._id}
         />
       </section>
     </DragDropContext>

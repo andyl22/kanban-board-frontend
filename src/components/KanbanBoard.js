@@ -81,7 +81,7 @@ export default function KanbanBoard() {
     if (sections) {
       setMappedSections(
         sections.map((section) => (
-          <Section key={section._id} sectionID={section._id} name={section.name} />
+          <Section key={section._id} sectionDetails={section} name={section.name} />
         ))
       );
     }

@@ -10,34 +10,34 @@ export default function SectionItem(props) {
   const { item } = props;
   const { colors, mq } = useContext(ThemeContext);
 
-  const SectionItem = css`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    border: 2px solid #727272;
-    background: white;
-    padding: 1em;
-    min-height: 100px;
-    width: 80%;
-    border-radius: 1em;
-    margin-bottom: 1em;
-    ${mq[1]} {
-      font-size: 0.8em;
-    }
-    &:active {
-      border: 2px dashed red;
-    }
-  `;
+  const SectionItem = (snapshot) => {
+    return css`
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: white;
+      padding: 1em;
+      min-height: 100px;
+      width: 80%;
+      border-radius: 1em;
+      margin-bottom: 1em;
+      background: white;
+      border: ${snapshot.isDragging ? "2px dashed red" : "2px solid #727272"};
+      ${mq[1]} {
+        font-size: 0.8em;
+      }
+    `;
+  };
 
   return (
     <Draggable draggableId={props.id} index={props.index}>
-      {(provided) => (
+      {(provided, snapshot) => (
         <div
-          ref={provided.innerRef}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
-          css={SectionItem}
+          css={SectionItem(snapshot)}
+          ref={provided.innerRef}
         >
           <h2>{item.name}</h2>
           <p>{item.description}</p>
