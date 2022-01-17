@@ -10,12 +10,14 @@ import SidebarProject from "./SidebarProject";
 import { ThemeContext } from "../context/ThemeProvider";
 import { UserContext } from "../context/UserProvider";
 import { postHTTP } from "../utilities/fetchAPIs";
+import { DragDropContext } from "react-beautiful-dnd";
 
 export default function KanbanBoard() {
   const { colors, mq } = useContext(ThemeContext);
   const { currentUser } = useContext(UserContext);
   const [sections, setSections] = useState(null);
   const [mappedSections, setMappedSections] = useState(null);
+  const [dragResult, setDragResult] = useState(null);
   const [error, setError] = useState();
   const { id } = useParams();
   const sectionRef = useRef();
@@ -39,13 +41,14 @@ export default function KanbanBoard() {
     &::-webkit-scrollbar {
       background: none;
     }
-    &::-webkit-scrollbar-track {
+    &::-webkit-scrollbar-corner {
+      background-color: rgba(0, 0, 0, 0);
     }
     &::-webkit-scrollbar-thumb {
       background: ${colors.scrollbar};
       border: 4px solid ${colors.contentBackground};
       padding: 0 2em;
-      background-clip: padding-box;
+      background-clip: content-box;
       border-radius: 0.5em;
     }
   `;
@@ -77,21 +80,43 @@ export default function KanbanBoard() {
   }, [id]);
 
   useEffect(() => {
-    console.log(sections);
     if (sections) {
       setMappedSections(
         sections.map((section) => (
-          <Section key={section._id} sectionDetails={section} name={section.name} />
+          <Section
+            key={section._id}
+            sectionDetails={section}
+            name={section.name}
+            dragResult={dragResult}
+          />
         ))
       );
     }
 
     sectionRef.current.scrollTo(0, 0);
-  }, [sections]);
+  }, [sections, dragResult]);
+
+  const handleDragEnd = (result) => {
+    const { destination, source } = result;
+    if (!destination) {
+      return;
+    }
+
+    if (
+      destination.droppableId === source.droppableId &&
+      destination.index === source.index
+    ) {
+      return;
+    }
+
+    setDragResult(result);
+  };
 
   const conditionalRenderingLogic = (function () {
     if (!currentUser) {
-      return <p css={notLoggedInError}>Please sign in to access your projects.</p>;
+      return (
+        <p css={notLoggedInError}>Please sign in to access your projects.</p>
+      );
     } else if (error) {
       return <p>Not able to load project details. Try again later.</p>;
     } else if (!id) {
@@ -104,11 +129,13 @@ export default function KanbanBoard() {
   return (
     <>
       <div css={boardContainer}>
-        {(currentUser) ? <SidebarProject currentUser={currentUser}/> : null}
-        <section css={sectionsContainer} ref={sectionRef}>
-          { (currentUser) ? mappedSections : null }
-          {conditionalRenderingLogic}
-        </section>
+        {currentUser ? <SidebarProject currentUser={currentUser} /> : null}
+        <DragDropContext onDragEnd={handleDragEnd}>
+          <section css={sectionsContainer} ref={sectionRef}>
+            {currentUser ? mappedSections : null}
+            {conditionalRenderingLogic}
+          </section>
+        </DragDropContext>
       </div>
     </>
   );

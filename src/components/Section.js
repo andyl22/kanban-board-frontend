@@ -7,10 +7,10 @@ import SectionItem from "./SectionItem";
 import AddSectionItemController from "./AddSectionItemController";
 import { ThemeContext } from "../context/ThemeProvider";
 import { postHTTP } from "../utilities/fetchAPIs";
-import { DragDropContext, Droppable } from "react-beautiful-dnd";
+import { Droppable } from "react-beautiful-dnd";
 
 export default function Section(props) {
-  const { name, sectionDetails, color } = props;
+  const { name, sectionDetails, color, dragResult } = props;
   const [sectionItems, setSectionItems] = useState([]);
   const [mappedSectionItems, setMappedSectionItems] = useState([]);
   const { colors, mq } = useContext(ThemeContext);
@@ -34,7 +34,7 @@ export default function Section(props) {
     text-align: center;
     border-radius: 1em;
     background: white;
-    box-shadow: -3px 10px 30px ${colors.shadowColor};
+    box-shadow: -3px 10px 10px ${colors.shadowColor};
     animation: ${rolloutY} 0.2s ease-in;
     &:-moz-drag-over {
       outline: 1px solid black;
@@ -43,21 +43,21 @@ export default function Section(props) {
       width: 100%;
       padding: 1em;
       background: ${color || "#ffce1c"};
-      border-bottom: 2px solid black;
+      border-bottom: 2px solid #727272;
       border-top-right-radius: inherit;
       border-top-left-radius: inherit;
       color: black !important;
     }
   `;
 
-  const sectionItemsContainer = snapshot => css`
+  const sectionItemsContainer = (snapshot) => css`
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 2em 0;
     width: 280px;
     min-width: 200px;
-    background: ${snapshot.isDraggingOver ? "#f2f2f2" : "white"};
+    padding-top: 2em;
+    background: ${snapshot.isDraggingOver ? "#c0e4ff" : "white"};
     ${mq[1]} {
       width: 100%;
       padding: 0.8em 0.4em;
@@ -77,66 +77,38 @@ export default function Section(props) {
       .catch((err) => console.log(err));
   }, [sectionDetails._id]);
 
-  const handleDragStart = () => {};
-
-  const handleDragUpdate = () => {};
-
-  const handleDragEnd = (result) => {
-    const { destination, source, draggableId } = result;
-    if (!destination) {
-      return;
-    }
-
-    if (
-      destination.droppableId === source.droppableId &&
-      destination.index === source.index
-    ) {
-      return;
-    }
-
-    const newSectionItems = [...sectionItems];
-    newSectionItems.splice(source.index, 1);
-    newSectionItems.splice(
-      destination.index,
-      0,
-      sectionItems.filter((item) => item._id === draggableId)[0]
-    );
-    setSectionItems(newSectionItems);
-  };
-
   useEffect(() => {
+    if (dragResult) {
+      if (dragResult.destination.droppableId === sectionDetails._id) {
+        console.log(dragResult);
+      }
+    }
     setMappedSectionItems(
       sectionItems.map((item, index) => (
         <SectionItem item={item} key={item._id} index={index} id={item._id} />
       ))
     );
-  }, [sectionItems]);
+  }, [sectionItems, dragResult]);
 
   return (
-    <DragDropContext
-      onDragStart={handleDragStart}
-      onDragUpdate={handleDragUpdate}
-      onDragEnd={handleDragEnd}
-    >
-      <section id={sectionDetails._id} css={section}>
-        <h1>{name}</h1>
-        <Droppable droppableId={sectionDetails._id}>
-          {(provided, snapshot) => (
-            <div
-              ref={provided.innerRef}
-              {...provided.droppableProps}
-              css={sectionItemsContainer(snapshot)}
-            >
-              {mappedSectionItems}
-              {provided.placeholder}
-            </div>
-          )}
-        </Droppable>
-        <AddSectionItemController
-          addSectionItem={addSectionItem}
-          sectionID={sectionDetails._id}
-        />
-      </section>
-    </DragDropContext>
+    <section id={sectionDetails._id} css={section}>
+      <h1>{name}</h1>
+      <Droppable droppableId={sectionDetails._id}>
+        {(provided, snapshot) => (
+          <div
+            ref={provided.innerRef}
+            {...provided.droppableProps}
+            css={sectionItemsContainer(snapshot)}
+          >
+            {mappedSectionItems}
+            {provided.placeholder}
+          </div>
+        )}
+      </Droppable>
+      <AddSectionItemController
+        addSectionItem={addSectionItem}
+        sectionID={sectionDetails._id}
+      />
+    </section>
   );
 }
