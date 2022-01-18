@@ -12,6 +12,7 @@ export default function Section(props) {
   const { sectionDetails, sectionItems } = props;
   const [mappedSectionItems, setMappedSectionItems] = useState(null);
   const { colors, mq } = useContext(ThemeContext);
+  const [loading, setLoading] = useState(false);
 
   const rolloutY = keyframes`
   0% {
@@ -65,13 +66,12 @@ export default function Section(props) {
 
   // map items of the section to SectionItem components
   useEffect(() => {
-    if (!sectionItems) return;
     setMappedSectionItems(
       sectionItems.map((item, index) => (
         <SectionItem item={item} key={item._id} index={index} id={item._id} />
       ))
     );
-  }, [sectionItems]);
+  }, [sectionItems, sectionDetails]);
 
   return (
     <section id={sectionDetails._id} css={section}>
