@@ -67,51 +67,65 @@ export default function KanbanBoard() {
     }
   `;
 
-  const addSection = (section) => {
-    setSections([...sections, section]);
-  };
-
+  // Fetch section metadata and items for the project
   useEffect(() => {
     if (id) {
-      postHTTP("/projectSection/sectionByProjectId", { id: id })
-        .then((res) => setSections(res.sections))
-        .catch((err) => setError("Could not retrieve project details."));
+      const getProjectDetails = async () => {
+        const sectionDetails = await postHTTP(
+          "/projectSection/sectionByProjectId",
+          { id: id }
+        )
+          .then((res) => res.sections)
+          .catch((err) => setError("Could not retrieve project details."));
+
+        const promises = sectionDetails.map((section) => {
+          return postHTTP("/sectionItem/sectionItemsBySectionID", {
+            sectionID: section._id,
+          });
+        });
+
+        Promise.all(promises).then((res) => {
+          sectionDetails.forEach(
+            (section, index) => (section.items = res[index].sections)
+          );
+          setSections(sectionDetails);
+        });
+      };
+
+      getProjectDetails();
     }
   }, [id]);
 
+  // Map the sections retrieved after fetching the raw data to Section components
   useEffect(() => {
-    if (sections) {
-      setMappedSections(
-        sections.map((section) => (
-          <Section
-            key={section._id}
-            sectionDetails={section}
-            name={section.name}
-            dragResult={dragResult}
-          />
-        ))
-      );
-    }
-
+    if (!sections) return;
+    setMappedSections(
+      sections.map((section) => (
+        <Section
+          sectionDetails={section}
+          sectionItems={section.items}
+          key={section._id}
+        />
+      ))
+    );
     sectionRef.current.scrollTo(0, 0);
-  }, [sections, dragResult]);
+  }, [sections]);
 
+  // Set the drag results for the DragDropContext if it is a valid drop
   const handleDragEnd = (result) => {
     const { destination, source } = result;
-    if (!destination) {
-      return;
-    }
+    if (!destination) return;
 
     if (
       destination.droppableId === source.droppableId &&
       destination.index === source.index
-    ) {
+    )
       return;
-    }
 
     setDragResult(result);
   };
 
+  // IIFE used to render elements based on whether the user is logged in, there is an active project, or if there is an error retrieving projects
   const conditionalRenderingLogic = (function () {
     if (!currentUser) {
       return (
@@ -122,7 +136,7 @@ export default function KanbanBoard() {
     } else if (!id) {
       return <p>Select a project in the dropdown menu.</p>;
     } else {
-      return <AddSectionController addSection={addSection} />;
+      return <AddSectionController />;
     }
   })();
 
@@ -132,7 +146,7 @@ export default function KanbanBoard() {
         {currentUser ? <SidebarProject currentUser={currentUser} /> : null}
         <DragDropContext onDragEnd={handleDragEnd}>
           <section css={sectionsContainer} ref={sectionRef}>
-            {currentUser ? mappedSections : null}
+            {mappedSections}
             {conditionalRenderingLogic}
           </section>
         </DragDropContext>

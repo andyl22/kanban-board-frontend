@@ -6,13 +6,11 @@ import { useState, useEffect, useContext } from "react";
 import SectionItem from "./SectionItem";
 import AddSectionItemController from "./AddSectionItemController";
 import { ThemeContext } from "../context/ThemeProvider";
-import { postHTTP } from "../utilities/fetchAPIs";
 import { Droppable } from "react-beautiful-dnd";
 
 export default function Section(props) {
-  const { name, sectionDetails, color, dragResult } = props;
-  const [sectionItems, setSectionItems] = useState([]);
-  const [mappedSectionItems, setMappedSectionItems] = useState([]);
+  const { sectionDetails, sectionItems } = props;
+  const [mappedSectionItems, setMappedSectionItems] = useState(null);
   const { colors, mq } = useContext(ThemeContext);
 
   const rolloutY = keyframes`
@@ -42,7 +40,7 @@ export default function Section(props) {
     h1 {
       width: 100%;
       padding: 1em;
-      background: ${color || "#ffce1c"};
+      background: #ffce1c;
       border-bottom: 2px solid #727272;
       border-top-right-radius: inherit;
       border-top-left-radius: inherit;
@@ -65,34 +63,19 @@ export default function Section(props) {
     }
   `;
 
-  const addSectionItem = (sectionItem) => {
-    setSectionItems([...sectionItems, sectionItem]);
-  };
-
+  // map items of the section to SectionItem components
   useEffect(() => {
-    postHTTP("/sectionItem/sectionItemsBySectionID", {
-      sectionID: sectionDetails._id,
-    })
-      .then((res) => setSectionItems(res.sections))
-      .catch((err) => console.log(err));
-  }, [sectionDetails._id]);
-
-  useEffect(() => {
-    if (dragResult) {
-      if (dragResult.destination.droppableId === sectionDetails._id) {
-        console.log(dragResult);
-      }
-    }
+    if (!sectionItems) return;
     setMappedSectionItems(
       sectionItems.map((item, index) => (
         <SectionItem item={item} key={item._id} index={index} id={item._id} />
       ))
     );
-  }, [sectionItems, dragResult]);
+  }, [sectionItems]);
 
   return (
     <section id={sectionDetails._id} css={section}>
-      <h1>{name}</h1>
+      <h1>{sectionDetails.name}</h1>
       <Droppable droppableId={sectionDetails._id}>
         {(provided, snapshot) => (
           <div
@@ -105,10 +88,7 @@ export default function Section(props) {
           </div>
         )}
       </Droppable>
-      <AddSectionItemController
-        addSectionItem={addSectionItem}
-        sectionID={sectionDetails._id}
-      />
+      <AddSectionItemController sectionID={sectionDetails._id} />
     </section>
   );
 }
