@@ -8,9 +8,11 @@ import Form from "./Form";
 import CancelIcon from "@mui/icons-material/Cancel";
 import { ThemeContext } from "../context/ThemeProvider";
 import { postHTTP } from "../utilities/fetchAPIs";
+import { SectionsContext } from "../context/SectionsProvider";
 
 export default function FormCreateSectionItem(props) {
-  const { toggleForm, addSectionItem, sectionID } = props;
+  const { dispatch } = useContext(SectionsContext);
+  const { toggleForm, sectionID } = props;
   const { id } = useParams();
   const [formState, setFormState] = useState({
     projectID: id,
@@ -46,7 +48,7 @@ export default function FormCreateSectionItem(props) {
   const handleSubmit = (e) => {
     e.preventDefault();
     postHTTP("/sectionItem/createSectionItem", formState)
-      .then((res) => addSectionItem(res.sectionItem))
+      .then((res) => dispatch({type:'ADDITEMS', item: res.sectionItem, sectionID: sectionID}))
       .then(toggleForm())
       .catch((err) => console.log(err));
   };

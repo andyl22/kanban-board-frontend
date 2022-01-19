@@ -7,7 +7,7 @@ import ButtonAdd from "./ButtonAdd";
 import FormCreateSectionItem from "./FormCreateSectionItem";
 
 export default function AddSectionController(props) {
-  const { addSectionItem, sectionID } = props;
+  const { sectionID } = props;
   const [showForm, setShowForm] = useState(false);
 
   const addSectionItemButtonContainer = css`
@@ -22,7 +22,6 @@ export default function AddSectionController(props) {
   return showForm ? (
     <FormCreateSectionItem
       toggleForm={toggleForm}
-      addSectionItem={addSectionItem}
       sectionID={sectionID}
     />
   ) : (

@@ -66,7 +66,6 @@ export default function FormCreateProject(props) {
           type="text"
           placeholder="Section Name"
           value={formState.sectionName}
-          id="sectionName"
           onChange={handleChange}
           onKeyDown={handleKeyDown}
           ref={inputRef}
