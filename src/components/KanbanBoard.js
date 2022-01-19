@@ -11,11 +11,12 @@ import { ThemeContext } from "../context/ThemeProvider";
 import { UserContext } from "../context/UserProvider";
 import { postHTTP } from "../utilities/fetchAPIs";
 import { DragDropContext } from "react-beautiful-dnd";
+import { SectionsContext } from "../context/SectionsProvider";
 
 export default function KanbanBoard() {
   const { colors, mq } = useContext(ThemeContext);
   const { currentUser } = useContext(UserContext);
-  const [sections, setSections] = useState(null);
+  const { sections, dispatch } = useContext(SectionsContext);
   const [loading, setLoading] = useState(false);
   const [mappedSections, setMappedSections] = useState(null);
   const [error, setError] = useState();
@@ -72,6 +73,7 @@ export default function KanbanBoard() {
     if (id) {
       const getProjectDetails = async () => {
         setLoading(true);
+
         const sectionDetails = await postHTTP(
           "/projectSection/sectionByProjectId",
           { id: id }
@@ -79,35 +81,29 @@ export default function KanbanBoard() {
           .then((res) => res.sections)
           .catch((err) => setError("Could not retrieve project details."));
 
-        const promises = sectionDetails.map((section) => {
+        const sectionItems = sectionDetails.map((section) => {
           return postHTTP("/sectionItem/sectionItemsBySectionID", {
             sectionID: section._id,
           });
         });
 
-        Promise.all(promises).then((res) => {
-          sectionDetails.forEach(
-            (section, index) => (section.items = res[index].sections)
-          );
-          setSections(sectionDetails);
-          setLoading(false);
+        Promise.all(sectionItems).then((res) => {
+          dispatch({ type: "SETSECTIONS", sectionDetails: sectionDetails });
+          dispatch({ type: "SETITEMS", sectionItems: res });
         });
       };
 
       getProjectDetails();
     }
     sectionRef.current.scrollTo(0, 0);
-  }, [id]);
+  }, [dispatch, id]);
 
   // Map the sections retrieved after fetching the raw data to Section components
   useEffect(() => {
     if (!sections) return;
-    const mappedSections = sections.map((section) => (
-      <Section
-        sectionDetails={section}
-        sectionItems={section.items}
-        key={section._id}
-      />
+    const sectionDetails = sections.sectionDetails;
+    const mappedSections = sectionDetails.map((section) => (
+      <Section id={section._id} name={section.name} key={section._id} />
     ));
     setMappedSections(mappedSections);
   }, [sections]);
@@ -115,7 +111,7 @@ export default function KanbanBoard() {
   // Set the drag results for the DragDropContext if it is a valid drop
   const handleDragEnd = (result) => {
     setLoading(true);
-    const { destination, source } = result;
+    const { destination, source, draggableId } = result;
     if (!destination) return;
 
     if (
@@ -124,31 +120,15 @@ export default function KanbanBoard() {
     )
       return;
 
-      console.log(sections)
+    const sectionItems = sections.items;
+    const sourceIndex = sectionItems.indexOf(sectionItems.filter(item => item.sectionID === source.droppableId)[0]);
+    const destinationIndex = sectionItems.indexOf(sectionItems.filter(item => item.sectionID === destination.droppableId)[0]);
 
-    const destinationSection = sections.filter(
-      (section) => section._id === destination.droppableId
-    )[0];
-    const sourceSection = sections.filter(
-      (section) => section._id === source.droppableId
-    )[0];
-    const dragItem = sourceSection.items.filter(
-      (item) => item._id === result.draggableId
-    )[0];
-
-    const destinationSectionIndex = sections.indexOf(destinationSection);
-    const sourceSectionIndex = sections.indexOf(sourceSection);
-
-    const copyOfSections = JSON.parse(JSON.stringify(sections));
-
-    copyOfSections[sourceSectionIndex].items.splice(source.index, 1);
-    copyOfSections[destinationSectionIndex].items.splice(
-      destination.index,
-      0,
-      dragItem
-    );
-
-    setSections(copyOfSections);
+    const copyOfItems = JSON.parse(JSON.stringify(sectionItems));
+    const dragItem = copyOfItems[sourceIndex].items.filter(item => item._id === draggableId)[0];
+    copyOfItems[sourceIndex].items.splice(source.index, 1);
+    copyOfItems[destinationIndex].items.splice(destination.index, 0, dragItem);
+    dispatch({type:'SETITEMS', sectionItems: copyOfItems});
     setLoading(true);
   };
 
@@ -159,9 +139,8 @@ export default function KanbanBoard() {
         <p css={notLoggedInError}>Please sign in to access your projects.</p>
       );
     } else if (loading) {
-      return <p>Loading</p>
-    }
-    else if (error) {
+      return <p>Loading</p>;
+    } else if (error) {
       return <p>Not able to load project details. Try again later.</p>;
     } else if (!id) {
       return <p>Select a project in the dropdown menu.</p>;

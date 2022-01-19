@@ -7,12 +7,14 @@ import SectionItem from "./SectionItem";
 import AddSectionItemController from "./AddSectionItemController";
 import { ThemeContext } from "../context/ThemeProvider";
 import { Droppable } from "react-beautiful-dnd";
+import { SectionsContext } from "../context/SectionsProvider";
 
 export default function Section(props) {
-  const { sectionDetails, sectionItems } = props;
+  const { id, name } = props;
   const [mappedSectionItems, setMappedSectionItems] = useState(null);
   const { colors, mq } = useContext(ThemeContext);
-  const [loading, setLoading] = useState(false);
+  const { sections } = useContext(SectionsContext);
+  const [sectionDetails, setSectionDetails] = useState(null);
 
   const rolloutY = keyframes`
   0% {
@@ -66,17 +68,19 @@ export default function Section(props) {
 
   // map items of the section to SectionItem components
   useEffect(() => {
+    const sectionItems = sections.items.filter(item => item.sectionID === id)[0].items;
+    if (!sectionItems) return;
     setMappedSectionItems(
       sectionItems.map((item, index) => (
         <SectionItem item={item} key={item._id} index={index} id={item._id} />
       ))
     );
-  }, [sectionItems, sectionDetails]);
+  }, [id, sections]);
 
   return (
-    <section id={sectionDetails._id} css={section}>
-      <h1>{sectionDetails.name}</h1>
-      <Droppable droppableId={sectionDetails._id}>
+    <section id={id} css={section}>
+      <h1>{name}</h1>
+      <Droppable droppableId={id}>
         {(provided, snapshot) => (
           <div
             ref={provided.innerRef}
@@ -88,7 +92,7 @@ export default function Section(props) {
           </div>
         )}
       </Droppable>
-      <AddSectionItemController sectionID={sectionDetails._id} />
+      <AddSectionItemController sectionID={id} />
     </section>
   );
 }

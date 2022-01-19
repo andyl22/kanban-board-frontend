@@ -33,8 +33,8 @@ export default function SectionItem(props) {
           css={SectionItem(snapshot)}
           ref={provided.innerRef}
         >
-          <DragHandle {...provided.dragHandleProps }/>
-          <SectionItemContent item = {item} />
+          <DragHandle {...provided.dragHandleProps} />
+          <SectionItemContent item={item} />
         </div>
       )}
     </Draggable>
