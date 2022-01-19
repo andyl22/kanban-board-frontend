@@ -67,8 +67,7 @@ export default function Section(props) {
 
   // map items of the section to SectionItem components
   useEffect(() => {
-
-    const filteredSection = sections.items.filter(item => item.sectionID === id)[0];
+    const filteredSection = sections.itemsList.filter(item => item.sectionID === id)[0];
     if(!filteredSection) return;
     const sectionItems = filteredSection.items;
     if (!sectionItems) return;

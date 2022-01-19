@@ -16,23 +16,30 @@ const SectionsProvider = ({ children }) => {
         };
       case "EDITSECTIONS":
         return;
-      case "DELETESECTIONS": 
+      case "DELETESECTIONS":
         return;
       case "SETITEMS":
         // dispatch({type:'SETITEMS', sectionItems: res.sections})
-        return { ...sections, items: action.sectionItems };
+        return { ...sections, itemsList: action.sectionItems };
       case "ADDITEM":
         // dispatch({type:'ADDITEM', item: item})
         return (() => {
-          const indexOfItems = sections.items.indexOf(
-            sections.items.filter(
+          if (sections.items === undefined) {
+            return {
+              ...sections,
+              itemsList: [ {sectionID: action.sectionID, items: [action.item || null]} ],
+            };
+          }
+
+          const indexOfItems = sections.itemsList.indexOf(
+            sections.itemsList.filter(
               (item) => item.sectionID === action.sectionID
             )[0]
           );
+
           const copyOfItems = JSON.parse(JSON.stringify(sections.items));
           copyOfItems[indexOfItems].items.push(action.item);
-
-          return { ...sections, items: copyOfItems };
+          return { ...sections, itemsList: copyOfItems };
         })();
       case "EDITITEM":
         return;
