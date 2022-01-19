@@ -2,18 +2,17 @@
 /** @jsx jsx */
 
 import { css, jsx } from "@emotion/react";
-import React, { useContext, useEffect, useState, useRef } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Section from "./Section";
 import SidebarProject from "./SidebarProject";
 import { ThemeContext } from "../context/ThemeProvider";
 import { UserContext } from "../context/UserProvider";
 import { postHTTP } from "../utilities/fetchAPIs";
-import { DragDropContext } from "react-beautiful-dnd";
 import { SectionsContext } from "../context/SectionsProvider";
 import KanbanContent from "./KanbanContent";
 
-export default function KanbanBoard() {
+export default function ContentController() {
   const { mq } = useContext(ThemeContext);
   const { currentUser } = useContext(UserContext);
   const { sections, dispatch } = useContext(SectionsContext);
@@ -45,7 +44,6 @@ export default function KanbanBoard() {
 
   // Fetch section metadata and items for the project
   useEffect(() => {
-    console.log(project);
     if (project) {
       (async () => {
         setLoading(true);
@@ -73,14 +71,21 @@ export default function KanbanBoard() {
   }, [dispatch, project]);
 
   useEffect(() => {
+    if (id === undefined) {
+      setProject(null);
+      setError(null);
+      dispatch({ type: "CLEARSECTIONS" });
+      return;
+    }
+
     postHTTP("/projects/getProjectByID", { id: id })
       .then((res) => res.project)
       .then((res) => setProject(res));
-  }, [id]);
+  }, [dispatch, id]);
 
   // Map the sections retrieved after fetching the raw data to Section components
   useEffect(() => {
-    if (!sections) return;
+    if (!sections || sections === null) return;
     const sectionDetails = sections.sectionDetails;
     const mappedSections = sectionDetails.map((section) => (
       <>
@@ -89,38 +94,6 @@ export default function KanbanBoard() {
     ));
     setMappedSections(mappedSections);
   }, [sections]);
-
-  // Set the drag results for the DragDropContext if it is a valid drop
-  const handleDragEnd = (result) => {
-    setLoading(true);
-    const { destination, source, draggableId } = result;
-    if (!destination) return;
-
-    if (
-      destination.droppableId === source.droppableId &&
-      destination.index === source.index
-    )
-      return;
-
-    const sectionItems = sections.itemsList;
-    const sourceIndex = sectionItems.indexOf(
-      sectionItems.filter((item) => item.sectionID === source.droppableId)[0]
-    );
-    const destinationIndex = sectionItems.indexOf(
-      sectionItems.filter(
-        (item) => item.sectionID === destination.droppableId
-      )[0]
-    );
-
-    const copyOfItems = JSON.parse(JSON.stringify(sectionItems));
-    const dragItem = copyOfItems[sourceIndex].items.filter(
-      (item) => item._id === draggableId
-    )[0];
-    copyOfItems[sourceIndex].items.splice(source.index, 1);
-    copyOfItems[destinationIndex].items.splice(destination.index, 0, dragItem);
-    dispatch({ type: "SETITEMS", sectionItems: copyOfItems });
-    setLoading(true);
-  };
 
   // IIFE used to render elements based on whether the user is logged in, there is an active project, or if there is an error retrieving projects
   const conditionalRenderingLogic = (function () {
@@ -143,11 +116,7 @@ export default function KanbanBoard() {
         </p>
       );
     } else {
-      return (
-        <DragDropContext onDragEnd={handleDragEnd}>
-          <KanbanContent project={project}>{mappedSections}</KanbanContent>
-        </DragDropContext>
-      );
+      return <KanbanContent project={project}>{mappedSections}</KanbanContent>;
     }
   })();
 

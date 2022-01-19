@@ -16,8 +16,10 @@ const SectionsProvider = ({ children }) => {
         };
       case "EDITSECTIONS":
         return;
-      case "DELETESECTIONS":
+      case "DELETESECTION":
         return;
+      case "CLEARSECTIONS":
+        return null;
       case "SETITEMS":
         // dispatch({type:'SETITEMS', sectionItems: res.sections})
         return { ...sections, itemsList: action.sectionItems };

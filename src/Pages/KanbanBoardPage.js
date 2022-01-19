@@ -1,4 +1,4 @@
-import KanbanBoard from "../components/KanbanBoard";
+import ContentController from "../components/ContentController";
 import Header from "../components/Header";
 import { SectionsProvider } from "../context/SectionsProvider";
 
@@ -7,7 +7,7 @@ export default function KanbanBoardPage() {
     <>
       <Header activeTab={"home"} title={"Kanban Board"} />
       <SectionsProvider>
-        <KanbanBoard />
+        <ContentController />
       </SectionsProvider>
     </>
   );
