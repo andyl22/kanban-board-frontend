@@ -22,7 +22,7 @@ export default function SectionHeader(props) {
   `
 
   return (
-    <div css={sectionHeader}>
+    <div css={sectionHeader || "Loading"}>
       {headerTitle}
     </div>
   )

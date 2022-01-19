@@ -88,9 +88,7 @@ export default function ContentController() {
     if (!sections || sections === null) return;
     const sectionDetails = sections.sectionDetails;
     const mappedSections = sectionDetails.map((section) => (
-      <>
-        <Section id={section._id} name={section.name} key={section._id} />
-      </>
+      <Section id={section._id} name={section.name} key={section._id} />
     ));
     setMappedSections(mappedSections);
   }, [sections]);
@@ -99,7 +97,7 @@ export default function ContentController() {
   const conditionalRenderingLogic = (function () {
     if (!currentUser) {
       return <p css={textContent}>Please sign in to access your projects.</p>;
-    } else if (loading) {
+    } else if (loading || !sections) {
       return <p css={textContent}>Loading</p>;
     } else if (error) {
       return (
@@ -109,12 +107,6 @@ export default function ContentController() {
       );
     } else if (!id) {
       return <p css={textContent}>Select a project in the dropdown menu.</p>;
-    } else if (!sections) {
-      return (
-        <p css={textContent}>
-          Unable to access project. It has likely been deleted.
-        </p>
-      );
     } else {
       return <KanbanContent project={project}>{mappedSections}</KanbanContent>;
     }
