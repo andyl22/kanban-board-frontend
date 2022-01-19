@@ -39,8 +39,8 @@ export default function LeftHeader(props) {
     <div css={leftHeader}>
       {activeTab === "home" && currentUser ? (
         (showSidebar) ? 
-          <ExpandMoreIcon css={expandSidebar} onClick={toggleSidebar} /> : 
-          <ExpandLessIcon css={expandSidebar} onClick={toggleSidebar} />
+          <ExpandLessIcon css={expandSidebar} onClick={toggleSidebar} />:
+          <ExpandMoreIcon css={expandSidebar} onClick={toggleSidebar} />
       ) : null}
       <h1>{title}</h1>
     </div>

@@ -2,7 +2,6 @@
 /** @jsx jsx */
 
 import { css, jsx, keyframes } from "@emotion/react";
-import { useEffect } from "react";
 
 export default function Modal({ children }) {
   const maxZ =

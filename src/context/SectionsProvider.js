@@ -50,7 +50,6 @@ const SectionsProvider = ({ children }) => {
           }
 
           const copyOfItems = JSON.parse(JSON.stringify(sections.itemsList));
-          console.log(copyOfItems[indexOfItems]);
           copyOfItems[indexOfItems].items.push(action.item);
           return { ...sections, itemsList: copyOfItems };
         })();
