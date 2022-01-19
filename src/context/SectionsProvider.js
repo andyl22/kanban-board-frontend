@@ -24,10 +24,12 @@ const SectionsProvider = ({ children }) => {
       case "ADDITEM":
         // dispatch({type:'ADDITEM', item: item})
         return (() => {
-          if (sections.items === undefined) {
+          if (sections.itemsList === undefined) {
             return {
               ...sections,
-              itemsList: [ {sectionID: action.sectionID, items: [action.item || null]} ],
+              itemsList: [
+                { sectionID: action.sectionID, items: [action.item || null] },
+              ],
             };
           }
 
@@ -37,7 +39,18 @@ const SectionsProvider = ({ children }) => {
             )[0]
           );
 
-          const copyOfItems = JSON.parse(JSON.stringify(sections.items));
+          if (indexOfItems === -1) {
+            return {
+              ...sections,
+              itemsList: [
+                ...sections.itemsList,
+                { sectionID: action.sectionID, items: [action.item] },
+              ],
+            };
+          }
+
+          const copyOfItems = JSON.parse(JSON.stringify(sections.itemsList));
+          console.log(copyOfItems[indexOfItems]);
           copyOfItems[indexOfItems].items.push(action.item);
           return { ...sections, itemsList: copyOfItems };
         })();
