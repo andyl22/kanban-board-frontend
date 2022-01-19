@@ -8,7 +8,6 @@ import FormCreateSection from "./FormCreateSection";
 
 export default function AddSectionController(props) {
   const [showForm, setShowForm] = useState(false);
-  const { addSection } = props;
 
   const addSectionButton = css`
     background: none;
@@ -21,7 +20,7 @@ export default function AddSectionController(props) {
   };
 
   return showForm ? (
-    <FormCreateSection toggleForm={toggleForm} addSection={addSection} />
+    <FormCreateSection toggleForm={toggleForm} />
   ) : (
     <div css={addSectionButton}>
       <ButtonAdd onClickAction={toggleForm} />

@@ -22,6 +22,9 @@ export default function SectionItem(props) {
       background: white;
       border: ${snapshot.isDragging ? "2px dashed red" : "1px solid #cccccc"};
       overflow: hidden;
+      &:hover {
+        box-shadow: -3px 5px 8px #bfbfbf;
+      }
     `;
   };
 

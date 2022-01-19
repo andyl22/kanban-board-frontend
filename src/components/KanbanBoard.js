@@ -90,6 +90,7 @@ export default function KanbanBoard() {
         Promise.all(sectionItems).then((res) => {
           dispatch({ type: "SETSECTIONS", sectionDetails: sectionDetails });
           dispatch({ type: "SETITEMS", sectionItems: res });
+          setLoading(false);
         });
       };
 

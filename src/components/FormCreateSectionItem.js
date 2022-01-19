@@ -17,10 +17,9 @@ export default function FormCreateSectionItem(props) {
   const [formState, setFormState] = useState({
     projectID: id,
     sectionID: sectionID,
-    dateOfCreation: (new Date()).toISOString(),
   });
   const inputRef = useRef();
-  const { colors } = useContext(ThemeContext);
+  const { colors, mq } = useContext(ThemeContext);
 
   const container = css`
     display: flex;
@@ -32,6 +31,9 @@ export default function FormCreateSectionItem(props) {
     width: fit-content;
     background: #f2f2f2;
     margin: 1em 0 2em 0;
+    ${mq[1]} {
+      width: 95%;
+    }
   `;
 
   const closeButton = css`
@@ -47,8 +49,9 @@ export default function FormCreateSectionItem(props) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    formState.dateOfCreation = (new Date()).toISOString();
     postHTTP("/sectionItem/createSectionItem", formState)
-      .then((res) => dispatch({type:'ADDITEMS', item: res.sectionItem, sectionID: sectionID}))
+      .then((res) => dispatch({type:'ADDITEM', item: res.sectionItem, sectionID: sectionID}))
       .then(toggleForm())
       .catch((err) => console.log(err));
   };
