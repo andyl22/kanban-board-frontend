@@ -79,10 +79,10 @@ export default function Sidebar(props) {
 
   const arrowBack = css`
   color: ${colors.iconColor};
+  transform: scale(0.8);
   &:hover {
     cursor: pointer;
     color: ${colors.iconHoverColor};
-    transform: scale(1.2);
   }
 `
 

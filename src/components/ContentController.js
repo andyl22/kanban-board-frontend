@@ -45,6 +45,7 @@ export default function ContentController() {
   // Fetch section metadata and items for the project
   useEffect(() => {
     if (project) {
+      
       (async () => {
         setLoading(true);
 

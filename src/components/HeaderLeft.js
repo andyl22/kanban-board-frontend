@@ -7,8 +7,6 @@ import { SidebarContext } from "../context/SidebarProvider";
 import { ThemeContext } from "../context/ThemeProvider";
 import { UserContext } from "../context/UserProvider";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import ExpandLessIcon from '@mui/icons-material/ExpandLess';
-
 export default function LeftHeader(props) {
   const { showSidebar, toggleSidebar } = useContext(SidebarContext);
   const { currentUser } = useContext(UserContext);
@@ -38,8 +36,7 @@ export default function LeftHeader(props) {
   return (
     <div css={leftHeader}>
       {activeTab === "home" && currentUser ? (
-        (showSidebar) ? 
-          <ExpandLessIcon css={expandSidebar} onClick={toggleSidebar} />:
+        (showSidebar) ? null :
           <ExpandMoreIcon css={expandSidebar} onClick={toggleSidebar} />
       ) : null}
       <h1>{title}</h1>
