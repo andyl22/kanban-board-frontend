@@ -2,7 +2,7 @@
 /** @jsx jsx */
 
 import { css, jsx } from "@emotion/react";
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Section from "./Section";
 import SidebarProject from "./SidebarProject";
@@ -45,7 +45,6 @@ export default function ContentController() {
   // Fetch section metadata and items for the project
   useEffect(() => {
     if (project) {
-      
       (async () => {
         setLoading(true);
 

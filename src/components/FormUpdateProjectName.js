@@ -3,25 +3,20 @@
 
 import { css, jsx } from "@emotion/react";
 import React, { useState, useRef, useEffect, useContext } from "react";
+import { useParams } from "react-router-dom";
 import Form from "./Form";
 import CancelIcon from "@mui/icons-material/Cancel";
 import { ThemeContext } from "../context/ThemeProvider";
 import { postHTTP } from "../utilities/fetchAPIs";
 import { ProjectContext } from "../context/ProjectProvider";
-import { useNavigate } from "react-router-dom";
 
-export default function FormCreateProject(props) {
-  const { toggleForm } = props;
-  const { projectList, setProjectList} = useContext(ProjectContext)
-  const [formState, setFormState] = useState({ projectName: "" });
+export default function FormUpdateProjectName(props) {
+  const { toggleForm, initialValue, updateHeader } = props;
+  const [formState, setFormState] = useState({ projectName: initialValue });
   const inputRef = useRef();
+  const { projectList, setProjectList } = useContext(ProjectContext);
   const { colors } = useContext(ThemeContext);
-  const navigate = useNavigate();
-
-  const addProject = (project) => {
-    setProjectList([...projectList, project]);
-    navigate(`/kanban-board/project/${project._id}`);
-  };
+  const { id } = useParams();
 
   const container = css`
     display: flex;
@@ -44,12 +39,20 @@ export default function FormCreateProject(props) {
     setFormState({ ...formState, [e.target.id]: e.target.value });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    postHTTP("/projects/createProject", formState)
-      .then((res) => addProject(res.project))
-      .catch((err) => console.log(err));
-    toggleForm();
+    formState.projectID = id;
+    postHTTP("/projects/updateProjectName", formState)
+      .then((res) => {
+        const copyOfProjectList = JSON.parse(JSON.stringify(projectList))
+        const projectToUpdate = copyOfProjectList.filter(project => project._id === id)[0];
+        const indexOfProjectToUpdate = copyOfProjectList.indexOf(projectToUpdate);
+        copyOfProjectList[indexOfProjectToUpdate] = {...projectToUpdate, name: formState.projectName}
+        setProjectList(copyOfProjectList);
+        updateHeader(formState.projectName);
+        toggleForm();
+      })
+      .catch(err => console.log(err));
   };
 
   const handleKeyDown = (e) => {
@@ -60,7 +63,7 @@ export default function FormCreateProject(props) {
 
   useEffect(() => {
     inputRef.current.focus();
-  });
+  }, []);
 
   return (
     <div css={container}>

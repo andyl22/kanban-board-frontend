@@ -26,7 +26,7 @@ const ThemeProvider = ({ children }) => {
           buttonHover: "#0f46ff",
           shadowColor: "#919191",
           scrollbar: "#5668ff",
-          headerColor: "#3c68ff",
+          headerColor: "#ffce1c",
           headerShadowColor: "#a9a9a9" 
         }
       : {

@@ -2,7 +2,7 @@
 /** @jsx jsx */
 
 import { css, jsx, keyframes } from "@emotion/react";
-import React, { useContext } from "react";
+import { useContext } from "react";
 import { ThemeContext } from "../context/ThemeProvider";
 import { SidebarContext } from "../context/SidebarProvider";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";

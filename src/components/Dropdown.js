@@ -45,7 +45,7 @@ export default function Dropdown(props) {
     min-width: 100px;
     z-index: 2;
     background: ${colors.contentBackground};
-    border: 2px solid ${colors.borderColor};
+    border: 2px solid #320c0c;
   `;
 
   return (

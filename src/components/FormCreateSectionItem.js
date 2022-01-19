@@ -49,9 +49,15 @@ export default function FormCreateSectionItem(props) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    formState.dateOfCreation = (new Date()).toISOString();
+    formState.dateOfCreation = new Date().toISOString();
     postHTTP("/sectionItem/createSectionItem", formState)
-      .then((res) => dispatch({type:'ADDITEM', item: res.sectionItem, sectionID: sectionID}))
+      .then((res) =>
+        dispatch({
+          type: "ADDITEM",
+          item: res.sectionItem,
+          sectionID: sectionID,
+        })
+      )
       .then(toggleForm())
       .catch((err) => console.log(err));
   };

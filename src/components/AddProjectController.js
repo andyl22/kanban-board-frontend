@@ -6,8 +6,7 @@ import { useState } from "react";
 import ButtonAdd from "./ButtonAdd";
 import FormCreateProject from "./FormCreateProject";
 
-export default function AddProjectController(props) {
-  const { addProject } = props;
+export default function AddProjectController() {
   const [showCreateProject, setShowCreateProject] = useState(false);
 
   const toggleForm = () => {
@@ -15,7 +14,7 @@ export default function AddProjectController(props) {
   };
 
   return showCreateProject ? (
-    <FormCreateProject toggleForm={toggleForm} addProject={addProject} />
+    <FormCreateProject toggleForm={toggleForm} />
   ) : (
     <ButtonAdd onClickAction={toggleForm} />
   );

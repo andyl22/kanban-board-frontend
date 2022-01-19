@@ -3,35 +3,30 @@
 
 import { css, jsx } from "@emotion/react";
 import React, { useState, useEffect, useContext } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import AddProjectController from "./AddProjectController";
 import Sidebar from "./Sidebar";
+import { ProjectContext } from "../context/ProjectProvider";
 import { getHTTP } from "../utilities/fetchAPIs";
 
 export default function SidebarProject() {
-  const [projectList, setProjectList] = useState(null);
   const [mappedProjectList, setMappedProjectList] = useState(null);
   const [error, setError] = useState(null);
-  const navigate = useNavigate();
+  const { projectList, setProjectList } = useContext(ProjectContext);
   const { id } = useParams();
-
-  const addProject = (project) => {
-    setProjectList([...projectList, project]);
-    navigate(`/kanban-board/project/${project._id}`);
-  };
 
   useEffect(() => {
     getHTTP("/projects/getProjectList")
       .then((res) => res.projects)
       .then((res) => setProjectList(res))
       .catch((err) => setError("Could not retrieve projects."));
-  }, []);
+  }, [setProjectList]);
 
   useEffect(() => {
     if (projectList) {
       const projectLinks = css`
         font-weight: 700;
-        padding: .8em .5em;
+        padding: 0.8em 0.5em;
         width: 100%;
         &:first-of-type {
         }
@@ -40,10 +35,9 @@ export default function SidebarProject() {
         }
         &:hover {
           transform: translateX(2px);
-          transition: .15s ease;
+          transition: 0.15s ease;
         }
       `;
-
 
       const mapProjectList = (projectList) => {
         const sortProjectList = (projectList) => {
@@ -83,7 +77,7 @@ export default function SidebarProject() {
       ) : (
         <>
           {mappedProjectList}
-          <AddProjectController addProject={addProject} />
+          <AddProjectController />
         </>
       )}
     </Sidebar>
