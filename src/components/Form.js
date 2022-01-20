@@ -8,7 +8,6 @@ export default function Form(props) {
 
   const formContainer = css`
     display: flex;
-    padding: 0.5em 0;
   `;
 
   const form = css`

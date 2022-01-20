@@ -5,7 +5,7 @@ import { css, jsx } from "@emotion/react";
 import IconAdd from "./IconAdd";
 
 export default function buttonAdd(props) {
-  const { onClickAction } = props
+  const { onClickAction, customCSS } = props
 
   const button = css`
     background: none;

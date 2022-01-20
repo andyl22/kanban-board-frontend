@@ -79,7 +79,7 @@ export default function FormUpdateProjectName(props) {
           ref={inputRef}
         />
       </Form>
-      <CancelIcon css={closeButton} onClick={toggleForm} />
+      <CancelIcon fontSize="small" css={closeButton} onClick={toggleForm} />
     </div>
   );
 }

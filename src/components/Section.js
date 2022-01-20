@@ -47,6 +47,11 @@ export default function Section(props) {
       border-top-right-radius: inherit;
       border-top-left-radius: inherit;
       color: black !important;
+      word-break: break-word;
+    }
+    ${mq[0]} {
+      min-width: 100px;
+      width: 100%;
     }
   `;
 
@@ -55,13 +60,10 @@ export default function Section(props) {
     flex-direction: column;
     align-items: center;
     width: 280px;
-    min-width: 200px;
     padding-top: 2em;
     background: ${snapshot.isDraggingOver ? "#c0e4ff" : "white"};
-    ${mq[1]} {
+    ${mq[0]} {
       width: 100%;
-      padding: 0.8em 0.4em;
-      gap: 0.5em;
     }
   `;
 

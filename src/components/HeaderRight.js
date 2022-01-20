@@ -35,7 +35,7 @@ export default function HeaderRight() {
     ${mq[0]} {
       flex-wrap: wrap;
       justify-content: center;
-      transform: scale(0.85);
+      font-size: 0.7em;
     }
   `;
 

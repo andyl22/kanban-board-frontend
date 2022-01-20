@@ -38,14 +38,14 @@ export default function Dropdown(props) {
     flex-direction: column;
     gap: 0.5em;
     position: absolute;
-    top: 2em;
+    top: 2.5em;
     right: 0;
     border-radius: 0.4em;
     padding: 0.5em;
     min-width: 100px;
-    z-index: 2;
-    background: ${colors.contentBackground};
-    border: 2px solid #320c0c;
+    z-index: 1;
+    background: white;
+    border: 1px solid #9d9d9d;
   `;
 
   return (

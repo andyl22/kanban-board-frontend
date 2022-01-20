@@ -12,15 +12,12 @@ export default function SectionItem(props) {
   const SectionItem = (snapshot) => {
     return css`
       display: flex;
-      align-items: center;
-      justify-content: center;
       background: white;
-      height: 100px;
-      width: 80%;
+      height: fit-content;
+      width: 85%;
       border-radius: 1em;
       margin-bottom: 1em;
-      background: white;
-      border: ${snapshot.isDragging ? "2px dashed red" : "1px solid #cccccc"};
+      border: ${snapshot.isDragging ? "1px dashed red" : "1px solid #cccccc"};
       overflow: hidden;
       &:hover {
         box-shadow: -3px 5px 8px #bfbfbf;

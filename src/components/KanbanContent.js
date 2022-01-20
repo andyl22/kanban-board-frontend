@@ -12,7 +12,7 @@ import { SectionsContext } from "../context/SectionsProvider";
 export default function KanbanContent(props) {
   const { children, project } = props;
   const { sections, dispatch } = useContext(SectionsContext);
-  const { colors } = useContext(ThemeContext);
+  const { colors, mq } = useContext(ThemeContext);
   const sectionRef = useRef();
 
   const kanbanContentContainer = css`
@@ -40,6 +40,10 @@ export default function KanbanContent(props) {
       padding: 0 2em;
       background-clip: content-box;
       border-radius: 0.5em;
+    }
+    ${mq[0]} {
+      flex-wrap: wrap;
+      justify-content: center;
     }
   `;
 

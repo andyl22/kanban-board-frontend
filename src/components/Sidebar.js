@@ -9,7 +9,7 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 export default function Sidebar(props) {
   const { title, children } = props;
-  const { colors } = useContext(ThemeContext);
+  const { colors, mq } = useContext(ThemeContext);
   const { showSidebar, toggleSidebar } = useContext(SidebarContext);
 
   const rolloutX = keyframes`
@@ -64,9 +64,13 @@ export default function Sidebar(props) {
       border: 6px solid ${colors.sideBarBackground};
       border-radius: 2em;
     }
-    @media (max-width: 720px) {
-      min-width: 160px;
+    ${mq[0]} {
+      top: 0px;
+      position: absolute;
+      height: 100%;
+      width: 100%;
       word-break: break-word;
+      z-index: 3;
     }
   `;
 

@@ -4,18 +4,18 @@
 import { css, jsx } from "@emotion/react";
 import { useContext } from "react";
 import { ThemeContext } from "../context/ThemeProvider";
-import moment from 'moment';
+import moment from "moment";
 
 export default function SectionItemContent(props) {
-  const { colors } = useContext(ThemeContext);
+  const { item } = props;
+  const { colors, mq } = useContext(ThemeContext);
 
   const sectionItemContent = css`
-    flex: 1;
-    display: flex;
+    align-items: flex-start;
     text-align: start;
-    height: 100%;
-    padding: .2em 1em;
-    flex-direction: column;
+    max-height: 100px;
+    padding: 0.2em 1em;
+    word-break: break-word;
     overflow: auto;
     &::-webkit-scrollbar {
       border-bottom-right-radius: 2em;
@@ -25,20 +25,22 @@ export default function SectionItemContent(props) {
       border: 7px solid white;
       border-radius: 2em;
     }
-    h2, p {
+    h2,
+    p {
       color: black;
     }
     h2 {
       font-size: 1em;
-      margin-bottom: .3em;
+      margin-bottom: 0.3em;
     }
     p {
-      font-size: .85em;
-      margin-bottom: .1em;
+      font-size: 0.85em;
+      margin-bottom: 0.1em;
+      ${mq[0]} {
+        display: none;
+      }
     }
-  `
-
-  const { item } = props;
+  `;
 
   return (
     <div css={sectionItemContent}>

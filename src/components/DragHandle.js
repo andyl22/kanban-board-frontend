@@ -8,17 +8,14 @@ export default function DragHandle(props) {
   const dragHandle=css`
     display: flex;
     align-items: center;
-    height: 100%;
+    justify-content: center;
     background: #f2f2f2;
-  `
-
-  const dragIcon=css`
     color: gray;
   `
 
   return (
     <div {...props} css={dragHandle}>
-      <DragIndicatorIcon css={dragIcon}/>
+      <DragIndicatorIcon/>
     </div>
   )
 }
