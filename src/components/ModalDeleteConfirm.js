@@ -6,9 +6,12 @@ import { postHTTP } from "../utilities/fetchAPIs";
 import { useNavigate, useParams } from "react-router-dom";
 import Modal from "./Modal";
 import ModalHeader from "./ModalHeader";
+import { useContext } from "react";
+import { ProjectContext } from "../context/ProjectProvider";
 
 export default function ModalDeleteConfirm(props) {
   const { itemName, toggleModal } = props;
+  const { projectList, setProjectList } = useContext(ProjectContext);
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -19,7 +22,7 @@ export default function ModalDeleteConfirm(props) {
     button {
       border: 1px solid #cdcdcd;
       border-radius: 1em;
-      padding: .2em 1em;
+      padding: 0.2em 1em;
       font-weight: 600;
       &:hover {
         cursor: pointer;
@@ -29,12 +32,12 @@ export default function ModalDeleteConfirm(props) {
   `;
 
   const deleteProject = () => {
-    console.log(id)
-    postHTTP('/projects/deleteProject', {id: id})
-    .then(res => console.log(res))
-    .then(navigate('/kanban-board'))
-    .catch(err => console.log(err))
-  }
+    console.log(id);
+    postHTTP("/projects/deleteProject", { id: id })
+      .then(setProjectList(projectList.filter((project) => project._id !== id)))
+      .then(navigate("/kanban-board"))
+      .catch((err) => console.log(err));
+  };
 
   return (
     <Modal>

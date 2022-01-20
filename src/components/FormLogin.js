@@ -32,8 +32,9 @@ export default function FormLogin(props) {
           setCurrentUser({ username: formState.username });
           Cookie.set("user", JSON.stringify({ username: formState.username }));
           toggleModal();
-      }})
-      .catch(err => setError("Authentication Server is not available"));
+        }
+      })
+      .catch((err) => setError("Authentication Server is not available"));
   };
 
   const handleChange = (e) => {

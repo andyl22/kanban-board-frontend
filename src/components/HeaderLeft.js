@@ -1,21 +1,54 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 
-import { css, jsx } from "@emotion/react";
-import { useContext } from "react";
+import { css, jsx, keyframes } from "@emotion/react";
+import React, { useContext } from "react";
 import { SidebarContext } from "../context/SidebarProvider";
 import { ThemeContext } from "../context/ThemeProvider";
 import { UserContext } from "../context/UserProvider";
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 export default function LeftHeader(props) {
   const { showSidebar, toggleSidebar } = useContext(SidebarContext);
   const { currentUser } = useContext(UserContext);
   const { colors, mq } = useContext(ThemeContext);
   const { activeTab, title } = props;
 
-  const expandSidebar = css`
+  const highlightAnimation = keyframes`
+    0% {
+      transform: scale(150%);
+      background: #ffb03b;
+    }
+    80% {
+      transform: scale(70%);
+      background: none;
+    }
+    100% {
+      transform: scale(50%);
+      background: none;
+    }
+  `;
+
+  const highlight = css`
+    position: absolute;
+    top: 0.2em;
+    left: 0.7em;
+    height: 30px;
+    width: 30px;
+    border-radius: 1em;
+    animation: ${highlightAnimation} 4s infinite ease-out;
+    pointer-events: none;
+    ${mq[1]} {
+      position: absolute;
+      top: 0.5em;
+      left: 0.5em;
+    }
+  `;
+
+  const expandButton = css`
+    border: none;
+    background: none;
     color: ${colors.iconColor};
-    transform: scale(0.9);
+    border-radius: 1em;
     &:hover {
       cursor: pointer;
     }
@@ -23,7 +56,6 @@ export default function LeftHeader(props) {
       position: absolute;
       top: 0.5em;
       left: 0.5em;
-      transform: scale(0.85);
     }
   `;
 
@@ -36,8 +68,14 @@ export default function LeftHeader(props) {
   return (
     <div css={leftHeader}>
       {activeTab === "home" && currentUser ? (
-        (showSidebar) ? null :
-          <ExpandMoreIcon css={expandSidebar} onClick={toggleSidebar} />
+        showSidebar ? null : (
+          <>
+            <span css={highlight}></span>
+            <button css={expandButton} onClick={toggleSidebar}>
+              <ExpandMoreIcon fontSize="small" />
+            </button>
+          </>
+        )
       ) : null}
       <h1>{title}</h1>
     </div>

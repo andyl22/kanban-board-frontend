@@ -44,7 +44,7 @@ export default function SectionHeaderLeft(props) {
         <>
           {header}
           <EditIcon fontSize="small" css={button} onClick={toggleEdit} />
-          <DeleteForeverIcon fontSize="small" css={button} Click={toggleConfirmDelete} />
+          <DeleteForeverIcon fontSize="small" css={button} onClick={toggleConfirmDelete} />
         </>
       )}
     </div>

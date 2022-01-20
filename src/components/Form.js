@@ -15,6 +15,7 @@ export default function Form(props) {
     flex-direction: column;
     gap: 0.5em;
     font-size: 0.8em;
+    padding: 1em;
     input {
       border-radius: 0.3em;
       padding: 0.2em 0.5em 0.4em 0.5em;

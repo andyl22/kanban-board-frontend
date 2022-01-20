@@ -13,13 +13,13 @@ import { SectionsContext } from "../context/SectionsProvider";
 import KanbanContent from "./KanbanContent";
 
 export default function ContentController() {
-  const { mq } = useContext(ThemeContext);
-  const { currentUser } = useContext(UserContext);
-  const { sections, dispatch } = useContext(SectionsContext);
   const [project, setProject] = useState();
   const [error, setError] = useState();
   const [mappedSections, setMappedSections] = useState();
   const [loading, setLoading] = useState(false);
+  const { mq } = useContext(ThemeContext);
+  const { currentUser } = useContext(UserContext);
+  const { sections, dispatch } = useContext(SectionsContext);
   const { id } = useParams();
 
   const boardContainer = css`
