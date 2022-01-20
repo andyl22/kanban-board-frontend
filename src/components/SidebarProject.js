@@ -8,6 +8,7 @@ import AddProjectController from "./AddProjectController";
 import Sidebar from "./Sidebar";
 import { ProjectContext } from "../context/ProjectProvider";
 import { getHTTP } from "../utilities/fetchAPIs";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 
 export default function SidebarProject() {
   const [mappedProjectList, setMappedProjectList] = useState(null);

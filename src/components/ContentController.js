@@ -74,6 +74,7 @@ export default function ContentController() {
     if (id === undefined) {
       setProject(null);
       setError(null);
+      setMappedSections(null);
       dispatch({ type: "CLEARSECTIONS" });
       return;
     }
@@ -97,7 +98,9 @@ export default function ContentController() {
   const conditionalRenderingLogic = (function () {
     if (!currentUser) {
       return <p css={textContent}>Please sign in to access your projects.</p>;
-    } else if (loading || !sections) {
+    } else if (!id) {
+      return <p css={textContent}>Select a project in the dropdown menu.</p>;
+    } else if (loading) {
       return <p css={textContent}>Loading</p>;
     } else if (error) {
       return (
@@ -105,9 +108,7 @@ export default function ContentController() {
           Not able to load project details. Try again later.
         </p>
       );
-    } else if (!id) {
-      return <p css={textContent}>Select a project in the dropdown menu.</p>;
-    } else {
+    } else if (project) {
       return <KanbanContent project={project}>{mappedSections}</KanbanContent>;
     }
   })();

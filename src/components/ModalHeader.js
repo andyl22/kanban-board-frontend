@@ -12,6 +12,7 @@ export default function ModalHeader(props) {
     justify-content: space-between;
     background: #5c81ff;
     width: 100%;
+    word-break: break-word;
     padding: 0.5em 0.5em;
     h1 {
       margin: 0 auto;
@@ -22,8 +23,8 @@ export default function ModalHeader(props) {
   const button = css`
     color: white;
     &:hover {
-      color: white;
       cursor: pointer;
+      color: #d9d9d9;
     }
   `;
 

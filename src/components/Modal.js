@@ -39,7 +39,8 @@ export default function Modal({ children }) {
     justify-content: center;
     border-radius: 1em;
     margin: 0 auto;
-    max-width: 90%;
+    max-width: 400px;
+    width: 90%;
     min-width: 250px;
     text-align: center;
     background: white;

@@ -74,7 +74,9 @@ export default function KanbanContent(props) {
   };
 
   useEffect(() => {
-    sectionRef.current.scrollTo(0, 0);
+    if (sectionRef.current!==undefined) {
+      sectionRef.current.scrollTo(0, 0);
+    }
   }, []);
 
   return (
