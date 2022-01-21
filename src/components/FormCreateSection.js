@@ -46,8 +46,10 @@ export default function FormCreateProject(props) {
   const handleSubmit = (e) => {
     e.preventDefault();
     postHTTP("/projectSection/createSection", formState)
-      .then((res) => dispatch({type:'ADDSECTION', sectionDetail: res.section}))
-      .then(toggleForm())
+      .then((res) =>
+        dispatch({ type: "ADDSECTION", sectionDetail: res.section })
+      )
+      .then(console.log("Fired"))
       .catch((err) => console.log(err));
   };
 

@@ -8,17 +8,17 @@ import { SectionsContext } from "../context/SectionsProvider";
 import ModalDeleteConfirm from "./ModalDeleteConfirm";
 
 export default function DeleteSectionItemController(props) {
-  const { itemName, toggleModal } = props;
+  const { item, toggleModal } = props;
   const { sections, dispatch } = useContext(SectionsContext);
 
   const deleteProject = () => {
-    // implement post request to delete from backend and update the items list
+    dispatch({type: 'DELETEITEM', itemID: item._id, sectionID: item.sectionID})
   };
 
   return (
     <ModalDeleteConfirm
       deleteObject={deleteProject}
-      itemName={itemName}
+      itemName={item.name}
       toggleModal={toggleModal}
     />
   );

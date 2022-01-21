@@ -5,7 +5,7 @@ import { css, jsx } from "@emotion/react";
 import React, { useState } from "react";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import ModalDeleteConfirm from "./ModalDeleteConfirm";
+import DeleteSectionItemController from "./DeleteSectionItemController";
 
 export default function SectionItemButton(props) {
   const { item } = props;
@@ -51,8 +51,8 @@ export default function SectionItemButton(props) {
         </button>
       </div>
       {showDelete ? (
-        <ModalDeleteConfirm
-          itemName={item.name}
+        <DeleteSectionItemController
+          item={item}
           toggleModal={toggleDeleteModal}
         />
       ) : null}

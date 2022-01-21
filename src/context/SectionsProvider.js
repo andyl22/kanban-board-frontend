@@ -4,6 +4,19 @@ const SectionsContext = React.createContext([{}, () => {}]);
 
 const SectionsProvider = ({ children }) => {
   const reducer = (sections, action) => {
+    const createDeepCopy = (obj) => {
+      return JSON.parse(JSON.stringify(obj));
+    };
+
+    // Provide a list to filter,
+    // the field  of the objects in the list to use for lookup,
+    // and the actions look up parameter
+    const getIndexOfObj = (obj, objParam, lookupParam) => {
+      return obj.indexOf(
+        obj.filter((item) => item[objParam] === action[lookupParam])[0]
+      );
+    };
+
     switch (action.type) {
       case "SETSECTIONS":
         // dispatch({type:'SETSECTIONS', sectionDetails: res.sections}
@@ -26,21 +39,13 @@ const SectionsProvider = ({ children }) => {
       case "ADDITEM":
         // dispatch({type:'ADDITEM', item: item})
         return (() => {
-          if (sections.itemsList === undefined) {
-            return {
-              ...sections,
-              itemsList: [
-                { sectionID: action.sectionID, items: [action.item || null] },
-              ],
-            };
-          }
-
-          const indexOfItems = sections.itemsList.indexOf(
-            sections.itemsList.filter(
-              (item) => item.sectionID === action.sectionID
-            )[0]
+          const indexOfItems = getIndexOfObj(
+            sections.itemsList,
+            "sectionID",
+            "sectionID"
           );
 
+          // Create an item in the itemsList if it does not exist
           if (indexOfItems === -1) {
             return {
               ...sections,
@@ -51,14 +56,25 @@ const SectionsProvider = ({ children }) => {
             };
           }
 
-          const copyOfItems = JSON.parse(JSON.stringify(sections.itemsList));
+          const copyOfItems = createDeepCopy(sections.itemsList);
           copyOfItems[indexOfItems].items.push(action.item);
           return { ...sections, itemsList: copyOfItems };
         })();
       case "EDITITEM":
         return;
       case "DELETEITEM":
-        return;
+        const indexOfItems = getIndexOfObj(
+          sections.itemsList,
+          "sectionID",
+          "sectionID"
+        );
+
+        const copyOfItems = createDeepCopy(sections.itemsList);
+        copyOfItems[indexOfItems].items = sections.itemsList[
+          indexOfItems
+        ].items.filter((item) => item._id !== action.itemID);
+
+        return { ...sections, itemsList: copyOfItems };
       default:
         return;
     }

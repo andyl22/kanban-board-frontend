@@ -14,7 +14,7 @@ export default function Section(props) {
   const [mappedSectionItems, setMappedSectionItems] = useState(null);
   const { colors, mq } = useContext(ThemeContext);
   const { sections } = useContext(SectionsContext);
-
+  
   const rolloutY = keyframes`
   0% {
     opacity: 0;
