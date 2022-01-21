@@ -11,6 +11,7 @@ export default function SectionItemContent(props) {
   const { colors, mq } = useContext(ThemeContext);
 
   const sectionItemContent = css`
+    position: relative;
     align-items: flex-start;
     text-align: start;
     max-height: 100px;

@@ -2,23 +2,26 @@
 /** @jsx jsx */
 
 import { css, jsx } from "@emotion/react";
-import { postHTTP } from "../utilities/fetchAPIs";
-import { useNavigate, useParams } from "react-router-dom";
 import Modal from "./Modal";
 import ModalHeader from "./ModalHeader";
-import { useContext } from "react";
-import { ProjectContext } from "../context/ProjectProvider";
 
 export default function ModalDeleteConfirm(props) {
-  const { itemName, toggleModal } = props;
-  const { projectList, setProjectList } = useContext(ProjectContext);
-  const { id } = useParams();
-  const navigate = useNavigate();
+  const { itemName, toggleModal, deleteObject } = props;
+
+  const modalContentContainer = css`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1em;
+    p {
+      word-break: break-word;
+    }
+  `;
 
   const deleteConfirmButtonContainer = css`
     display: flex;
     gap: 1em;
-    padding: 1em;
+    padding: 1em 0 0 0;
     button {
       border: 1px solid #cdcdcd;
       border-radius: 1em;
@@ -31,23 +34,15 @@ export default function ModalDeleteConfirm(props) {
     }
   `;
 
-  const deleteProject = () => {
-    console.log(id);
-    postHTTP("/projects/deleteProject", { id: id })
-      .then(setProjectList(projectList.filter((project) => project._id !== id)))
-      .then(navigate("/kanban-board"))
-      .catch((err) => console.log(err));
-  };
-
   return (
     <Modal>
-      <ModalHeader
-        title={`Are you sure you want to delete ${itemName}`}
-        toggleModal={toggleModal}
-      />
-      <div css={deleteConfirmButtonContainer}>
-        <button onClick={deleteProject}>Confirm</button>
-        <button onClick={toggleModal}>Cancel</button>
+      <ModalHeader title="Confirm Delete Request" toggleModal={toggleModal} />
+      <div css={modalContentContainer}>
+        <p>{`Are you sure you want to delete ${itemName}?`}</p>
+        <div css={deleteConfirmButtonContainer}>
+          <button onClick={deleteObject}>Confirm</button>
+          <button onClick={toggleModal}>Cancel</button>
+        </div>
       </div>
     </Modal>
   );

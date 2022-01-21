@@ -15,12 +15,12 @@ export default function Modal({ children }) {
     display: flex;
     justify-content: center;
     align-items: center;
-    position: absolute;
+    position: fixed;
     z-index: ${maxZ};
     top: 0;
     left: 0;
-    height: 100%;
-    width: 100%;
+    height: 100vh;
+    width: 100vw;
     background: rgba(0, 0, 0, 0.6);
   `;
 
@@ -39,7 +39,7 @@ export default function Modal({ children }) {
     justify-content: center;
     border-radius: 1em;
     margin: 0 auto;
-    max-width: 400px;
+    max-width: 300px;
     width: 90%;
     min-width: 250px;
     text-align: center;

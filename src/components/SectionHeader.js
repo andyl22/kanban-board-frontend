@@ -5,7 +5,7 @@ import { css, jsx } from "@emotion/react";
 import React, { useContext, useState } from "react";
 import { ThemeContext } from "../context/ThemeProvider";
 import SectionHeaderLeft from "./SectionHeaderLeft";
-import ModalDeleteConfirm from "./ModalDeleteConfirm";
+import DeleteProjectController from "./DeleteProjectController";
 
 export default function SectionHeader(props) {
   const { headerTitle } = props;
@@ -42,7 +42,7 @@ export default function SectionHeader(props) {
         />
       </div>
       {showModalDelete ? (
-        <ModalDeleteConfirm
+        <DeleteProjectController
           itemName={headerTitle}
           toggleModal={toggleConfirmDelete}
         />

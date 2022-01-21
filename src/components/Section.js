@@ -39,20 +39,21 @@ export default function Section(props) {
     &:-moz-drag-over {
       outline: 1px solid black;
     }
-    h1 {
-      width: 100%;
-      padding: 1em;
-      background: #ffce1c;
-      border-bottom: 2px solid #727272;
-      border-top-right-radius: inherit;
-      border-top-left-radius: inherit;
-      color: black !important;
-      word-break: break-word;
-    }
     ${mq[0]} {
       min-width: 100px;
       width: 100%;
     }
+  `;
+
+  const sectionHeader = css`
+    width: 100%;
+    padding: 1em;
+    background: #ffce1c;
+    border-bottom: 2px solid #727272;
+    border-top-right-radius: inherit;
+    border-top-left-radius: inherit;
+    color: black !important;
+    word-break: break-word;
   `;
 
   const sectionItemsContainer = (snapshot) => css`
@@ -69,8 +70,10 @@ export default function Section(props) {
 
   // map items of the section to SectionItem components
   useEffect(() => {
-    const filteredSection = sections.itemsList.filter(item => item.sectionID === id)[0];
-    if(!filteredSection) return;
+    const filteredSection = sections.itemsList.filter(
+      (item) => item.sectionID === id
+    )[0];
+    if (!filteredSection) return;
     const sectionItems = filteredSection.items;
     if (!sectionItems) return;
     setMappedSectionItems(
@@ -82,7 +85,7 @@ export default function Section(props) {
 
   return (
     <section id={id} css={section}>
-      <h1>{name}</h1>
+      <h1 css={sectionHeader}>{name}</h1>
       <Droppable droppableId={id}>
         {(provided, snapshot) => (
           <div

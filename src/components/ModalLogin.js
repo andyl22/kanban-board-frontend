@@ -7,7 +7,7 @@ export default function ModalLogin(props) {
 
   return (
     <Modal>
-      <ModalHeader title = {"Log In"} toggleModal={toggleModal} />
+      <ModalHeader title={"Log In"} toggleModal={toggleModal} />
       <FormLogin toggleModal={toggleModal} />
     </Modal>
   );
