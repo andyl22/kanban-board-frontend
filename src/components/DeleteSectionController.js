@@ -7,18 +7,17 @@ import { postHTTP } from "../utilities/fetchAPIs";
 import { SectionsContext } from "../context/SectionsProvider";
 import ModalDeleteConfirm from "./ModalDeleteConfirm";
 
-export default function DeleteSectionItemController(props) {
-  const { item, toggleModal } = props;
+export default function DeleteSectionController(props) {
+  const { section, toggleModal } = props;
   const { sections, dispatch } = useContext(SectionsContext);
 
   const deleteProject = () => {
-    postHTTP("/sectionItem/deleteSectionItem", { itemID: item._id })
+    postHTTP('/sectionItem/deleteSectionItem', {sectionID: section._id})
       .then((res) => console.log(res))
       .then(
         dispatch({
-          type: "DELETEITEM",
-          itemID: item._id,
-          sectionID: item.sectionID,
+          type: "DELETESECTION",
+          sectionID: section._id,
         })
       )
       .catch((err) => console.log(err));
@@ -27,7 +26,7 @@ export default function DeleteSectionItemController(props) {
   return (
     <ModalDeleteConfirm
       deleteObject={deleteProject}
-      itemName={item.name}
+      sectionName={section.name}
       toggleModal={toggleModal}
     />
   );

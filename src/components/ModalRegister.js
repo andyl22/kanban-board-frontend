@@ -6,7 +6,7 @@ export default function ModalRegister(props) {
   const { toggleModal } = props;
 
   return (
-    <Modal>
+    <Modal toggleModal={toggleModal}>
       <ModalHeader title={"Register"} toggleModal={toggleModal} />
       <FormRegister toggleModal={toggleModal} />
     </Modal>

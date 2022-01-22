@@ -2,13 +2,13 @@
 /** @jsx jsx */
 
 import { css, jsx } from "@emotion/react";
-import EditIcon from "@mui/icons-material/Edit";
-import FormUpdateProjectName from "./FormUpdateProjectName";
 import React, { useState, useContext } from "react";
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { ThemeContext } from "../context/ThemeProvider";
+import FormUpdateProjectName from "./FormUpdateProjectName";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 
-export default function SectionHeaderLeft(props) {
+export default function ProjectHeaderLeft(props) {
   const { headerTitle, toggleConfirmDelete } = props;
   const [showEdit, setShowEdit] = useState(false);
   const [header, setHeader] = useState(headerTitle);

@@ -3,7 +3,8 @@
 
 import { css, jsx, keyframes } from "@emotion/react";
 
-export default function Modal({ children }) {
+export default function Modal(props) {
+  const {toggleModal, children} = props;
   const maxZ =
     Array.from(document.querySelectorAll("body *"))
       .map((a) => window.getComputedStyle(a).zIndex)
@@ -48,8 +49,13 @@ export default function Modal({ children }) {
     animation: ${rolloutAnimation} 1s ease;
   `;
 
+  const closeModal = (e) => {
+    console.log(e.target)
+    if(e.target.id === "modal-container") toggleModal();
+  }
+
   return (
-    <div css={modal}>
+    <div id="modal-container" css={modal} onClick={closeModal}>
       <div id="modal-content" css={modalContent}>
         {children}
       </div>

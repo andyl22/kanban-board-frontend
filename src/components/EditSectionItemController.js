@@ -5,18 +5,18 @@ import { css, jsx } from "@emotion/react";
 import { useContext } from "react";
 import { postHTTP } from "../utilities/fetchAPIs";
 import { SectionsContext } from "../context/SectionsProvider";
-import ModalDeleteConfirm from "./ModalDeleteConfirm";
+import ModalEditItem from "./ModalEditItem";
 
-export default function DeleteSectionItemController(props) {
+export default function EditSectionItemController(props) {
   const { item, toggleModal } = props;
   const { sections, dispatch } = useContext(SectionsContext);
 
   const deleteProject = () => {
-    postHTTP("/sectionItem/deleteSectionItem", { itemID: item._id })
+    postHTTP("/sectionItem/editSectionItem", { itemID: item._id })
       .then((res) => console.log(res))
       .then(
         dispatch({
-          type: "DELETEITEM",
+          type: "EDITITEM",
           itemID: item._id,
           sectionID: item.sectionID,
         })
@@ -25,7 +25,7 @@ export default function DeleteSectionItemController(props) {
   };
 
   return (
-    <ModalDeleteConfirm
+    <ModalEditItem
       deleteObject={deleteProject}
       itemName={item.name}
       toggleModal={toggleModal}

@@ -3,11 +3,12 @@
 
 import { css, jsx, keyframes } from "@emotion/react";
 import { useState, useEffect, useContext } from "react";
-import SectionItem from "./SectionItem";
-import AddSectionItemController from "./AddSectionItemController";
 import { ThemeContext } from "../context/ThemeProvider";
 import { Droppable } from "react-beautiful-dnd";
 import { SectionsContext } from "../context/SectionsProvider";
+import SectionHeader from "./SectionHeader";
+import SectionItem from "./SectionItem";
+import AddSectionItemController from "./AddSectionItemController";
 
 export default function Section(props) {
   const { id, name } = props;
@@ -45,17 +46,6 @@ export default function Section(props) {
     }
   `;
 
-  const sectionHeader = css`
-    width: 100%;
-    padding: 1em;
-    background: #ffce1c;
-    border-bottom: 2px solid #727272;
-    border-top-right-radius: inherit;
-    border-top-left-radius: inherit;
-    color: black !important;
-    word-break: break-word;
-  `;
-
   const sectionItemsContainer = (snapshot) => css`
     display: flex;
     flex-direction: column;
@@ -85,7 +75,7 @@ export default function Section(props) {
 
   return (
     <section id={id} css={section}>
-      <h1 css={sectionHeader}>{name}</h1>
+      <SectionHeader name={name}/>
       <Droppable droppableId={id}>
         {(provided, snapshot) => (
           <div

@@ -6,7 +6,7 @@ export default function ModalLogin(props) {
   const { toggleModal } = props;
 
   return (
-    <Modal>
+    <Modal toggleModal={toggleModal}>
       <ModalHeader title={"Log In"} toggleModal={toggleModal} />
       <FormLogin toggleModal={toggleModal} />
     </Modal>

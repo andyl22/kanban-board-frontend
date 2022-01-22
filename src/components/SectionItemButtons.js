@@ -5,19 +5,19 @@ import { css, jsx } from "@emotion/react";
 import React, { useState } from "react";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import DeleteSectionItemController from "./DeleteSectionItemController";
 
 export default function SectionItemButton(props) {
-  const { item } = props;
-  const [showDelete, setShowDelete] = useState(false);
+  const { toggleDeleteModal, toggleButtons } = props;
   const [showEdit, setShowEdit] = useState(false);
 
-  const toggleDeleteModal = () => {
-    setShowDelete(!showDelete);
+  const editItem = () => {
+    toggleButtons();
+    setShowEdit(!showEdit);
   };
 
-  const editItem = () => {
-    setShowEdit(!showEdit);
+  const showDeleteModal = () => {
+    toggleButtons();
+    toggleDeleteModal();
   };
 
   const manipulateItemButtons = css`
@@ -41,21 +41,15 @@ export default function SectionItemButton(props) {
   `;
 
   return (
-    <>
+    <div>
       <div css={manipulateItemButtons} onClick={editItem}>
         <button css={button}>
           <EditIcon fontSize="small" />
         </button>
-        <button css={button} onClick={toggleDeleteModal}>
+        <button css={button} onClick={showDeleteModal}>
           <DeleteForeverIcon fontSize="small" />
         </button>
       </div>
-      {showDelete ? (
-        <DeleteSectionItemController
-          item={item}
-          toggleModal={toggleDeleteModal}
-        />
-      ) : null}
-    </>
+    </div>
   );
 }

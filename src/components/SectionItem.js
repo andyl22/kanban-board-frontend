@@ -7,10 +7,12 @@ import React, { useState } from "react";
 import DragHandle from "./DragHandle";
 import SectionItemContent from "./SectionItemContent";
 import SectionItemButton from "./SectionItemButtons";
+import DeleteSectionItemController from "./DeleteSectionItemController";
 
 export default function SectionItem(props) {
   const { item } = props;
   const [showButtons, setShowButtons] = useState(false);
+  const [showDelete, setShowDelete] = useState(false);
 
   const itemContainer = css`
     position: relative;
@@ -28,7 +30,11 @@ export default function SectionItem(props) {
       height: fit-content;
       width: 90%;
       border-radius: 1em;
-      border: ${snapshot.isDragging ? "1px dashed red" : "1px solid #cccccc"};
+      border: ${snapshot.isDragging
+        ? "1px dashed red"
+        : showButtons
+        ? "1px solid red"
+        : "1px solid #cccccc"};
       overflow: hidden;
       &:hover {
         box-shadow: -3px 3px 7px #f2f2f2;
@@ -41,21 +47,40 @@ export default function SectionItem(props) {
     setShowButtons(!showButtons);
   };
 
+  const toggleDeleteModal = () => {
+    setShowDelete(!showDelete);
+  };
+
   return (
-    <div css={itemContainer} onDoubleClick={toggleButtons}>
+    <div
+      css={itemContainer}
+    >
       <Draggable draggableId={props.id} index={props.index}>
         {(provided, snapshot) => (
           <div
             {...provided.draggableProps}
             css={SectionItem(snapshot)}
             ref={provided.innerRef}
+            onClick={toggleButtons}
           >
             <DragHandle {...provided.dragHandleProps} />
             <SectionItemContent item={item} />
           </div>
         )}
       </Draggable>
-      {showButtons ? <SectionItemButton item={item} /> : null}
+      {showButtons ? (
+        <SectionItemButton
+          item={item}
+          toggleDeleteModal={toggleDeleteModal}
+          toggleButtons={toggleButtons}
+        />
+      ) : null}
+      {showDelete ? (
+        <DeleteSectionItemController
+          item={item}
+          toggleModal={toggleDeleteModal}
+        />
+      ) : null}
     </div>
   );
 }

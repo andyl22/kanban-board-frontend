@@ -2,7 +2,7 @@
 /** @jsx jsx */
 
 import { css, jsx } from "@emotion/react";
-import SectionHeader from "./SectionHeader";
+import ProjectHeader from "./ProjectHeader";
 import AddSectionController from "./AddSectionController";
 import { useContext, useRef, useEffect } from "react";
 import { ThemeContext } from "../context/ThemeProvider";
@@ -85,7 +85,7 @@ export default function KanbanContent(props) {
 
   return (
     <div css={kanbanContentContainer}>
-      <SectionHeader headerTitle={project.name} />
+      <ProjectHeader headerTitle={project.name} />
       <div css={content} ref={sectionRef}>
         <DragDropContext onDragEnd={handleDragEnd}>{children}</DragDropContext>
         <AddSectionController />

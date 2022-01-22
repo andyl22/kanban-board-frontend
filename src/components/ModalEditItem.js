@@ -5,7 +5,7 @@ import { css, jsx } from "@emotion/react";
 import Modal from "./Modal";
 import ModalHeader from "./ModalHeader";
 
-export default function ModalDeleteConfirm(props) {
+export default function ModalEditItem(props) {
   const { itemName, toggleModal, deleteObject } = props;
 
   const modalContentContainer = css`
@@ -36,9 +36,8 @@ export default function ModalDeleteConfirm(props) {
 
   return (
     <Modal toggleModal={toggleModal}>
-      <ModalHeader title="Confirm Delete Request" toggleModal={toggleModal} />
+      <ModalHeader title="Edit Item" toggleModal={toggleModal} />
       <div css={modalContentContainer}>
-        <p>{`Are you sure you want to delete ${itemName}?`}</p>
         <div css={deleteConfirmButtonContainer}>
           <button onClick={deleteObject}>Confirm</button>
           <button onClick={toggleModal}>Cancel</button>
