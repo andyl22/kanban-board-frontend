@@ -11,7 +11,7 @@ export default function DeleteSectionController(props) {
   const { section, toggleModal } = props;
   const { sections, dispatch } = useContext(SectionsContext);
 
-  const deleteProject = () => {
+  const deleteSection = () => {
     postHTTP('/sectionItem/deleteSectionItem', {sectionID: section._id})
       .then((res) => console.log(res))
       .then(
@@ -25,7 +25,7 @@ export default function DeleteSectionController(props) {
 
   return (
     <ModalDeleteConfirm
-      deleteObject={deleteProject}
+      deleteObject={deleteSection}
       sectionName={section.name}
       toggleModal={toggleModal}
     />

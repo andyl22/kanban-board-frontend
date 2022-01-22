@@ -8,11 +8,13 @@ import DragHandle from "./DragHandle";
 import SectionItemContent from "./SectionItemContent";
 import SectionItemButton from "./SectionItemButtons";
 import DeleteSectionItemController from "./DeleteSectionItemController";
+import EditSectionItemController from "./EditSectionItemController";
 
 export default function SectionItem(props) {
   const { item } = props;
   const [showButtons, setShowButtons] = useState(false);
   const [showDelete, setShowDelete] = useState(false);
+  const [showEdit, setShowEdit] = useState(false);
 
   const itemContainer = css`
     position: relative;
@@ -40,6 +42,9 @@ export default function SectionItem(props) {
         box-shadow: -3px 3px 7px #f2f2f2;
         cursor: pointer;
       }
+      &:hover {
+        border: 1px dashed red;
+      }
     `;
   };
 
@@ -47,14 +52,16 @@ export default function SectionItem(props) {
     setShowButtons(!showButtons);
   };
 
+  const toggleEditModal = () => {
+    setShowEdit(!showEdit);
+  };
+
   const toggleDeleteModal = () => {
     setShowDelete(!showDelete);
   };
 
   return (
-    <div
-      css={itemContainer}
-    >
+    <div css={itemContainer}>
       <Draggable draggableId={props.id} index={props.index}>
         {(provided, snapshot) => (
           <div
@@ -72,6 +79,7 @@ export default function SectionItem(props) {
         <SectionItemButton
           item={item}
           toggleDeleteModal={toggleDeleteModal}
+          toggleEditModal={toggleEditModal}
           toggleButtons={toggleButtons}
         />
       ) : null}
@@ -80,6 +88,9 @@ export default function SectionItem(props) {
           item={item}
           toggleModal={toggleDeleteModal}
         />
+      ) : null}
+      {showEdit ? (
+        <EditSectionItemController item={item} toggleModal={toggleEditModal} />
       ) : null}
     </div>
   );

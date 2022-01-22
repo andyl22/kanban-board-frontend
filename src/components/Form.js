@@ -32,7 +32,8 @@ export default function Form(props) {
         }
       }
     }
-    input[type="submit"] {
+    input[type="submit"],
+    input[type="button"] {
       max-width: 180px;
       padding: 0.3em 3em;
       &:hover {

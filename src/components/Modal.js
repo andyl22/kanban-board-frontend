@@ -4,7 +4,7 @@
 import { css, jsx, keyframes } from "@emotion/react";
 
 export default function Modal(props) {
-  const {toggleModal, children} = props;
+  const { toggleModal, children } = props;
   const maxZ =
     Array.from(document.querySelectorAll("body *"))
       .map((a) => window.getComputedStyle(a).zIndex)
@@ -50,9 +50,8 @@ export default function Modal(props) {
   `;
 
   const closeModal = (e) => {
-    console.log(e.target)
-    if(e.target.id === "modal-container") toggleModal();
-  }
+    if (e.target.id === "modal-container") toggleModal();
+  };
 
   return (
     <div id="modal-container" css={modal} onClick={closeModal}>

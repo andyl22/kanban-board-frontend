@@ -72,7 +72,7 @@ export default function FormLogin(props) {
         onChange={handleChange}
         value={formState.verifyPassword || ""}
       />
-      <input type="submit" value="Login" />
+      <input type="submit" value="Register" />
     </Form>
   );
 }
