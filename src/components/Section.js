@@ -11,7 +11,7 @@ import SectionItem from "./SectionItem";
 import AddSectionItemController from "./AddSectionItemController";
 
 export default function Section(props) {
-  const { id, name } = props;
+  const { section } = props;
   const [mappedSectionItems, setMappedSectionItems] = useState(null);
   const { colors, mq } = useContext(ThemeContext);
   const { sections } = useContext(SectionsContext);
@@ -27,7 +27,7 @@ export default function Section(props) {
   }
 `;
 
-  const section = css`
+  const sectionContainer = css`
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -61,7 +61,7 @@ export default function Section(props) {
   // map items of the section to SectionItem components
   useEffect(() => {
     const filteredSection = sections.itemsList.filter(
-      (item) => item.sectionID === id
+      (item) => item.sectionID === section._id
     )[0];
     if (!filteredSection) return;
     const sectionItems = filteredSection.items;
@@ -71,12 +71,12 @@ export default function Section(props) {
         <SectionItem item={item} key={item._id} index={index} id={item._id} />
       ))
     );
-  }, [id, sections]);
+  }, [section._id, sections]);
 
   return (
-    <section id={id} css={section}>
-      <SectionHeader name={name}/>
-      <Droppable droppableId={id}>
+    <section id={section._id} css={sectionContainer}>
+      <SectionHeader section={section}/>
+      <Droppable droppableId={section._id}>
         {(provided, snapshot) => (
           <div
             ref={provided.innerRef}
@@ -88,7 +88,7 @@ export default function Section(props) {
           </div>
         )}
       </Droppable>
-      <AddSectionItemController sectionID={id} />
+      <AddSectionItemController sectionID={section._id} />
     </section>
   );
 }

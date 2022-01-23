@@ -36,7 +36,7 @@ export default function FormEditSectionItem(props) {
     justify-content: flex-end;
     gap: 1em;
     align-items: center;
-  `
+  `;
 
   const handleChange = (e) => {
     setFormState({ ...formState, [e.target.id]: e.target.value });
@@ -47,16 +47,23 @@ export default function FormEditSectionItem(props) {
     postHTTP("/sectionItem/editSectionItem", {
       itemID: item._id,
       updateBody: formState,
-    }).then((res) => {
-      if (res.success) {
-        dispatch({ type: "EDITITEM", sectionID: item.sectionID, itemID: item._id, updatedItem: formState });
-        toggleModal();
-      } else {
-        setUpdateError(res.message);
-      }
     })
-    .catch(err => setUpdateError("Could not update because server is unavailable."))
-    ;
+      .then((res) => {
+        if (res.success) {
+          dispatch({
+            type: "EDITITEM",
+            sectionID: item.sectionID,
+            itemID: item._id,
+            updatedItem: formState,
+          });
+          toggleModal();
+        } else {
+          setUpdateError(res.message);
+        }
+      })
+      .catch((err) =>
+        setUpdateError(`Could not update because server is unavailable.`)
+      );
   };
 
   useEffect(() => {
@@ -65,7 +72,7 @@ export default function FormEditSectionItem(props) {
 
   return (
     <Form handleSubmit={handleSubmit}>
-      {(updateError) ? <p>{updateError}</p> : null}
+      {updateError ? <p>{updateError}</p> : null}
       <div css={inputWrapper}>
         <label htmlFor="itemName">Name</label>
         <input
@@ -78,7 +85,6 @@ export default function FormEditSectionItem(props) {
         />
       </div>
       <div css={inputWrapper}>
-        {" "}
         <label htmlFor="itemDescription">Description</label>
         <input
           type="text"

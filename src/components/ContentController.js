@@ -89,7 +89,7 @@ export default function ContentController() {
     if (!sections || sections === null) return;
     const sectionDetails = sections.sectionDetails;
     const mappedSections = sectionDetails.map((section) => (
-      <Section id={section._id} name={section.name} key={section._id} />
+      <Section section={section} key={section._id} />
     ));
     setMappedSections(mappedSections);
   }, [sections]);

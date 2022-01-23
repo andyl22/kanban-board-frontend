@@ -2,11 +2,17 @@
 /** @jsx jsx */
 
 import { css, jsx } from "@emotion/react";
+import React, { useState } from "react";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import DeleteSectionController from "./DeleteSectionController";
+import EditSectionController from "./EditSectionController";
 
 export default function SectionHeader(props) {
-  const { name } = props;
+  const { section } = props;
+  const [showDelete, setShowDelete] = useState(false);
+  const [showEdit, setShowEdit] = useState(false);
+
   const sectionHeader = css`
     display: flex;
     position: relative;
@@ -40,13 +46,31 @@ export default function SectionHeader(props) {
     }
   `;
 
+  const toggleDelete = () => {
+    setShowDelete(!showDelete);
+  };
+
+  const toggleEdit = () => {
+    setShowEdit(!showEdit);
+  };
+
   return (
-    <div css={sectionHeader}>
-      <h1 css={text}>{name}</h1>
-      <div css={buttonsContainer}>
-        <EditIcon fontSize="small" css={buttons} />
-        <DeleteForeverIcon fontSize="small" css={buttons} />
+    <>
+      <div css={sectionHeader}>
+        <h1 css={text}>{section.name}</h1>
+        <div css={buttonsContainer}>
+          <EditIcon fontSize="small" css={buttons} onClick={toggleEdit} />
+          <DeleteForeverIcon
+            fontSize="small"
+            css={buttons}
+            onClick={toggleDelete}
+          />
+        </div>
       </div>
-    </div>
+      {showDelete ? (
+        <DeleteSectionController section={section} toggleModal={toggleDelete} />
+      ) : null}
+      {showDelete ? <EditSectionController /> : null}
+    </>
   );
 }

@@ -9,10 +9,11 @@ import ModalDeleteConfirm from "./ModalDeleteConfirm";
 
 export default function DeleteSectionController(props) {
   const { section, toggleModal } = props;
-  const { sections, dispatch } = useContext(SectionsContext);
+  const { dispatch } = useContext(SectionsContext);
 
   const deleteSection = () => {
-    postHTTP('/sectionItem/deleteSectionItem', {sectionID: section._id})
+    dispatch({type: "DELETESECTION", sectionID: section._id})
+    postHTTP('/projectSection/deleteSectionById', {id: section._id})
       .then((res) => console.log(res))
       .then(
         dispatch({

@@ -49,7 +49,7 @@ export default function FormCreateProject(props) {
       .then((res) =>
         dispatch({ type: "ADDSECTION", sectionDetail: res.section })
       )
-      .then(console.log("Fired"))
+      .then(toggleForm())
       .catch((err) => console.log(err));
   };
 

@@ -34,7 +34,12 @@ const SectionsProvider = ({ children }) => {
       case "EDITSECTIONS":
         return;
       case "DELETESECTION":
-        return;
+        return {
+          ...sections,
+          sectionDetails: sections.sectionDetails.filter(
+            (section) => section._id !== action.sectionID
+          ),
+        };
       case "CLEARSECTIONS":
         return null;
       case "SETITEMS":
@@ -65,9 +70,16 @@ const SectionsProvider = ({ children }) => {
           const itemListIndex = getIndexOfItemList();
           const copyOfItems = createDeepCopy(sections.itemsList);
 
-          const itemIndex = getIndexOfObj(copyOfItems[itemListIndex].items, "_id", "itemID");
+          const itemIndex = getIndexOfObj(
+            copyOfItems[itemListIndex].items,
+            "_id",
+            "itemID"
+          );
           copyOfItems[itemListIndex].items[itemIndex] = action.updatedItem;
-          console.log(action.updatedItem, copyOfItems[itemListIndex].items[itemIndex]);
+          console.log(
+            action.updatedItem,
+            copyOfItems[itemListIndex].items[itemIndex]
+          );
           return { ...sections, itemsList: copyOfItems };
         })();
       case "DELETEITEM":
