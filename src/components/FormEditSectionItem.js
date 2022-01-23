@@ -2,15 +2,18 @@
 /** @jsx jsx */
 
 import { css, jsx } from "@emotion/react";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useContext } from "react";
 import { postHTTP } from "../utilities/fetchAPIs";
+import { SectionsContext } from "../context/SectionsProvider";
+
 import Form from "./Form";
 
 export default function FormEditSectionItem(props) {
   const { item, toggleModal } = props;
-  const [formState, setFormState] = useState({});
+  const [formState, setFormState] = useState(item);
   const [updateError, setUpdateError] = useState(false);
   const inputRef = useRef();
+  const { dispatch } = useContext(SectionsContext);
 
   const deleteConfirmButtonContainer = css`
     display: flex;
@@ -37,7 +40,6 @@ export default function FormEditSectionItem(props) {
 
   const handleChange = (e) => {
     setFormState({ ...formState, [e.target.id]: e.target.value });
-    console.log(formState);
   };
 
   const handleSubmit = (e) => {
@@ -47,12 +49,14 @@ export default function FormEditSectionItem(props) {
       updateBody: formState,
     }).then((res) => {
       if (res.success) {
-        // dispatch function here
+        dispatch({ type: "EDITITEM", sectionID: item.sectionID, itemID: item._id, updatedItem: formState });
         toggleModal();
       } else {
         setUpdateError(res.message);
       }
-    });
+    })
+    .catch(err => setUpdateError("Could not update because server is unavailable."))
+    ;
   };
 
   useEffect(() => {
@@ -61,13 +65,14 @@ export default function FormEditSectionItem(props) {
 
   return (
     <Form handleSubmit={handleSubmit}>
+      {(updateError) ? <p>{updateError}</p> : null}
       <div css={inputWrapper}>
         <label htmlFor="itemName">Name</label>
         <input
           type="text"
           placeholder="Item Name"
-          value={formState.itemName || item.name}
-          id="itemName"
+          value={formState.name || item.name}
+          id="name"
           onChange={handleChange}
           ref={inputRef}
         />
@@ -78,8 +83,8 @@ export default function FormEditSectionItem(props) {
         <input
           type="text"
           placeholder="Item Description"
-          value={formState.itemDescription || item.description}
-          id="itemDescription"
+          value={formState.description || item.description}
+          id="description"
           onChange={handleChange}
         />
       </div>

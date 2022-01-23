@@ -17,6 +17,10 @@ const SectionsProvider = ({ children }) => {
       );
     };
 
+    const getIndexOfItemList = () => {
+      return getIndexOfObj(sections.itemsList, "sectionID", "sectionID");
+    };
+
     switch (action.type) {
       case "SETSECTIONS":
         // dispatch({type:'SETSECTIONS', sectionDetails: res.sections}
@@ -39,14 +43,10 @@ const SectionsProvider = ({ children }) => {
       case "ADDITEM":
         // dispatch({type:'ADDITEM', item: item})
         return (() => {
-          const indexOfItems = getIndexOfObj(
-            sections.itemsList,
-            "sectionID",
-            "sectionID"
-          );
+          const itemListIndex = getIndexOfItemList();
 
-          // Create an item in the itemsList if it does not exist
-          if (indexOfItems === -1) {
+          // If there is no array of items for the section, create a new array with the provided item
+          if (itemListIndex === -1) {
             return {
               ...sections,
               itemsList: [
@@ -57,24 +57,30 @@ const SectionsProvider = ({ children }) => {
           }
 
           const copyOfItems = createDeepCopy(sections.itemsList);
-          copyOfItems[indexOfItems].items.push(action.item);
+          copyOfItems[itemListIndex].items.push(action.item);
           return { ...sections, itemsList: copyOfItems };
         })();
       case "EDITITEM":
-        return;
+        return (() => {
+          const itemListIndex = getIndexOfItemList();
+          const copyOfItems = createDeepCopy(sections.itemsList);
+
+          const itemIndex = getIndexOfObj(copyOfItems[itemListIndex].items, "_id", "itemID");
+          copyOfItems[itemListIndex].items[itemIndex] = action.updatedItem;
+          console.log(action.updatedItem, copyOfItems[itemListIndex].items[itemIndex]);
+          return { ...sections, itemsList: copyOfItems };
+        })();
       case "DELETEITEM":
-        const indexOfItems = getIndexOfObj(
-          sections.itemsList,
-          "sectionID",
-          "sectionID"
-        );
+        return (() => {
+          const itemListIndex = getIndexOfItemList();
+          const copyOfItems = createDeepCopy(sections.itemsList);
 
-        const copyOfItems = createDeepCopy(sections.itemsList);
-        copyOfItems[indexOfItems].items = sections.itemsList[
-          indexOfItems
-        ].items.filter((item) => item._id !== action.itemID);
+          copyOfItems[itemListIndex].items = sections.itemsList[
+            itemListIndex
+          ].items.filter((item) => item._id !== action.itemID);
 
-        return { ...sections, itemsList: copyOfItems };
+          return { ...sections, itemsList: copyOfItems };
+        })();
       default:
         return;
     }

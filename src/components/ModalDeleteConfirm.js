@@ -36,7 +36,7 @@ export default function ModalDeleteConfirm(props) {
 
   return (
     <Modal toggleModal={toggleModal}>
-      <ModalHeader title="Confirm Delete Request" toggleModal={toggleModal} />
+      <ModalHeader title="Confirm Delete" toggleModal={toggleModal} />
       <div css={modalContentContainer}>
         <p>{`Are you sure you want to delete ${itemName}?`}</p>
         <div css={deleteConfirmButtonContainer}>

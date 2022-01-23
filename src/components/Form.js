@@ -16,6 +16,13 @@ export default function Form(props) {
     gap: 0.5em;
     font-size: 0.8em;
     padding: 1em;
+    p {
+      word-wrap: break-word;
+      color: red !important;
+      font-size: 0.7em;
+      margin-bottom: 1em;
+      max-width: 250px;
+    }
     input {
       border-radius: 0.3em;
       padding: 0.2em 0.5em 0.4em 0.5em;

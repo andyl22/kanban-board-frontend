@@ -14,14 +14,6 @@ export default function FormLogin(props) {
   const [formState, setFormState] = useState({ username: "", password: "" });
   const [error, setError] = useState(false);
 
-  const formError = css`
-    word-wrap: break-word;
-    color: red !important;
-    font-size: 0.7em;
-    margin-bottom: 1em;
-    max-width: 250px;
-  `;
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     postHTTP("/auth/login", formState)
@@ -43,7 +35,7 @@ export default function FormLogin(props) {
 
   return (
     <Form handleSubmit={handleSubmit}>
-      {error ? <p css={formError}>{error}</p> : null}
+      {error ? <p>{error}</p> : null}
       <input
         type="text"
         id="username"

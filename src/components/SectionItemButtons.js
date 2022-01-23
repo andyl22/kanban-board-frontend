@@ -40,8 +40,8 @@ export default function SectionItemButton(props) {
 
   return (
     <div>
-      <div css={manipulateItemButtons} onClick={showEditModal}>
-        <button css={button}>
+      <div css={manipulateItemButtons}>
+        <button css={button} onClick={showEditModal}>
           <EditIcon fontSize="small" />
         </button>
         <button css={button} onClick={showDeleteModal}>
