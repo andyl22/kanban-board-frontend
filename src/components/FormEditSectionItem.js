@@ -9,7 +9,7 @@ import { SectionsContext } from "../context/SectionsProvider";
 import Form from "./Form";
 
 export default function FormEditSectionItem(props) {
-  const { item, toggleModal } = props;
+  const { item, toggleForm } = props;
   const [formState, setFormState] = useState(item);
   const [updateError, setUpdateError] = useState(false);
   const inputRef = useRef();
@@ -56,7 +56,7 @@ export default function FormEditSectionItem(props) {
             itemID: item._id,
             updatedItem: formState,
           });
-          toggleModal();
+          toggleForm();
         } else {
           setUpdateError(res.message);
         }
@@ -94,10 +94,9 @@ export default function FormEditSectionItem(props) {
           onChange={handleChange}
         />
       </div>
-
       <div css={deleteConfirmButtonContainer}>
         <input type="submit" value="Confirm" />
-        <input type="button" value="Cancel" onClick={toggleModal}></input>
+        <input type="button" value="Cancel" onClick={toggleForm}></input>
       </div>
     </Form>
   );

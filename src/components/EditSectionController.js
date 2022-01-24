@@ -2,11 +2,15 @@
 /** @jsx jsx */
 
 import { css, jsx } from "@emotion/react";
+import ModalEditItem from "./ModalEditItem";
+import FormEditSection from "./FormEditSection";
 
-export default function EditSectionController() {
+export default function EditSectionController(props) {
+  const {section, toggleModal} = props;
+
   return (
-    <div>
-      
-    </div>
+    <ModalEditItem toggleModal={toggleModal}>
+      <FormEditSection section={section} toggleForm={toggleModal}/>
+    </ModalEditItem>
   )
 }

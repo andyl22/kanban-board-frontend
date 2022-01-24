@@ -19,7 +19,7 @@ export default function SectionHeader(props) {
     justify-content: space-between;
     width: 100%;
     padding: 1em;
-    background: #ffce1c;
+    background: ${section.color || "#FFFFFF"};
     border-bottom: 2px solid #727272;
     border-top-right-radius: inherit;
     border-top-left-radius: inherit;
@@ -29,7 +29,7 @@ export default function SectionHeader(props) {
 
   const text = css`
     margin: 0 auto;
-    padding: 0 1em;
+    padding: 0 2.5em;
   `;
 
   const buttonsContainer = css`
@@ -70,7 +70,9 @@ export default function SectionHeader(props) {
       {showDelete ? (
         <DeleteSectionController section={section} toggleModal={toggleDelete} />
       ) : null}
-      {showDelete ? <EditSectionController /> : null}
+      {showEdit ? (
+        <EditSectionController section={section} toggleModal={toggleEdit} />
+      ) : null}
     </>
   );
 }

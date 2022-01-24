@@ -10,7 +10,7 @@ import { ThemeContext } from "../context/ThemeProvider";
 import { postHTTP } from "../utilities/fetchAPIs";
 import { SectionsContext } from "../context/SectionsProvider";
 
-export default function FormCreateProject(props) {
+export default function FormCreateSection(props) {
   const { toggleForm } = props;
   const { dispatch } = useContext(SectionsContext);
   const { id } = useParams();
@@ -23,16 +23,20 @@ export default function FormCreateProject(props) {
 
   const container = css`
     display: flex;
+    height: 100%;
+    align-items: flex-start;
     padding: 0.5em 1em;
     gap: 0.5em;
     border-radius: 0.5em;
-    align-items: center;
     height: fit-content;
     width: fit-content;
-    background: #f2f2f2;
+    background: white;
   `;
 
   const closeButton = css`
+    font-size: 1em;
+    position: relative;
+    top: 12px;
     &:hover {
       cursor: pointer;
       color: ${colors.iconHoverColor};
@@ -70,10 +74,22 @@ export default function FormCreateProject(props) {
           type="text"
           placeholder="Section Name"
           id="sectionName"
-          value={formState.sectionName}
+          value={formState.sectionName || ""}
           onChange={handleChange}
           onKeyDown={handleKeyDown}
           ref={inputRef}
+        />
+        <label htmlFor="color">Pick a section color:</label>
+        <input
+          type="color"
+          id="color"
+          value={formState.color || "#FFFFFF"}
+          onChange={handleChange}
+        />
+        <input
+          type="submit"
+          value="Submit"
+          onChange={handleChange}
         />
       </Form>
       <CancelIcon fontSize="small" css={closeButton} onClick={toggleForm} />

@@ -21,6 +21,10 @@ const SectionsProvider = ({ children }) => {
       return getIndexOfObj(sections.itemsList, "sectionID", "sectionID");
     };
 
+    const getIndexOfSectionList = () => {
+      return getIndexOfObj(sections.sectionDetails, "_id", "id");
+    };
+
     switch (action.type) {
       case "SETSECTIONS":
         // dispatch({type:'SETSECTIONS', sectionDetails: res.sections}
@@ -31,8 +35,19 @@ const SectionsProvider = ({ children }) => {
           ...sections,
           sectionDetails: [...sections.sectionDetails, action.sectionDetail],
         };
-      case "EDITSECTIONS":
-        return;
+      case "EDITSECTION":
+        return (() => {
+          const copyOfSections = createDeepCopy(sections.sectionDetails);
+          const indexOfSection = getIndexOfSectionList();
+
+          copyOfSections[indexOfSection] = action.updatedSection;
+
+          console.log(action.updatedSection);
+
+          return {
+            ...sections, sectionDetails: copyOfSections
+          };
+        })();
       case "DELETESECTION":
         return {
           ...sections,

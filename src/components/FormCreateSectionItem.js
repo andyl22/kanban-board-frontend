@@ -84,7 +84,7 @@ export default function FormCreateSectionItem(props) {
           id="itemDescription"
           onChange={handleChange}
         />
-        <input type="submit" />
+        <input type="submit"/>
       </Form>
       <CancelIcon fontSize="small" css={closeButton} onClick={toggleForm} />
     </div>
