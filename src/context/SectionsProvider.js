@@ -42,10 +42,9 @@ const SectionsProvider = ({ children }) => {
 
           copyOfSections[indexOfSection] = action.updatedSection;
 
-          console.log(action.updatedSection);
-
           return {
-            ...sections, sectionDetails: copyOfSections
+            ...sections,
+            sectionDetails: copyOfSections,
           };
         })();
       case "DELETESECTION":

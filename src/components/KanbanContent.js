@@ -8,6 +8,7 @@ import { useContext, useRef, useEffect } from "react";
 import { ThemeContext } from "../context/ThemeProvider";
 import { DragDropContext } from "react-beautiful-dnd";
 import { SectionsContext } from "../context/SectionsProvider";
+import { postHTTP } from "../utilities/fetchAPIs";
 
 export default function KanbanContent(props) {
   const { children, project } = props;
@@ -72,13 +73,21 @@ export default function KanbanContent(props) {
     const dragItem = copyOfItems[sourceIndex].items.filter(
       (item) => item._id === draggableId
     )[0];
+
     copyOfItems[sourceIndex].items.splice(source.index, 1);
     copyOfItems[destinationIndex].items.splice(destination.index, 0, dragItem);
     dispatch({ type: "SETITEMS", sectionItems: copyOfItems });
+
+    postHTTP("/sectionItem/moveItem", {
+      id: draggableId,
+      updatedSectionID: destination.droppableId,
+    }).catch((err) =>
+      dispatch({ type: "SETITEMS", sectionItems: sectionItems })
+    );
   };
 
   useEffect(() => {
-    if (sectionRef.current!==undefined) {
+    if (sectionRef.current !== undefined) {
       sectionRef.current.scrollTo(0, 0);
     }
   }, []);

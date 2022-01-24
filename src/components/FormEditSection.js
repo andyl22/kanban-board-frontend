@@ -10,8 +10,8 @@ import { SectionsContext } from "../context/SectionsProvider";
 export default function FormEditSection(props) {
   const { section, toggleForm } = props;
   const { dispatch } = useContext(SectionsContext);
-  const [formState, setFormState] = useState( section );
-  const [updateError, setUpdateError] = useState(false);
+  const [formState, setFormState] = useState(section);
+  const [updateError, setUpdateError] = useState();
   const inputRef = useRef();
 
   const handleChange = (e) => {
@@ -24,15 +24,19 @@ export default function FormEditSection(props) {
       id: section._id,
       updateBody: formState,
     })
-      .then(
-        dispatch({
-          type: "EDITSECTION",
-          updatedSection: formState,
-          id: section._id,
-        })
-      )
-      .then(toggleForm())
-      .catch((err) => setUpdateError("Could not update the section details."));
+      .then((res) => {
+        if (res) {
+          dispatch({
+            type: "EDITSECTION",
+            updatedSection: formState,
+            id: section._id,
+          });
+          toggleForm();
+        }
+      })
+      .catch((err) =>
+        setUpdateError(`Could not update because server is unavailable`)
+      );
   };
 
   const handleKeyDown = (e) => {

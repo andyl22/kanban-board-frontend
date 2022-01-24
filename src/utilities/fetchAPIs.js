@@ -11,7 +11,7 @@ export function postHTTP(url, body) {
     if(res.ok) {
       return res.json();
     } else {
-      res.json().then(res => {throw Error(res.error)});
+      throw Error(res.json().error);
     }
   })
   ;
