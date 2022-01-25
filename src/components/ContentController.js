@@ -11,6 +11,7 @@ import { UserContext } from "../context/UserProvider";
 import { postHTTP } from "../utilities/fetchAPIs";
 import { SectionsContext } from "../context/SectionsProvider";
 import KanbanContent from "./KanbanContent";
+import AutorenewIcon from '@mui/icons-material/Autorenew';
 
 export default function ContentController() {
   const [project, setProject] = useState();
@@ -41,6 +42,11 @@ export default function ContentController() {
       font-size: 1em;
     }
   `;
+
+  const loadIcon = css`
+    margin: 3em auto;
+    font-size: 3em;
+  `
 
   // Fetch section metadata and items for the project
   useEffect(() => {
@@ -101,7 +107,7 @@ export default function ContentController() {
     } else if (!id) {
       return <p css={textContent}>Select a project in the dropdown menu.</p>;
     } else if (loading) {
-      return <p css={textContent}>Loading</p>;
+      return <AutorenewIcon css={loadIcon}/>;
     } else if (error) {
       return (
         <p css={textContent}>

@@ -14,7 +14,6 @@ export default function ProjectHeader(props) {
 
   const projectHeader = css`
     display: flex;
-    flex-wrap: wrap;
     width: 100%;
     flex: 1;
     padding: 0.5em 2em;
@@ -22,9 +21,6 @@ export default function ProjectHeader(props) {
     box-shadow: 0px 0px 10px ${colors.headerShadowColor};
     color: ${colors.basicFontColor};
     font-weight: 600;
-    position: sticky;
-    top: 0;
-    left: 0;
   `;
 
   const toggleConfirmDelete = () => {
@@ -33,7 +29,6 @@ export default function ProjectHeader(props) {
 
   return (
     <>
-      {" "}
       <div css={projectHeader}>
         <ProjectHeaderLeft
           headerTitle={headerTitle}

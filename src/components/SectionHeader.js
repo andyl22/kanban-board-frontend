@@ -23,13 +23,13 @@ export default function SectionHeader(props) {
     border-bottom: 2px solid #727272;
     border-top-right-radius: inherit;
     border-top-left-radius: inherit;
-    color: black !important;
     word-break: break-word;
   `;
 
   const text = css`
     margin: 0 auto;
     padding: 0 2.5em;
+    color: black !important;
   `;
 
   const buttonsContainer = css`

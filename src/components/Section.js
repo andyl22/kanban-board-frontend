@@ -37,6 +37,7 @@ export default function Section(props) {
     background: white;
     box-shadow: -3px 10px 10px ${colors.shadowColor};
     animation: ${rolloutY} 0.2s ease-in;
+    max-width: 300px;
     &:-moz-drag-over {
       outline: 1px solid black;
     }
