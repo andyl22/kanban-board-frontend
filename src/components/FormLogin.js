@@ -1,7 +1,7 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 
-import { css, jsx } from "@emotion/react";
+import { jsx } from "@emotion/react";
 import Cookie from "js-cookie";
 import { UserContext } from "../context/UserProvider";
 import { useContext, useState } from "react";

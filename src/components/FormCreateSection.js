@@ -86,11 +86,7 @@ export default function FormCreateSection(props) {
           value={formState.color || "#FFFFFF"}
           onChange={handleChange}
         />
-        <input
-          type="submit"
-          value="Submit"
-          onChange={handleChange}
-        />
+        <input type="submit" value="Submit" onChange={handleChange} />
       </Form>
       <CancelIcon fontSize="small" css={closeButton} onClick={toggleForm} />
     </div>
