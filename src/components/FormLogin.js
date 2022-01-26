@@ -7,10 +7,12 @@ import { UserContext } from "../context/UserProvider";
 import { useContext, useState } from "react";
 import Form from "./Form";
 import { postHTTP } from "../utilities/fetchAPIs";
+import { ThemeContext } from "../context/ThemeProvider";
 
 export default function FormLogin(props) {
   const { toggleModal } = props;
   const { setCurrentUser } = useContext(UserContext);
+  const { darkMode, toggleDarkMode } = useContext(ThemeContext);
   const [formState, setFormState] = useState({ username: "", password: "" });
   const [error, setError] = useState(false);
 
@@ -21,8 +23,10 @@ export default function FormLogin(props) {
         if (res.error) {
           setError(res.error);
         } else {
+          if(res.darkMode !== darkMode) toggleDarkMode();
           setCurrentUser({ username: formState.username });
-          Cookie.set("user", JSON.stringify({ username: formState.username }));
+          Cookie.set("user", JSON.stringify({ username: res.name }));
+          Cookie.set("darkMode", JSON.stringify({ darkMode: res.darkMode }));
           toggleModal();
         }
       })

@@ -21,8 +21,6 @@ export default function FormLogin(props) {
       setError("Passwords do not match!");
       return;
     }
-
-    e.preventDefault();
     postHTTP("/users/registerUser", formState)
       .then((res) => {
         if (res.error) {

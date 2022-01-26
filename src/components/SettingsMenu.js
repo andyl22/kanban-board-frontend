@@ -2,7 +2,7 @@
 /** @jsx jsx */
 
 import { css, jsx } from "@emotion/react";
-import ToggleButton from "./ToggleButton";
+import FormSettings from "./FormSettings";
 
 export default function SettingsMenu() {
   const settingsMenu = css`
@@ -27,7 +27,7 @@ export default function SettingsMenu() {
   return (
     <main css={settingsMenu}>
       <section css={settingsContainer}>
-        <ToggleButton />
+        <FormSettings />
       </section>
     </main>
   );

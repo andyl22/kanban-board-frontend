@@ -7,7 +7,7 @@ import { ThemeContext } from "../context/ThemeProvider";
 import ButtonAdd from "./ButtonAdd";
 import FormCreateSection from "./FormCreateSection";
 
-export default function AddSectionController(props) {
+export default function AddSectionController() {
   const [showForm, setShowForm] = useState(false);
   const { mq } = useContext(ThemeContext);
 

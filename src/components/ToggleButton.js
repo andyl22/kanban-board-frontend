@@ -5,7 +5,7 @@ import { css, jsx, keyframes } from "@emotion/react";
 import { useState } from "react";
 
 export default function ToggleButton(props) {
-  const { handleChange, buttonState } = useState(props);
+  const { handleChange, buttonState } = props;
   const [buttonStatus, setButtonStatus] = useState(buttonState || false);
   const [allowAnimate, setAllowAnimate] = useState(false);
 
@@ -22,7 +22,7 @@ export default function ToggleButton(props) {
     min-width: 60px;
     background: ${buttonStatus ? "#5392ff" : "lightgray"};;
     border: 1px solid #c3c3c3;
-    border-radius: 1em;
+    border-radius: 2em;
     padding: 0.3em .25em .25em .25em;
     position: relative;
     input[type="checkbox"] {
@@ -64,8 +64,8 @@ export default function ToggleButton(props) {
   `;
 
   const toggleButton = (e) => {
-    setButtonStatus(!buttonStatus);
     if (!allowAnimate) setAllowAnimate(true);
+    setButtonStatus(!buttonStatus);
     handleChange(e);
   };
 
@@ -74,7 +74,7 @@ export default function ToggleButton(props) {
       <label htmlFor="dark-mode">Dark Mode</label>
       <div css={checkbox}>
         <div css={checkboxIndicator}></div>
-        <input type="checkbox" id="dark-mode" onChange={toggleButton} />
+        <input type="checkbox" id="darkMode" onChange={toggleButton} />
       </div>
     </div>
   );

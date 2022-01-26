@@ -12,7 +12,7 @@ import DropdownUser from "./DropdownUser";
 import Cookies from "js-cookie";
 
 export default function HeaderRight() {
-  const { theme, toggleTheme, colors, mq } = useContext(ThemeContext);
+  const { darkMode, toggleDarkMode, colors, mq } = useContext(ThemeContext);
   const { currentUser, setCurrentUser } = useContext(UserContext);
   const [showLogin, setShowLogin] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
@@ -69,6 +69,8 @@ export default function HeaderRight() {
   const handleLogout = async () => {
     setCurrentUser(null);
     Cookies.remove("user");
+    Cookies.remove("darkMode");
+    if (darkMode) toggleDarkMode();
     fetch("/auth/logout", { method: "POST" });
     navigate("/kanban-board");
   };
@@ -105,13 +107,12 @@ export default function HeaderRight() {
     <>
       <div css={rightHeader}>
         {rightHeaderLinks}
-        <button onClick={toggleTheme} css={button}>
-          {theme} Theme
-        </button>
         {conditionalRendering}
       </div>
       {showLogin ? <ModalLogin toggleModal={toggleLoginModal} /> : null}
-      {showRegister ? <ModalRegister toggleModal={toggleRegisterModal} /> : null}
+      {showRegister ? (
+        <ModalRegister toggleModal={toggleRegisterModal} />
+      ) : null}
     </>
   );
 }
