@@ -16,14 +16,23 @@ export default function DropdownUser(props) {
     padding: 0.2em 0;
     &:hover {
       cursor: pointer;
-      background: #d8d8d8;
+      background: #f0f0f0;
+      color: gray;
+      a {
+        color: gray;
+      }
+    }
+    a {
+      color: black;
     }
   `;
 
   return (
     <Dropdown dropDownName={currentUser.username}>
-      <button css={dropdownOption} onClick={handleLogout}>
-        Profile
+      <button css={dropdownOption}>
+        <Link to="/kanban-board/profile" id="settings">
+          Profile
+        </Link>
       </button>
       <button css={dropdownOption}>
         <Link to="/kanban-board/settings" id="settings">

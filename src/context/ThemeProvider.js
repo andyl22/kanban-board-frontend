@@ -11,6 +11,7 @@ const ThemeProvider = ({ children }) => {
   const [darkMode, setDarkMode] = useState(parsedCookie || false);
 
   const toggleDarkMode = () => {
+    Cookie.set("darkMode", JSON.stringify({ darkMode: !darkMode }));
     setDarkMode(!darkMode);
   };
 

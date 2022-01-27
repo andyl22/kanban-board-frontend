@@ -51,7 +51,7 @@ export default function FormCreateSection(props) {
     e.preventDefault();
     postHTTP("/projectSection/createSection", formState)
       .then((res) =>
-        dispatch({ type: "ADDSECTION", sectionDetail: res.section })
+        dispatch({ type: "ADDSECTION", sectionDetail: res.section, sectionID: res.section._id })
       )
       .then(toggleForm())
       .catch((err) => console.log(err));

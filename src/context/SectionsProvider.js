@@ -34,6 +34,7 @@ const SectionsProvider = ({ children }) => {
         return {
           ...sections,
           sectionDetails: [...sections.sectionDetails, action.sectionDetail],
+          itemsList: [...sections.itemsList, {sectionID: action.sectionID, items: []}]
         };
       case "EDITSECTION":
         return (() => {
@@ -63,17 +64,6 @@ const SectionsProvider = ({ children }) => {
         // dispatch({type:'ADDITEM', item: item})
         return (() => {
           const itemListIndex = getIndexOfItemList();
-
-          // If there is no array of items for the section, create a new array with the provided item
-          if (itemListIndex === -1) {
-            return {
-              ...sections,
-              itemsList: [
-                ...sections.itemsList,
-                { sectionID: action.sectionID, items: [action.item] },
-              ],
-            };
-          }
 
           const copyOfItems = createDeepCopy(sections.itemsList);
           copyOfItems[itemListIndex].items.push(action.item);
