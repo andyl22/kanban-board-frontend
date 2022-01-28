@@ -9,7 +9,7 @@ export default function EditSectionController(props) {
   const {section, toggleModal} = props;
 
   return (
-    <ModalEditItem toggleModal={toggleModal}>
+    <ModalEditItem type={"Section"} toggleModal={toggleModal}>
       <FormEditSection section={section} toggleForm={toggleModal}/>
     </ModalEditItem>
   )

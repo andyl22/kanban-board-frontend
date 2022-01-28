@@ -1,7 +1,7 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 
-import { css, jsx } from "@emotion/react";
+import { css, jsx, keyframes } from "@emotion/react";
 import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Section from "./Section";
@@ -43,9 +43,23 @@ export default function ContentController() {
     }
   `;
 
+  const loadingAnimation = keyframes`
+    0% {
+      transform: rotate(0deg);
+    }
+    50% {
+      transform: rotate(180deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  `
+
   const loadIcon = css`
     margin: 3em auto;
     font-size: 3em;
+    color: gray;
+    animation: ${loadingAnimation} 1s infinite;
   `
 
   // Fetch section metadata and items for the project

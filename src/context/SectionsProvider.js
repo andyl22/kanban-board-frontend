@@ -80,10 +80,6 @@ const SectionsProvider = ({ children }) => {
             "itemID"
           );
           copyOfItems[itemListIndex].items[itemIndex] = action.updatedItem;
-          console.log(
-            action.updatedItem,
-            copyOfItems[itemListIndex].items[itemIndex]
-          );
           return { ...sections, itemsList: copyOfItems };
         })();
       case "DELETEITEM":

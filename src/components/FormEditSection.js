@@ -1,8 +1,8 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 
-import { css, jsx } from "@emotion/react";
-import React, { useState, useRef, useEffect, useContext } from "react";
+import { jsx } from "@emotion/react";
+import { useState, useRef, useEffect, useContext } from "react";
 import Form from "./Form";
 import { postHTTP } from "../utilities/fetchAPIs";
 import { SectionsContext } from "../context/SectionsProvider";

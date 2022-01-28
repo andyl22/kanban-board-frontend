@@ -10,7 +10,7 @@ export default function EditSectionItemController(props) {
 
   return (
     <ModalEditItem type="Item" toggleModal={toggleModal}>
-      <FormEditSectionItem item={item} toggleModal={toggleModal} />
+      <FormEditSectionItem item={item} toggleForm={toggleModal} />
     </ModalEditItem>
   );
 }
